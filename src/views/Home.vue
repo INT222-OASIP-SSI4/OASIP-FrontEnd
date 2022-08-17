@@ -199,12 +199,14 @@ onBeforeMount(async () => {
             Events Schedule
           </h2>
         </div>
+        
         <EventsList :events="filterEvent" v-if="filterEvent.length != 0" />
         <div class="flex flex-col items-center justify-center mt-2" v-else>
           <h1 class="font-bold">" {{ status }} "</h1>
           <CreateEventButton />
         </div>
         <!-- <NoEvent v-else /> -->
+        
       </div>
     </div>
   </div>
