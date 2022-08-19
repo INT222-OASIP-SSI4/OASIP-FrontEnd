@@ -1,26 +1,26 @@
 <script setup>
-import { ref, computed } from "vue";
-import CategoriesList from "../components/CategoriesList.vue";
-import { onBeforeMount } from "@vue/runtime-core";
+import { ref, computed } from 'vue'
+import CategoriesList from '../components/CategoriesList.vue'
+import { onBeforeMount } from '@vue/runtime-core'
 
-const categories = ref([]);
+const categories = ref([])
 
 //get all categories
 const getCategories = async () => {
   const res = await fetch(
     `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`
-  );
+  )
   if (res.status === 200) {
-    categories.value = await res.json();
-    console.log(categories.value);
+    categories.value = await res.json()
+    console.log(categories.value)
   } else {
-    console.log("Error, cannot get categories data");
+    console.log('Error, cannot get categories data')
   }
-};
+}
 
 onBeforeMount(async () => {
-  await getCategories();
-});
+  await getCategories()
+})
 </script>
 
 <template>
@@ -33,7 +33,7 @@ onBeforeMount(async () => {
     </div>
     <div>
       <div
-        class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-thumb-rounded-full"
+        class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
         <div class="flex flex-cols my-6">
           <CategoriesList :categories="categories" />
