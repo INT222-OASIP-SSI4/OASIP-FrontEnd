@@ -1,6 +1,5 @@
 <script setup>
-import CreateEventButton from "../components/CreateEventButton.vue";
-import CreateEventForm from '../components/CreateEventForm.vue';
+import EventCreateForm from '../../components/Event/EventCreateForm.vue';
 import {ref} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount } from '@vue/runtime-core';
@@ -56,7 +55,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="bg-cover bg-fixed">
-    <CreateEventForm :categories="categories" :event="events" @createEvent="createEvent" />
+    <EventCreateForm :categories="categories" :event="events" @createEvent="createEvent" />
   </div>
 </template>
 

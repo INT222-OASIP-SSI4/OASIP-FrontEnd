@@ -1,11 +1,11 @@
-import Home from '../views/Home.vue';
-import CreateEvent from '../views/CreateEvent.vue';
-import EventDetail from '../views/EventDetail.vue';
+import Home from '../views/Event/Home.vue';
+import EventCreate from '../views/Event/EventCreate.vue';
+import EventDetail from '../views/Event/EventDetail.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import AboutUs from '../views/AboutUs.vue';
-import EditEvent from '../views/EditEvent.vue';
-import EventCategories from '../views/EventCategories.vue';
-import EditCategory from '../views/EditCategory.vue'
+import EventEdit from '../views/Event/EventEdit.vue';
+import CategoryManagement from '../views/Category/CategoryManagement.vue';
+import CategoryEdit from '../views/Category/CategoryEdit.vue'
 
 const history = createWebHashHistory();
 const routes = [
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/create',
     name: 'createEvent',
-    component: CreateEvent
+    component: EventCreate
   },
   {
     path: '/detail',
@@ -32,16 +32,16 @@ const routes = [
   {
     path: '/edit',
     name: 'editEvent',
-    component: EditEvent
+    component: EventEdit
   },
   {
     path: '/categories',
     name: 'categories',
-    component: EventCategories
+    component: CategoryManagement
   },{
     path: '/editcategory',
     name: 'editCategory',
-    component: EditCategory
+    component: CategoryEdit
   }
 ];
 

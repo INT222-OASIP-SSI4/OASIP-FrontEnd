@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import CategoriesList from "../components/CategoriesList.vue";
+import CategoryList from "../../components/Category/CategoryList.vue";
 import { onBeforeMount } from "@vue/runtime-core";
 
 const categories = ref([]);
@@ -36,7 +36,7 @@ onBeforeMount(async () => {
         class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-thumb-rounded-full"
       >
         <div class="flex flex-cols my-6">
-          <CategoriesList :categories="categories" />
+          <CategoryList :categories="categories" />
         </div>
       </div>
     </div>
