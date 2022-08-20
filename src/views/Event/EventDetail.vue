@@ -79,7 +79,7 @@ onBeforeMount(async () => {
   >
     <figure class="md:flex bg-white rounded-xl p-8 md:p-0 shadow-lg">
       <img
-        class="w-64 h-96 max-h-full rounded-lg justify-left bg-gray-400 mx-4 mt-4"
+        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 mx-4 mt-4"
         src="/images/business-man.png"
         alt=""
       />
