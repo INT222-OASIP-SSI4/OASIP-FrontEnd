@@ -6,6 +6,7 @@ import AboutUs from '../views/AboutUs.vue';
 import EditEvent from '../views/EditEvent.vue';
 import EventCategories from '../views/EventCategories.vue';
 import EditCategory from '../views/EditCategory.vue'
+import ListUser from '../views/ListUser.vue'
 
 const history = createWebHashHistory();
 const routes = [
@@ -42,6 +43,10 @@ const routes = [
     path: '/editcategory',
     name: 'editCategory',
     component: EditCategory
+  },{
+    path: '/listuser',
+    name: 'listUser',
+    component: ListUser
   }
 ];
 
