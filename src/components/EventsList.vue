@@ -1,6 +1,7 @@
 <script setup>
 import EventCard from './EventCard.vue'
 
+
 const props = defineProps({
   events: {
     type: Array,
@@ -24,12 +25,9 @@ const options = {
 </script>
 
 <template>
-  <div
-    class="overflow-x-auto relative sm:rounded-lg text-left text-black w-full p-5"
-  >
-    <table
-      class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 p-3 w-full"
-    >
+  <div class=" sm:rounded-lg text-left text-black w-full p-5">
+
+    <table class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 p-3 w-full">
       <thead>
         <th>Name</th>
         <th>Category</th>
@@ -38,46 +36,49 @@ const options = {
         <th>Duration</th>
       </thead>
       <tbody>
-        <tr
-          v-for="(event, index) in events"
-          :key="index"
-          class="bg-white text-sm border-b px-3 py-3 w-1/3 hover:bg-gray-100"
-        >
+        <tr v-for="(event, index) in events" :key="index" class="bg-white text-sm border-b px-3 py-3 w-1/3">
           <th scope="row">{{ event.bookingName }}</th>
           <th>{{ event.eventCategory.eventCategoryName }}</th>
           <th>{{ formatDate(new Date(event.eventStartTime)) }}</th>
           <th>
             {{
-              new Date(event.eventStartTime).toLocaleTimeString(
-                'en-US',
-                options
-              )
+                new Date(event.eventStartTime).toLocaleTimeString(
+                  'en-US',
+                  options
+                )
             }}
           </th>
           <th class="px-3 py-3">{{ event.eventDuration }}</th>
           <th>
             <router-link :to="`/detail?id=${event.id}`">
+
+              <button id="dropdownButton" class="dropdown relative" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               <svg width="1em" height="1em" viewBox="0 0 16 16">
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                >
+                <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
                   <circle cx="8" cy="2.5" r=".75"></circle>
                   <circle cx="8" cy="8" r=".75"></circle>
                   <circle cx="8" cy="13.5" r=".75"></circle>
                 </g>
               </svg>
+            </button>
             </router-link>
+          
+            <ul
+              class="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+              aria-labelledby="dropdownButton">
+              <li>
+                <a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                  href="#">Show Detail</a>
+              </li>
+            </ul>
           </th>
         </tr>
       </tbody>
     </table>
-
-    <!-- <EventCard /> -->
   </div>
+
 </template>
 
-<style></style>
+<style>
+</style>
