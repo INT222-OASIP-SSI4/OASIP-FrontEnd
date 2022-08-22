@@ -19,12 +19,12 @@ const getUser = async () => {
       const data = await res.json();
       user.value = data;
     }
-  } else goUserList;
+  } else goUserList();
 };
 
 //delete user
 const cancelUser = async () => {
-  if (confirm(`Do you want to cancel ${user.value.userName}'s event`)) {
+  if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
     const res = await fetch(
       `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
       {
@@ -32,8 +32,8 @@ const cancelUser = async () => {
       }
     );
     if (res.status === 200) {
-      alert(`Cancel this user successfully`);
-      goHome();
+      alert(`Delete this user successfully`);
+      goUserList();
     } else console.log(`Error, can't delete this user`);
   }
 };
@@ -97,7 +97,7 @@ onBeforeMount(async () => {
             class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             @click="cancelUser"
           >
-            Cancel User
+            Delete User
           </button>
         </figcaption>
       </div>
