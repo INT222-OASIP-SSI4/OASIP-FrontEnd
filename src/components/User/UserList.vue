@@ -87,7 +87,7 @@ const cancelUser = async () => {
                     </svg>
                   </button>
                   <ul
-                    class="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+                    class="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
                     aria-labelledby="dropdownButton"
                   >
                     <li>

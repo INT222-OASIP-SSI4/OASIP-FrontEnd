@@ -1,5 +1,4 @@
 <script setup>
-import EventCard from './EventCard.vue'
 import 'tw-elements'
 
 const props = defineProps({
@@ -56,23 +55,6 @@ const options = {
             }}
           </td>
           <td class="px-3 py-3">{{ event.eventDuration }}</td>
-          <!-- <td>
-            <router-link :to="`/detail?id=${event.id}`">
-              <svg width="1em" height="1em" viewBox="0 0 16 16">
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                >
-                  <circle cx="8" cy="2.5" r=".75"></circle>
-                  <circle cx="8" cy="8" r=".75"></circle>
-                  <circle cx="8" cy="13.5" r=".75"></circle>
-                </g>
-              </svg>
-            </router-link>
-          </td> -->
           <td>
             <div class="flex justify-center">
               <button
@@ -97,7 +79,7 @@ const options = {
                 </svg>
               </button>
               <ul
-                class="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+                class="dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
                 aria-labelledby="dropdownButton"
               >
                 <li>
@@ -125,8 +107,6 @@ const options = {
         </tr>
       </tbody>
     </table>
-
-    <!-- <EventCard /> -->
   </div>
 </template>
 

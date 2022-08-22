@@ -27,7 +27,7 @@ onBeforeMount(async () => {
   <div>
     <div class="mt-20 text-center items-center justify-center">
       <span
-        class="text-center font-bold bg-white text-blue-600 rounded-lg px-3 text-4xl shadow-lg"
+        class="text-center font-bold bg-white text-blue-600 rounded-lg px-7 py-1 text-4xl shadow-lg"
         >Category List !</span
       >
     </div>

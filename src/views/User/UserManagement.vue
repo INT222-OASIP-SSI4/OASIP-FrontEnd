@@ -25,25 +25,37 @@ onBeforeMount(async () => {
   <div>
     <div class="mt-20 text-center items-center justify-center">
       <span
-        class="text-center font-bold bg-white text-blue-600 rounded-lg px-3 text-4xl shadow-lg"
+        class="text-center font-bold bg-white text-blue-600 rounded-lg px-7 py-1 text-4xl shadow-lg"
         >User List !</span
       >
     </div>
     <div v-if="users.length != 0">
-      <UserList :users="users"/>
+      <UserList :users="users" />
     </div>
-    <div class="flex flex-col items-center justify-center mt-2" v-else>
-      <h1 class="font-bold"> No User </h1>
-          <router-link :to="{ name: 'createUser' }">
+    <div class="flex flex-col items-center justify-center mt-10 bg-white p-12 mx-10 rounded-lg" v-else>
+      <h1 class="font-bold">" No User "</h1>
+      <router-link :to="{ name: 'createUser' }">
+        <br />
+        <button
+          class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100"
+        >
+          Create User
+        </button>
+      </router-link>
+    </div>
+  </div>
+
+  <!-- <div class="flex flex-col items-center justify-center mt-2" v-else>
+          <h1 class="font-bold">" {{ status }} "</h1>
+          <router-link :to="{ name: 'createEvent' }">
             <br />
             <button
               class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100"
             >
-              Create User
+              Create Event
             </button>
           </router-link>
-    </div>
-  </div>
+        </div> -->
 </template>
 
 <style></style>
