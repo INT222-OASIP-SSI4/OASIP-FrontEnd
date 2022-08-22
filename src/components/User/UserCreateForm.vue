@@ -1,59 +1,32 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-const emits = defineEmits(['createUser']);
+const emits = defineEmits(['createUser'])
 const props = defineProps({
   user: {
     type: Array,
     default: [],
   },
-});
+})
 
-const name = ref('');
-const email = ref('');
-const role = ref('');
+const name = ref('')
+const email = ref('')
+const roles = ref(['admin','lecturer','student'])
+const role = ref('')
 
-const lengthOfWordEmail = ref(0);
-const lengthOfWordName = ref(0);
-
+const lengthOfWordEmail = ref(0)
+const lengthOfWordName = ref(0)
 
 //count length of input
-const countLengthEmail = () => lengthOfWordEmail.value = email.value.length;
-const countLengthName = () => lengthOfWordName.value = name.value.length;
+const countLengthEmail = () => (lengthOfWordEmail.value = email.value.length)
+const countLengthName = () => (lengthOfWordName.value = name.value.length)
 
 //get new user
 const user = computed(() => ({
-  userName: checkLengthName.value,
-  userEmail: validateEmail.value,
-  role: role.value
-}));
-
-//validate email https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
-const validateEmail = computed(() => {
-  var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  if (email.value.length <= 100) {
-    if (email.value.match(validRegex)) {
-      return email.value;
-    } else {
-      alert('Invalid email address!');
-      return email.value;
-    }
-  } else {
-    alert('bookingEmail must have length 1-100');
-    return email.value;
-  }
-});
-
-//validate Name
-const checkLengthName = computed(() => {
-  if (name.value.length > 100 || name.value.length < 1) {
-    alert('bookingName must have length between 1-100');
-  } else {
-    return name.value;
-  }
-});
-
+  userName: name.value.trim(),
+  userEmail: email.value.trim(),
+  role: role.value,
+}))
 </script>
 
 <template>
@@ -80,16 +53,17 @@ const checkLengthName = computed(() => {
             placeholder="Name - Surname"
             v-model="name"
             v-on:keyup="countLengthName"
+            maxlength="100"
             required
           />
           <div>
             <p
               class="text-sm text-right pl-2"
               :class="
-                lengthOfWordName <= 100 ? 'text-green-600' : 'text-red-600'
+                lengthOfWordName == 100 ? 'text-red-600' : 'text-green-600'
               "
             >
-              {{ lengthOfWordName }} Characters
+              {{ lengthOfWordName }} /100
             </p>
           </div>
         </div>
@@ -106,10 +80,11 @@ const checkLengthName = computed(() => {
           <input
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
             id="grid-email"
-            type="text"
+            type="email"
             placeholder="Email"
             v-model="email"
             v-on:keyup="countLengthEmail"
+            maxlength="100"
             required
           />
           <br />
@@ -117,10 +92,10 @@ const checkLengthName = computed(() => {
             <p
               class="text-sm text-right pl-2"
               :class="
-                lengthOfWordEmail <= 100 ? 'text-green-600' : 'text-red-600'
+                lengthOfWordEmail == 100 ? 'text-red-600' : 'text-green-600'
               "
             >
-              {{ lengthOfWordEmail }} Characters
+              {{ lengthOfWordEmail }} / 100
             </p>
           </div>
         </div>
@@ -140,15 +115,13 @@ const checkLengthName = computed(() => {
                 <select
                   class="inline-flex justify-center w-48 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                   v-model="role"
-                  id="grid-category"
+                  id="grid-role"
                   required
                 >
                   <option value="" disabled selected hidden>
                     Please select category
                   </option>
-                  <option>student</option>
-                  <option>lecturer</option>
-                  <option>admin</option>
+                  <option v-for="(selectrole, index) in roles" :value="selectrole" :key="index">{{ selectrole }}</option>
                 </select>
               </div>
             </div>
