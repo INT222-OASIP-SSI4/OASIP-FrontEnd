@@ -7,6 +7,8 @@ const route = useRoute();
 const router = useRouter();
 const user = ref({});
 
+let createdOn = ref("");
+let updatedOn = ref("");
 
 // get user by id
 const getUser = async () => {
@@ -18,6 +20,8 @@ const getUser = async () => {
     if (res.status === 200) {
       const data = await res.json();
       user.value = data;
+      createdOn.value = new Date(user.value.createdOn);
+      updatedOn.value = new Date(user.value.updatedOn);
     }
   } else goUserList();
 };
@@ -37,6 +41,25 @@ const cancelUser = async () => {
     } else console.log(`Error, can't delete this user`);
   }
 };
+
+//change time
+const options = {
+  hour: "2-digit",
+  minute: "2-digit",
+};
+
+//format Date function
+function padTo2Digits(num) {
+  return num.toString().padStart(2, "0");
+}
+
+function formatDate(date) {
+  return [
+    padTo2Digits(date.getDate()),
+    padTo2Digits(date.getMonth() + 1),
+    date.getFullYear(),
+  ].join("/");
+}
 
 //back to home page
 const goUserList = () => {
@@ -73,9 +96,9 @@ onBeforeMount(async () => {
 
           <p class="text-gray-700 text-base">User's role: {{ user.role }}</p>
 
-          <p class="text-gray-700 text-base">Created on: {{ user.createdOn }}</p>
+          <p class="text-gray-700 text-base">Created on: {{ createdOn }}</p>
 
-          <p class="text-gray-700 text-base">Updated on: {{ user.updatedOn }}</p>
+          <p class="text-gray-700 text-base">Updated on: {{ updatedOn }}</p>
 
         </blockquote>
         <figcaption>
