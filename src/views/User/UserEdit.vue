@@ -10,7 +10,15 @@ const users = ref([])
 
 const name = ref('')
 const email = ref('')
+const roles = ref(['admin', 'lecturer', 'student'])
 const role = ref('')
+
+const lengthOfWordEmail = ref(0)
+const lengthOfWordName = ref(0)
+
+//count length of input
+const countLengthEmail = () => (lengthOfWordEmail.value = email.value.length)
+const countLengthName = () => (lengthOfWordName.value = name.value.length)
 
 //get all users
 const getUsers = async () => {
@@ -35,9 +43,9 @@ const getUser = async () => {
       user.value = data
       name.value = user.value.userName
       email.value = user.value.userEmail
-      role.value = role.value.role
+      role.value = user.value.role
     }
-  } else goUserDetail
+  } else goUserDetail()
 }
 
 //edit user
@@ -68,8 +76,8 @@ const goUserDetail = () => {
 
 //get edit Event
 const updateUser = computed(() => {
-  user.value.userName = name.value
-  user.value.userEmail = email.value
+  user.value.userName = name.value.trim()
+  user.value.userEmail = email.value.trim()
   user.value.role = role.value
   return { ...user.value }
 })
@@ -77,6 +85,8 @@ const updateUser = computed(() => {
 onBeforeMount(async () => {
   await getUser()
   await getUsers()
+  await countLengthEmail();
+  await countLengthName();
 })
 </script>
 <template>
@@ -104,8 +114,20 @@ onBeforeMount(async () => {
                 type="text"
                 placeholder="Name - Surname"
                 v-model="name"
+                v-on:keyup="countLengthName"
+                maxlength="100"
                 required
               />
+              <div>
+                <p
+                  class="text-sm text-right pl-2"
+                  :class="
+                    lengthOfWordName == 100 ? 'text-red-600' : 'text-green-600'
+                  "
+                >
+                  {{ lengthOfWordName }} /100
+                </p>
+              </div>
             </div>
             <div class="w-1/3 px-2">
               <label
@@ -117,11 +139,24 @@ onBeforeMount(async () => {
               <input
                 class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                 id="grid-email"
-                type="text"
+                type="email"
                 placeholder="Email"
                 v-model="email"
+                v-on:keyup="countLengthEmail"
+                maxlength="100"
                 required
               />
+              <br />
+              <div>
+                <p
+                  class="text-sm text-right pl-2"
+                  :class="
+                    lengthOfWordEmail == 100 ? 'text-red-600' : 'text-green-600'
+                  "
+                >
+                  {{ lengthOfWordEmail }} / 100
+                </p>
+              </div>
             </div>
           </div>
           <!-- role   -->
@@ -139,15 +174,19 @@ onBeforeMount(async () => {
                     <select
                       class="inline-flex justify-center w-48 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                       v-model="role"
-                      id="grid-category"
+                      id="grid-role"
                       required
                     >
                       <option value="" disabled selected hidden>
                         Please select category
                       </option>
-                      <option>student</option>
-                      <option>lecturer</option>
-                      <option>admin</option>
+                      <option
+                        v-for="(selectrole, index) in roles"
+                        :value="selectrole"
+                        :key="index"
+                      >
+                        {{ selectrole }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -175,4 +214,11 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style></style>
+<style>
+.redText {
+  color: red;
+}
+.greenText {
+  color: greenyellow;
+}
+</style>
