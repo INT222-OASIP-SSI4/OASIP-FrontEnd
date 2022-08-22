@@ -29,8 +29,19 @@ onBeforeMount(async () => {
         >User List !</span
       >
     </div>
-    <div>
-      <UserList :users="users" />
+    <div v-if="users.length != 0">
+      <UserList :users="users"/>
+    </div>
+    <div class="flex flex-col items-center justify-center mt-2" v-else>
+      <h1 class="font-bold"> No User </h1>
+          <router-link :to="{ name: 'createUser' }">
+            <br />
+            <button
+              class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100"
+            >
+              Create User
+            </button>
+          </router-link>
     </div>
   </div>
 </template>
