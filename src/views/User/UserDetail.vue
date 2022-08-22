@@ -5,48 +5,41 @@ import { ref } from "vue";
 
 const route = useRoute();
 const router = useRouter();
-const event = ref({});
+const user = ref({});
 
-let currentDate = ref("");
-let localDate = ref("");
-let localTime = ref("");
+let createdOn = ref("");
+let updatedOn = ref("");
 
-// get event by id
-const getEvent = async () => {
+// get user by id
+const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id;
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`
     );
     if (res.status === 200) {
       const data = await res.json();
-      event.value = data;
-      currentDate.value = new Date(event.value.eventStartTime);
-      localDate.value = formatDate(currentDate.value);
-      localTime.value = currentDate.value.toLocaleTimeString("en-US", options);
+      user.value = data;
+      createdOn.value = new Date(user.value.createdOn).toLocaleString();
+      updatedOn.value = new Date(user.value.updatedOn).toLocaleString();
     }
-  } else goHome;
+  } else goUserList();
 };
 
-//delete event
-const cancelEvent = async () => {
-  if (confirm(`Do you want to cancel ${event.value.bookingName}'s event`)) {
+//delete user
+const cancelUser = async () => {
+  if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
       {
         method: "DELETE",
       }
     );
     if (res.status === 200) {
-      alert(`Cancel this event successfully`);
-      goHome();
-    } else console.log(`Error, can't delete this event`);
+      alert(`Delete this user successfully`);
+      goUserList();
+    } else console.log(`Error, can't delete this user`);
   }
-};
-
-//back to home page
-const goHome = () => {
-  router.push({ name: "home" });
 };
 
 //change time
@@ -68,9 +61,15 @@ function formatDate(date) {
   ].join("/");
 }
 
+//back to home page
+const goUserList = () => {
+  router.push({ name: "users" });
+};
+
 onBeforeMount(async () => {
-  await getEvent();
+  await getUser();
 });
+
 </script>
 
 <template>
@@ -79,7 +78,7 @@ onBeforeMount(async () => {
   >
     <figure class="md:flex bg-white rounded-xl p-8 md:p-0 shadow-lg">
       <img
-        class="w-64 h-96 max-h-full rounded-lg justify-left bg-gray-400 mx-4 mt-4"
+        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 mx-4 mt-4"
         src="/images/business-man.png"
         alt=""
       />
@@ -88,47 +87,40 @@ onBeforeMount(async () => {
           <h1
             class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600"
           >
-            Booking Detail !
+            User Detail !
           </h1>
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
-            Name: {{ event.bookingName }}
+            User's name: {{ user.userName }}
           </p>
-          <p class="text-gray-700 text-base">Email: {{ event.bookingEmail }}</p>
+          <p class="text-gray-700 text-base">User's Email: {{ user.userEmail }}</p>
 
-          <div class="text-gray-700 text-base">Date: {{ localDate }}</div>
+          <p class="text-gray-700 text-base">User's role: {{ user.role }}</p>
 
-          <p class="text-gray-700 text-base">
-            Category: {{ event.eventCategory?.eventCategoryName }}
-          </p>
-          <p class="text-gray-700 text-base">Time : {{ localTime }}</p>
+          <p class="text-gray-700 text-base">Created on: {{ createdOn }}</p>
 
-          <p class="text-gray-700 text-base">
-            Duration: {{ event.eventDuration }} minutes
-          </p>
-          <p class="text-gray-700 text-base">
-            Notes: {{ event.eventNotes || "No Note" }}
-          </p>
+          <p class="text-gray-700 text-base">Updated on: {{ updatedOn }}</p>
+
         </blockquote>
         <figcaption>
           <button
-            @click="goHome"
+            @click="goUserList"
             class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
           >
-            Back To Home
+            Back To All User Page
           </button>
 
-          <router-link :to="`/edit?id=${event.id}`">
+          <router-link :to="`/editUser?id=${user.id}`">
             <button
               class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             >
-              Edit Event
+              Edit User
             </button>
           </router-link>
           <button
             class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            @click="cancelEvent"
+            @click="cancelUser"
           >
-            Cancel Event
+            Delete User
           </button>
         </figcaption>
       </div>
