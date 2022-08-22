@@ -20,8 +20,8 @@ const getUser = async () => {
     if (res.status === 200) {
       const data = await res.json();
       user.value = data;
-      createdOn.value = new Date(user.value.createdOn);
-      updatedOn.value = new Date(user.value.updatedOn);
+      createdOn.value = new Date(user.value.createdOn).toLocaleString();
+      updatedOn.value = new Date(user.value.updatedOn).toLocaleString();
     }
   } else goUserList();
 };
