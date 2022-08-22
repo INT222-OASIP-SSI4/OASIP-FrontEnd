@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
-import CategoriesList from '../components/CategoriesList.vue'
-import { onBeforeMount } from '@vue/runtime-core'
+import { ref, computed } from "vue";
+import CategoryList from "../../components/Category/CategoryList.vue";
+import { onBeforeMount } from "@vue/runtime-core";
 
 const categories = ref([])
 
@@ -27,7 +27,7 @@ onBeforeMount(async () => {
   <div>
     <div class="mt-20 text-center items-center justify-center">
       <span
-        class="text-center font-bold bg-white text-blue-600 rounded-lg px-3 text-4xl shadow-lg"
+        class="text-center font-bold bg-white text-blue-600 rounded-lg px-7 py-1 text-4xl shadow-lg"
         >Category List !</span
       >
     </div>
@@ -36,7 +36,7 @@ onBeforeMount(async () => {
         class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
         <div class="flex flex-cols my-6">
-          <CategoriesList :categories="categories" />
+          <CategoryList :categories="categories" />
         </div>
       </div>
     </div>
