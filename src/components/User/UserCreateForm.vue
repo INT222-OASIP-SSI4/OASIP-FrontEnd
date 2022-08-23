@@ -70,7 +70,7 @@ const user = computed(() => ({
       </div>
       <!-- Email   -->
       <div class="flex flex-wrap -mx-3 mb-3">
-        <div class="w-full px-3 mb-3">
+        <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-email"
@@ -130,7 +130,7 @@ const user = computed(() => ({
       </div>
       <!-- CreateEventButton  -->
       <button
-        class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-2"
+        class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-7"
         type="submit"
       >
         Create User

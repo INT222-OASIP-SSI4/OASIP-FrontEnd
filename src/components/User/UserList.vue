@@ -7,20 +7,6 @@ const props = defineProps({
   },
 })
 
-const cancelUser = async () => {
-  if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-      {
-        method: 'DELETE',
-      }
-    )
-    if (res.status === 200) {
-      alert(`Delete this user successfully`)
-      goUserList()
-    } else console.log(`Error, can't delete this user`)
-  }
-}
 </script>
 
 <template>
