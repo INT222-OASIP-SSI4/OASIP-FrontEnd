@@ -1,12 +1,15 @@
 <script setup>
 import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
+import { ref, computed, useCssVars } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const user = ref({})
 const users = ref([])
+const allName = ref([])
+const isNameDup = false
+const isEditingDataChange = false
 
 const name = ref('')
 const email = ref('')
@@ -26,6 +29,7 @@ const getUsers = async () => {
   if (res.status === 200) {
     let data = await res.json()
     users.value = data
+    allName.value = users.value.userName
   } else {
     console.log('error, cannot get data')
   }
@@ -49,24 +53,28 @@ const getUser = async () => {
 }
 
 //edit user
-const editUser = async (updateUser) => {
-  let { id, ...data } = { ...updateUser }
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...data,
-      }),
-    }
-  )
-  if (res.status === 200) {
-    router.push({ name: 'userDetail', query: { id: user.value.id } })
-    console.log('edited successfully')
-  } else console.log('error, cannot edited data')
+const editUser = async () => {
+  if(users.value.filter((u) => u.id != updateUser.value.id).filter((u) => u.userName == updateUser.value.userName).length){
+    alert('Name is duplicate');
+  } else {
+  let { id, ...data } = { ...updateUser.value }
+    const res = await fetch(
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+        }),
+      }
+    )
+    if (res.status === 200) {
+      router.push({ name: 'userDetail', query: { id: user.value.id } })
+      console.log('edited successfully')
+    } else console.log('error, cannot edited data')
+  }
 }
 
 //go to detail page
@@ -82,11 +90,12 @@ const updateUser = computed(() => {
   return { ...user.value }
 })
 
+
 onBeforeMount(async () => {
   await getUser()
   await getUsers()
-  await countLengthEmail();
-  await countLengthName();
+  await countLengthEmail()
+  await countLengthName()
 })
 </script>
 <template>
@@ -95,7 +104,7 @@ onBeforeMount(async () => {
   >
     <form
       class="w-full max-w-xl space-y-2 mt-2"
-      @submit.prevent="editUser(updateUser)"
+      @submit.prevent="editUser"
     >
       <div>
         <div class="px-2">
