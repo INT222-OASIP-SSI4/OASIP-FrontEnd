@@ -32,23 +32,6 @@ const props = defineProps({
               <td scope="row" class="px-3 py-3 w-1/3">{{ user.userName }}</td>
               <td class="px-3 py-3 w-1/3">{{ user.userEmail }}</td>
               <td class="px-3 py-3 w-1/3">{{ user.role }}</td>
-              <!-- <td>
-                <router-link :to="`/userDetail?id=${user.id}`">
-                <svg width="1em" height="1em" viewBox="0 0 16 16">
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  >
-                    <circle cx="8" cy="2.5" r=".75"></circle>
-                    <circle cx="8" cy="8" r=".75"></circle>
-                    <circle cx="8" cy="13.5" r=".75"></circle>
-                  </g>
-                </svg>
-                </router-link>
-              </td> -->
               <td>
                 <div class="flex justify-center">
                   <button

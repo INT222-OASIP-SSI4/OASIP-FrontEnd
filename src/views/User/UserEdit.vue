@@ -8,12 +8,12 @@ const router = useRouter()
 const user = ref({})
 const users = ref([])
 const allName = ref([])
-const isNameDup = false
-const isEditingDataChange = false
+const isEditingDataChange = ref(false)
 
 const name = ref('')
 const email = ref('')
 const roles = ref(['admin', 'lecturer', 'student'])
+const userId = ref('')
 const role = ref('')
 
 const lengthOfWordEmail = ref(0)
@@ -45,51 +45,92 @@ const getUser = async () => {
     if (res.status === 200) {
       const data = await res.json()
       user.value = data
+      userId.value = user.value.id
       name.value = user.value.userName
       email.value = user.value.userEmail
       role.value = user.value.role
     }
-  } else goUserDetail()
+  } else goUserList()
 }
 
 //edit user
 const editUser = async () => {
-  if(users.value.filter((u) => u.id != updateUser.value.id).filter((u) => u.userName == updateUser.value.userName).length){
-    alert('Name is duplicate');
+  var validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    console.log(updateUser.value);
+    console.log(name.value);
+    console.log(email.value);
+    console.log(role.value);
+  if (
+    updateUser.value.userName == user.value.userName &&
+    updateUser.value.userEmail == user.value.userEmail &&
+    updateUser.value.role == user.value.role
+  ) {
+    goUserList()
   } else {
-  let { id, ...data } = { ...updateUser.value }
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-        }),
+    if (updateUser.value.userName.length > 100) {
+      alert('userName must have length 1-100')
+    } else {
+      if (updateUser.value.userEmail.length > 50) {
+        alert('userEmail must have length 1-50')
+      } else {
+        if (updateUser.value.userEmail.match(validRegex)) {
+          if (
+            users.value
+              .filter((u) => u.id != updateUser.value.id)
+              .filter((u) => u.userName == updateUser.value.userName).length
+          ) {
+            alert('userName is duplicate, Please input again')
+          } else {
+            if (
+              users.value
+                .filter((u) => u.id != updateUser.value.id)
+                .filter((u) => u.userEmail == updateUser.value.userEmail).length
+            ) {
+              alert('userEmail is duplicate, Please input again')
+            } else {
+              let { id, ...data } = { ...updateUser.value }
+              const res = await fetch(
+                `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
+                {
+                  method: 'PUT',
+                  headers: {
+                    'content-type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    ...data,
+                  }),
+                }
+              )
+              if (res.status === 200) {
+                router.push({
+                  name: 'userDetail',
+                  query: { id: user.value.id },
+                })
+                console.log('edited successfully')
+              } else console.log('error, cannot edited data')
+            }
+          }
+        } else {
+          alert('Invalid email address!')
+        }
       }
-    )
-    if (res.status === 200) {
-      router.push({ name: 'userDetail', query: { id: user.value.id } })
-      console.log('edited successfully')
-    } else console.log('error, cannot edited data')
+    }
   }
 }
 
 //go to detail page
-const goUserDetail = () => {
-  router.push({ name: 'userDetail' })
+const goUserList = () => {
+  router.push({ name: 'users' })
 }
 
 //get edit Event
-const updateUser = computed(() => {
-  user.value.userName = name.value.trim()
-  user.value.userEmail = email.value.trim()
-  user.value.role = role.value
-  return { ...user.value }
-})
-
+const updateUser = computed(() => ({
+  id: userId.value,
+  userName: name.value.trim(),
+  userEmail: email.value.trim(),
+  role: role.value
+}))
 
 onBeforeMount(async () => {
   await getUser()
@@ -102,10 +143,7 @@ onBeforeMount(async () => {
   <div
     class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10"
   >
-    <form
-      class="w-full max-w-xl space-y-2 mt-2"
-      @submit.prevent="editUser"
-    >
+    <form class="w-full max-w-xl space-y-2 mt-2" @submit.prevent="editUser">
       <div>
         <div class="px-2">
           <div class="flex -mx-2">
@@ -124,17 +162,16 @@ onBeforeMount(async () => {
                 placeholder="Name - Surname"
                 v-model="name"
                 v-on:keyup="countLengthName"
-                maxlength="100"
                 required
               />
               <div>
                 <p
                   class="text-sm text-right pl-2"
                   :class="
-                    lengthOfWordName == 100 ? 'text-red-600' : 'text-green-600'
+                    lengthOfWordName <= 100 ? 'text-green-600' : 'text-red-600'
                   "
                 >
-                  {{ lengthOfWordName }} /100
+                  {{ lengthOfWordName }} Characters
                 </p>
               </div>
             </div>
@@ -148,11 +185,10 @@ onBeforeMount(async () => {
               <input
                 class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                 id="grid-email"
-                type="email"
+                type="text"
                 placeholder="Email"
                 v-model="email"
                 v-on:keyup="countLengthEmail"
-                maxlength="100"
                 required
               />
               <br />
@@ -160,10 +196,10 @@ onBeforeMount(async () => {
                 <p
                   class="text-sm text-right pl-2"
                   :class="
-                    lengthOfWordEmail == 100 ? 'text-red-600' : 'text-green-600'
+                    lengthOfWordEmail <= 50 ? 'text-green-600' : 'text-red-600'
                   "
                 >
-                  {{ lengthOfWordEmail }} / 100
+                  {{ lengthOfWordEmail }} Characters
                 </p>
               </div>
             </div>
@@ -194,7 +230,7 @@ onBeforeMount(async () => {
                         :value="selectrole"
                         :key="index"
                       >
-                        {{ selectrole }}
+                        {{ selectrole}}
                       </option>
                     </select>
                   </div>
