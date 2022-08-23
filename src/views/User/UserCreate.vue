@@ -21,25 +21,44 @@ const getUsers = async () => {
 
 //create new user
 const createUser = async (newUser) => {
-  if (users.value.map(() => (newUser.userName = users.value.userName))) {
-    alert('userName is duplicate, Please input again')
+  var validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  if (newUser.userName.length > 100) {
+    alert('userName must have length 1-100')
   } else {
-    if (users.value.map(() => (newUser.userEmail = users.value.userEmail))) {
-      {
-        alert('userEmail is duplicate, Please input again')
-      }
+    if (newUser.userEmail.length > 50) {
+      alert('userEmail must have length 1-50')
     } else {
-      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
-      })
-      if (res.status === 201) {
-        let data = await res.json()
-        alert('Created user successfully')
-        router.push({ name: 'userDetail', query: { id: data.id } })
+      if (newUser.userEmail.match(validRegex)) {
+        if (users.value.filter((u) => u.userName == newUser.userName).length) {
+          alert('userName is duplicate, Please input again')
+        } else {
+          if (
+            users.value.filter((u) => u.userEmail == newUser.userEmail).length
+          ) {
+            {
+              alert('userEmail is duplicate, Please input again')
+            }
+          } else {
+            const res = await fetch(
+              `${import.meta.env.VITE_SERVER_URL}/api/users`,
+              {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json',
+                },
+                body: JSON.stringify(newUser),
+              }
+            )
+            if (res.status === 201) {
+              let data = await res.json()
+              alert('Created user successfully')
+              router.push({ name: 'userDetail', query: { id: data.id } })
+            }
+          }
+        }
+      } else {
+        alert('Invalid email address!')
       }
     }
   }
