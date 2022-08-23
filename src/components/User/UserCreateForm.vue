@@ -53,17 +53,16 @@ const user = computed(() => ({
             placeholder="Name - Surname"
             v-model="name"
             v-on:keyup="countLengthName"
-            maxlength="100"
             required
           />
           <div>
             <p
               class="text-sm text-right pl-2"
               :class="
-                lengthOfWordName == 100 ? 'text-red-600' : 'text-green-600'
+                lengthOfWordName <= 100 ? 'text-green-600' : 'text-red-600'
               "
             >
-              {{ lengthOfWordName }} /100
+              {{ lengthOfWordName }} Characters
             </p>
           </div>
         </div>
@@ -80,7 +79,7 @@ const user = computed(() => ({
           <input
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
             id="grid-email"
-            type="email"
+            type="text"
             placeholder="Email"
             v-model="email"
             v-on:keyup="countLengthEmail"
@@ -92,10 +91,10 @@ const user = computed(() => ({
             <p
               class="text-sm text-right pl-2"
               :class="
-                lengthOfWordEmail == 100 ? 'text-red-600' : 'text-green-600'
+                lengthOfWordEmail <= 50 ? 'text-green-600' : 'text-red-600'
               "
             >
-              {{ lengthOfWordEmail }} / 100
+              {{ lengthOfWordEmail }} Characters
             </p>
           </div>
         </div>
