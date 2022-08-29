@@ -166,7 +166,7 @@ onBeforeMount(async () => {
     >
       <div class="bg-white rounded-xl p-7 shadow-lg">
         <div class="w-full px-3 md:mb-0">
-          <div class="text-center pb-4 flex flex-col space-y-4">
+          <div class="text-center flex flex-col space-y-4">
             <h1
               class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-blue-600"
             >
