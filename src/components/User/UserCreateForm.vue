@@ -31,18 +31,10 @@ const user = computed(() => ({
   userName: name.value.trim(),
   userEmail: email.value.trim(),
   role: role.value,
-  password: checkLengthPassword.value,
+  password: password.value,
   confirmPassword: confirmPassword.value,
 }))
 
-//validate length
-const checkLengthPassword = computed(() => {
-  if (password.value.length < 8 || password.value.length > 14) {
-    alert('password must have length between 8-14')
-  } else {
-    return password.value
-  }
-})
 </script>
 
 <template>
