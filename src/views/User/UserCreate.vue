@@ -26,36 +26,45 @@ const createUser = async (newUser) => {
   var validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   if (newUser.userName.length > 100) {
-    alert('userName must have length 1-100')
+    alert('userName must have length 1-100');
   } else {
     if (newUser.userEmail.length > 50) {
-      alert('userEmail must have length 1-50')
+      alert('userEmail must have length 1-50');
     } else {
       if (newUser.userEmail.match(validRegex)) {
         if (users.value.filter((u) => u.userName == newUser.userName).length) {
-          alert('userName is duplicate, Please input again')
+          alert('userName is duplicate, Please input again');
         } else {
           if (
             users.value.filter((u) => u.userEmail == newUser.userEmail).length
           ) {
             {
-              alert('userEmail is duplicate, Please input again')
+              alert('userEmail is duplicate, Please input again');
             }
           } else {
-            const res = await fetch(
-              `${import.meta.env.VITE_SERVER_URL}/api/users`,
-              {
-                method: 'POST',
-                headers: {
-                  'content-type': 'application/json',
-                },
-                body: JSON.stringify(newUser),
+            if (newUser.password != newUser.confirmPassword) {
+              alert('password is not match with confirm password, please try again');
+            } else {
+              const res = await fetch(
+                `${import.meta.env.VITE_SERVER_URL}/api/users`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'content-type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    userName: newUser.userName,
+                    userEmail: newUser.userEmail,
+                    password: newUser.password,
+                    role: newUser.role
+                  }),
+                }
+              )
+              if (res.status === 201) {
+                let data = await res.json()
+                alert('Created user successfully')
+                router.push({ name: 'userDetail', query: { id: data.id } })
               }
-            )
-            if (res.status === 201) {
-              let data = await res.json()
-              alert('Created user successfully')
-              router.push({ name: 'userDetail', query: { id: data.id } })
             }
           }
         }

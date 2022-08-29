@@ -32,12 +32,13 @@ const user = computed(() => ({
   userEmail: email.value.trim(),
   role: role.value,
   password: password.value,
+  confirmPassword: confirmPassword.value,
 }))
 </script>
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-2/9 flex flex-col justify-center items-center max-w-xl mx-auto p-5 mt-10"
+    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 mt-10"
   >
     <form
       class="w-full max-w-xl mx-auto px-5"
@@ -46,7 +47,7 @@ const user = computed(() => ({
       <div class="flex flex-wrap -mx-3">
         <h1 class="text-3xl mb-4 font-bold">Create User</h1>
         <!-- Name   -->
-        <div class="w-full px-3 mb-3">
+        <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-name"
@@ -66,7 +67,9 @@ const user = computed(() => ({
             <p
               class="text-sm text-right pl-2"
               :class="
-                lengthOfWordName <= 100 ? 'text-green-600' : 'text-red-600'
+                lengthOfWordName >= 1 || lengthOfWordName <= 100
+                  ? 'text-green-600'
+                  : 'text-red-600'
               "
             >
               {{ lengthOfWordName }} Characters
@@ -112,7 +115,7 @@ const user = computed(() => ({
             <div class="h-12">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-category"
+                for="grid-role"
               >
                 role
               </label>
@@ -144,14 +147,14 @@ const user = computed(() => ({
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-email"
+            for="grid-password"
           >
             Password
           </label>
           <input
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-            id="grid-email"
-            type="text"
+            id="grid-password"
+            type="password"
             placeholder="password 8-14 characters"
             v-model="password"
             v-on:keyup="countLengthPassword"
@@ -170,6 +173,26 @@ const user = computed(() => ({
               {{ lengthOfWordPassword }} Characters
             </p>
           </div>
+        </div>
+      </div>
+      <!-- Confirm Password   -->
+      <div class="flex flex-wrap -mx-3 mb-3">
+        <div class="w-full px-3">
+          <label
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            for="grid-confirm"
+          >
+            Confirm Password
+          </label>
+          <input
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+            id="grid-confirm"
+            type="password"
+            placeholder="password 8-14 characters"
+            v-model="confirmPassword"
+            required
+          />
+          <br />
         </div>
       </div>
       <!-- CreateEventButton  -->
