@@ -144,8 +144,9 @@ function getEndDate(date, duration) {
       @submit.prevent="$emit('createEvent', event)"
     >
       <div class="flex flex-wrap -mx-3 mb-1">
+        <h1 class="text-3xl mb-4 font-bold">Create Event</h1>
         <!-- Name   -->
-        <div class="w-full px-3 mb-3">
+        <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-name"
@@ -174,7 +175,7 @@ function getEndDate(date, duration) {
         </div>
       </div>
       <!-- Email   -->
-      <div class="flex flex-wrap -mx-3 mb-3">
+      <div class="flex flex-wrap -mx-3">
         <div class="w-full px-3 mb-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
