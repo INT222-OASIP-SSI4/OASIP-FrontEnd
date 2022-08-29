@@ -195,7 +195,7 @@ onBeforeMount(async () => {
             @setCategoryIndex="setCategoryIndex"
             :activeIndex="selectedCategoryIndex"
           />
-          <h2 class="font-bold text-2xl text-black text-center py-6">
+          <h2 class="font-bold text-2xl text-black text-center pt-8 pb-2">
             Events Schedule
           </h2>
         </div>

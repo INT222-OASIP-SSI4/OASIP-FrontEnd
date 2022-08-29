@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-auto flex-wrap justify-center align-middle items-center mt-2">
+  <div class="flex flex-auto flex-wrap justify-center align-middle items-center mt-4">
     <button
       type="button"
       class="hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-1 focus:ring-blue-100 font-medium rounded-full text-sm px-6 py-2 text-center mr-2 mb-2 capitalize"
