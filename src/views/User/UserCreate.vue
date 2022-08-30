@@ -21,8 +21,6 @@ const getUsers = async () => {
 
 //create new user
 const createUser = async (newUser) => {
-  console.log(newUser.password)
-  console.log(newUser.confirmPassword)
   var validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   if (newUser.userName.length > 100) {

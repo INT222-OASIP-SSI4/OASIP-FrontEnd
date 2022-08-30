@@ -10,6 +10,7 @@ import UserManagement from '../views/User/UserManagement.vue'
 import UserDetail from '../views/User/UserDetail.vue'
 import UserCreate from '../views/User/UserCreate.vue'
 import UserEdit from '../views/User/UserEdit.vue'
+import Login from '../views/User/Login.vue'
 
 const history = createWebHashHistory()
 const routes = [
@@ -68,6 +69,11 @@ const routes = [
     path: '/editUser',
     name: 'editUser',
     component: UserEdit,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
   },
 ]
 

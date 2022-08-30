@@ -1,0 +1,57 @@
+<script setup>
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { onBeforeMount } from '@vue/runtime-core'
+import UserLoginForm from '../../components/User/UserLoginForm.vue'
+
+const route = useRoute()
+const router = useRouter()
+const users = ref([])
+
+//get all users
+const getUsers = async () => {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
+  if (res.status === 200) {
+    let data = await res.json()
+    users.value = data
+  } else {
+    console.log('error, cannot get data')
+  }
+}
+
+//login new user
+const userLogin = async (userLogin) => {
+  const res = await fetch(
+    `${import.meta.env.VITE_SERVER_URL}/api/users/match`,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        userEmail: userLogin.userEmail,
+        password: userLogin.password,
+      }),
+    }
+  )
+  if (res.status === 201 || res.status === 200) {
+    let data = await res.json()
+    alert('Password Matched');
+  }
+  else if (res.status === 401){
+    alert('Password NOT Matched');
+  } else if (res.status === 404){
+    alert('A user with the specified email DOES NOT exist');
+  }
+}
+
+onBeforeMount(async () => {
+  await getUsers()
+})
+</script>
+
+<template>
+  <UserLoginForm :loginUser="users" @login="userLogin" />
+</template>
+
+<style></style>
