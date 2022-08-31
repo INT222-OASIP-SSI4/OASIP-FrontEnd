@@ -40,7 +40,7 @@ const createUser = async (newUser) => {
               alert('userEmail is duplicate, Please input again')
             }
           } else {
-            if (newUser.password < 8 || newUser.password > 14) {
+            if (newUser.password.length < 8 || newUser.password.length > 14) {
               alert('password must have length between 8-14')
             } else {
               if (newUser.password != newUser.confirmPassword) {
@@ -63,7 +63,7 @@ const createUser = async (newUser) => {
                     }),
                   }
                 )
-                if (res.status === 201) {
+                if (res.status === 201 || res.status === 200) {
                   let data = await res.json()
                   alert('Created user successfully')
                   router.push({ name: 'userDetail', query: { id: data.id } })
