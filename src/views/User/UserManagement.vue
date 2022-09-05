@@ -4,7 +4,7 @@ import UserList from '../../components/User/UserList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 
 const users = ref([])
-const token = ref()
+const token = ref(localStorage.getItem('token'))
 
 //get all categories
 const getUsers = async () => {
@@ -24,7 +24,6 @@ const getUsers = async () => {
 }
 
 onBeforeMount(async () => {
-  token.value = `Bearer ${localStorage.getItem('token')}`
   await getUsers()
 })
 </script>

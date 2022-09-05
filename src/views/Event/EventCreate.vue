@@ -8,7 +8,7 @@ const route = useRoute();
 const router = useRouter();
 const events = ref([]);
 const categories = ref([]);
-const token = ref(localStorage.getItem('item'))
+const token = ref(localStorage.getItem('token'))
 
 //get all events
 const getEvents = async () => {
