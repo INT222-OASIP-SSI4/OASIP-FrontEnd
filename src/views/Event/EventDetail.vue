@@ -1,32 +1,39 @@
 <script setup>
-import { onBeforeMount } from "@vue/runtime-core";
-import { useRoute, useRouter } from "vue-router";
-import { ref } from "vue";
+import { onBeforeMount } from '@vue/runtime-core'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-const route = useRoute();
-const router = useRouter();
-const event = ref({});
+const route = useRoute()
+const router = useRouter()
+const event = ref({})
+const token = ref(localStorage.getItem('token'))
 
-let currentDate = ref("");
-let localDate = ref("");
-let localTime = ref("");
+let currentDate = ref('')
+let localDate = ref('')
+let localTime = ref('')
 
 // get event by id
 const getEvent = async () => {
   if (route.query.id) {
-    const id = route.query.id;
+    const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`
-    );
+      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: token.value,
+        },
+      }
+    )
     if (res.status === 200) {
-      const data = await res.json();
-      event.value = data;
-      currentDate.value = new Date(event.value.eventStartTime);
-      localDate.value = formatDate(currentDate.value);
-      localTime.value = currentDate.value.toLocaleTimeString("en-US", options);
+      const data = await res.json()
+      event.value = data
+      currentDate.value = new Date(event.value.eventStartTime)
+      localDate.value = formatDate(currentDate.value)
+      localTime.value = currentDate.value.toLocaleTimeString('en-US', options)
     }
-  } else goHome;
-};
+  } else goHome
+}
 
 //delete event
 const cancelEvent = async () => {
@@ -34,30 +41,33 @@ const cancelEvent = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
+        headers: {
+          Authorization: token.value,
+        },
       }
-    );
+    )
     if (res.status === 200) {
-      alert(`Cancel this event successfully`);
-      goHome();
-    } else console.log(`Error, can't delete this event`);
+      alert(`Cancel this event successfully`)
+      goHome()
+    } else console.log(`Error, can't delete this event`)
   }
-};
+}
 
 //back to home page
 const goHome = () => {
-  router.push({ name: "home" });
-};
+  router.push({ name: 'home' })
+}
 
 //change time
 const options = {
-  hour: "2-digit",
-  minute: "2-digit",
-};
+  hour: '2-digit',
+  minute: '2-digit',
+}
 
 //format Date function
 function padTo2Digits(num) {
-  return num.toString().padStart(2, "0");
+  return num.toString().padStart(2, '0')
 }
 
 function formatDate(date) {
@@ -65,12 +75,12 @@ function formatDate(date) {
     padTo2Digits(date.getDate()),
     padTo2Digits(date.getMonth() + 1),
     date.getFullYear(),
-  ].join("/");
+  ].join('/')
 }
 
 onBeforeMount(async () => {
-  await getEvent();
-});
+  await getEvent()
+})
 </script>
 
 <template>
@@ -106,7 +116,7 @@ onBeforeMount(async () => {
             Duration: {{ event.eventDuration }} minutes
           </p>
           <p class="text-gray-700 text-base">
-            Notes: {{ event.eventNotes || "No Note" }}
+            Notes: {{ event.eventNotes || 'No Note' }}
           </p>
         </blockquote>
         <figcaption>

@@ -10,7 +10,7 @@ import UserManagement from '../views/User/UserManagement.vue'
 import UserDetail from '../views/User/UserDetail.vue'
 import UserCreate from '../views/User/UserCreate.vue'
 import UserEdit from '../views/User/UserEdit.vue'
-import Login from '../views/User/Login.vue'
+import UserLogin from '../views/User/UserLogin.vue'
 
 const history = createWebHashHistory()
 const routes = [
@@ -73,7 +73,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: UserLogin,
   },
 ]
 
