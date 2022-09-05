@@ -4,19 +4,27 @@ import UserList from '../../components/User/UserList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 
 const users = ref([])
+const token = ref()
 
 //get all categories
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  })
   if (res.status === 200) {
     users.value = await res.json()
     console.log(users.value)
+    console.log(token.value);
   } else {
     console.log('Error, cannot get users data')
   }
 }
 
 onBeforeMount(async () => {
+  token.value = `Bearer ${localStorage.getItem('token')}`
   await getUsers()
 })
 </script>
@@ -32,7 +40,10 @@ onBeforeMount(async () => {
     <div v-if="users.length != 0">
       <UserList :users="users" />
     </div>
-    <div class="flex flex-col items-center justify-center mt-10 bg-white p-12 mx-10 rounded-lg" v-else>
+    <div
+      class="flex flex-col items-center justify-center mt-10 bg-white p-12 mx-10 rounded-lg"
+      v-else
+    >
       <h1 class="font-bold">" No User "</h1>
       <router-link :to="{ name: 'createUser' }">
         <br />

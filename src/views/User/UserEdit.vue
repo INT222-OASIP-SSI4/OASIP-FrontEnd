@@ -8,7 +8,7 @@ const router = useRouter()
 const user = ref({})
 const users = ref([])
 const allName = ref([])
-const isEditingDataChange = ref(false)
+const token = ref(localStorage.getItem('token'))
 
 const name = ref('')
 const email = ref('')
@@ -25,7 +25,12 @@ const countLengthName = () => (lengthOfWordName.value = name.value.length)
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  })
   if (res.status === 200) {
     let data = await res.json()
     users.value = data
@@ -40,7 +45,12 @@ const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  }
     )
     if (res.status === 200) {
       const data = await res.json()
@@ -96,6 +106,7 @@ const editUser = async () => {
                   method: 'PUT',
                   headers: {
                     'content-type': 'application/json',
+                    "Authorization": token.value
                   },
                   body: JSON.stringify({
                     ...data,

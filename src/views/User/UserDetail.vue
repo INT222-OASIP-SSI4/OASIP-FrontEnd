@@ -6,6 +6,7 @@ import { ref } from "vue";
 const route = useRoute();
 const router = useRouter();
 const user = ref({});
+const token = ref(localStorage.getItem('token'))
 
 let createdOn = ref("");
 let updatedOn = ref("");
@@ -15,7 +16,12 @@ const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id;
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -33,6 +39,9 @@ const cancelUser = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
       {
         method: "DELETE",
+        headers:{
+          "Authorization": token.value
+        }
       }
     );
     if (res.status === 200) {

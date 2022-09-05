@@ -5,10 +5,15 @@ import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
 
 const events = ref([])
-
+const token = ref(localStorage.getItem('token'))
 //get all events
 const getEvents = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`)
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
+    method: 'GET',
+    headers: {
+      Authorization: token.value,
+    },
+  })
   if (res.status === 200) {
     let data = await res.json()
     events.value = data
@@ -22,7 +27,12 @@ const categories = ref([])
 //get all categories
 const getCategories = async () => {
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`
+    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  }
   )
   if (res.status === 200) {
     categories.value = await res.json()
@@ -37,7 +47,6 @@ const date = ref('')
 const dateStatus = ref('')
 const currentDate = computed(() => new Date().toISOString())
 const status = ref()
-console.log(dateStatus.value)
 //all filter
 const filterEvent = computed(() => {
   let result = events.value

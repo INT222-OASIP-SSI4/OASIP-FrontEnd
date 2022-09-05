@@ -7,10 +7,16 @@ import { onBeforeMount } from '@vue/runtime-core'
 const route = useRoute()
 const router = useRouter()
 const users = ref([])
+const token = ref(localStorage.getItem('token'))
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/register`, {
+    method: 'GET',
+    headers: {
+      "Authorization": token.value,
+    },
+  })
   if (res.status === 200) {
     let data = await res.json()
     users.value = data
@@ -54,6 +60,7 @@ const createUser = async (newUser) => {
                     method: 'POST',
                     headers: {
                       'content-type': 'application/json',
+                      "Authorization": token.value
                     },
                     body: JSON.stringify({
                       userName: newUser.userName,
