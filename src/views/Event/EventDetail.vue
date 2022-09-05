@@ -21,7 +21,7 @@ const getEvent = async () => {
       {
         method: 'GET',
         headers: {
-          Authorization: token.value,
+          "Authorization": token.value,
         },
       }
     )
@@ -43,7 +43,7 @@ const cancelEvent = async () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: token.value,
+          "Authorization": token.value,
         },
       }
     )

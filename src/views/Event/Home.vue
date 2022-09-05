@@ -11,7 +11,7 @@ const getEvents = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
     method: 'GET',
     headers: {
-      Authorization: token.value,
+      "Authorization": token.value,
     },
   })
   if (res.status === 200) {
