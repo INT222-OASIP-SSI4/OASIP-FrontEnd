@@ -16,8 +16,6 @@ const getUsers = async () => {
   })
   if (res.status === 200) {
     users.value = await res.json()
-    console.log(users.value)
-    console.log(token.value);
   } else {
     console.log('Error, cannot get users data')
   }
