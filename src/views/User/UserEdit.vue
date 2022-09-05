@@ -28,7 +28,7 @@ const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      Authorization: token.value,
     },
   })
   if (res.status === 200) {
@@ -48,7 +48,7 @@ const getUser = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      Authorization: token.value,
     },
   }
     )
@@ -106,7 +106,7 @@ const editUser = async () => {
                   method: 'PUT',
                   headers: {
                     'content-type': 'application/json',
-                    "Authorization": token.value
+                    Authorization: token.value
                   },
                   body: JSON.stringify({
                     ...data,

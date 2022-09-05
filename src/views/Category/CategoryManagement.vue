@@ -12,7 +12,7 @@ const getCategories = async () => {
     `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      Authorization: token.value,
     },
   }
   )
