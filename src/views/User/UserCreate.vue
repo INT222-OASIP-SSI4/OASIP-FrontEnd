@@ -55,12 +55,11 @@ const createUser = async (newUser) => {
                 )
               } else {
                 const res = await fetch(
-                  `${import.meta.env.VITE_SERVER_URL}/api/users`,
+                  `${import.meta.env.VITE_SERVER_URL}/api/users/register`,
                   {
                     method: 'POST',
                     headers: {
                       'content-type': 'application/json',
-                      "Authorization": `Bearer ${token.value}`
                     },
                     body: JSON.stringify({
                       userName: newUser.userName,
