@@ -27,7 +27,7 @@ const getCategories = async () => {
     `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   }
   );
@@ -46,7 +46,7 @@ const getCategoryById = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   }
     );
@@ -69,7 +69,7 @@ const editCategory = async (updatedCategory) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "Authorization": token.value
+        "Authorization": `Bearer ${token.value}`
         
       },
       body: JSON.stringify({

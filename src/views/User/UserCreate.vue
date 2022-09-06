@@ -11,10 +11,10 @@ const token = ref(localStorage.getItem('token'))
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/register`, {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {
@@ -55,12 +55,11 @@ const createUser = async (newUser) => {
                 )
               } else {
                 const res = await fetch(
-                  `${import.meta.env.VITE_SERVER_URL}/api/users`,
+                  `${import.meta.env.VITE_SERVER_URL}/api/users/register`,
                   {
                     method: 'POST',
                     headers: {
                       'content-type': 'application/json',
-                      "Authorization": token.value
                     },
                     body: JSON.stringify({
                       userName: newUser.userName,

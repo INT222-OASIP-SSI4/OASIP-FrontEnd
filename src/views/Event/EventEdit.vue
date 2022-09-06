@@ -32,7 +32,7 @@ const getEvents = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   });
   if (res.status === 200) {
@@ -51,7 +51,7 @@ const getEvent = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   }
     );
@@ -75,7 +75,7 @@ const editEvent = async (updatedEvent) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "Authorization": token.value
+        "Authorization": `Bearer ${token.value}`
       },
       body: JSON.stringify({
         ...data,

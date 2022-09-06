@@ -7,19 +7,19 @@ import { saveToLocal } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
-const users = ref([])
+// const users = ref([])
 const token = ref()
 
 //get all users
-const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
-  if (res.status === 200) {
-    let data = await res.json()
-    users.value = data
-  } else {
-    console.log('error, cannot get data')
-  }
-}
+// const getUsers = async () => {
+//   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
+//   if (res.status === 200) {
+//     let data = await res.json()
+//     users.value = data
+//   } else {
+//     console.log('error, cannot get data')
+//   }
+// }
 
 //login new user
 const userLogin = async (userLogin) => {
@@ -58,13 +58,13 @@ const userLogin = async (userLogin) => {
   }
 }
 
-onBeforeMount(async () => {
-  await getUsers()
-})
+// onBeforeMount(async () => {
+//   await getUsers()
+// })
 </script>
 
 <template>
-  <UserLoginForm :loginUser="users" @login="userLogin" />
+  <UserLoginForm @login="userLogin" />
 </template>
 
 <style></style>

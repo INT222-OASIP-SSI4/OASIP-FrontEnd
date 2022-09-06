@@ -8,14 +8,14 @@ const route = useRoute();
 const router = useRouter();
 const events = ref([]);
 const categories = ref([]);
-const token = ref(localStorage.getItem('item'))
+const token = ref(localStorage.getItem('token'))
 
 //get all events
 const getEvents = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   });
   if (res.status === 200) {
@@ -32,7 +32,7 @@ const createEvent = async (newEvent) => {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      "Authorization": token.value
+      "Authorization": `Bearer ${token.value}`
     },
     body: JSON.stringify(newEvent),
   })
@@ -48,7 +48,7 @@ const getCategories = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   });
   if (res.status === 200) {

@@ -4,7 +4,7 @@ import CategoryList from "../../components/Category/CategoryList.vue";
 import { onBeforeMount } from "@vue/runtime-core";
 
 const categories = ref([])
-const token = ref(localStorage.getItem('item'))
+const token = ref(localStorage.getItem('token'))
 
 //get all categories
 const getCategories = async () => {
@@ -12,7 +12,7 @@ const getCategories = async () => {
     `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
     method: 'GET',
     headers: {
-      "Authorization": token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   }
   )
