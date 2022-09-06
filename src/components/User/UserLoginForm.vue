@@ -2,12 +2,6 @@
 import { ref, computed } from 'vue'
 
 const emits = defineEmits(['login'])
-const props = defineProps({
-  loginUser: {
-    type: Array,
-    default: [],
-  },
-})
 
 const email = ref('')
 const password = ref('')

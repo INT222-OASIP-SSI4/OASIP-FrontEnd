@@ -11,7 +11,7 @@ const token = ref(localStorage.getItem('token'))
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/register`, {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
       "Authorization": `Bearer ${token.value}`,
