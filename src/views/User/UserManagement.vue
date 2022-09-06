@@ -11,7 +11,7 @@ const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      Authorization: token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {
