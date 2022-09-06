@@ -5,13 +5,14 @@ import { onBeforeMount } from '@vue/runtime-core'
 
 const users = ref([])
 const token = ref(localStorage.getItem('token'))
+console.log(`Bearer ${token.value}`);
 
 //get all categories
 const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      "Authorization": `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {
