@@ -58,9 +58,9 @@ const userLogin = async (userLogin) => {
   }
 }
 
-onBeforeMount(async () => {
-  await getUsers()
-})
+// onBeforeMount(async () => {
+//   await getUsers()
+// })
 </script>
 
 <template>
