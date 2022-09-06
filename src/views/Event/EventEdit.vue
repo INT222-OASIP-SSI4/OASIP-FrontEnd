@@ -7,6 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const event = ref({});
 const events = ref([]);
+const token = ref(localStorage.getItem('token'))
 
 let currentDate = ref("");
 let localDate = ref("");
@@ -28,7 +29,12 @@ const countLength = () => lengthOfWord.value = note.value.length;
 
 //get all events
 const getEvents = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`);
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  });
   if (res.status === 200) {
     let data = await res.json();
     events.value = data;
@@ -42,7 +48,12 @@ const getEvent = async () => {
   if (route.query.id) {
     const id = route.query.id;
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -59,11 +70,12 @@ const getEvent = async () => {
 const editEvent = async (updatedEvent) => {
   let { id, ...data } = { ...updatedEvent };
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
+    `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`, 
     {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        "Authorization": `Bearer ${token.value}`
       },
       body: JSON.stringify({
         ...data,
@@ -169,7 +181,6 @@ function getEndDate(date, duration) {
 onBeforeMount(async () => {
   await getEvent();
   await getEvents();
-  await countLength();
 });
 </script>
 <template>

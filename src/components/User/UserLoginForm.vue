@@ -2,12 +2,6 @@
 import { ref, computed } from 'vue'
 
 const emits = defineEmits(['login'])
-const props = defineProps({
-  loginUser: {
-    type: Array,
-    default: [],
-  },
-})
 
 const email = ref('')
 const password = ref('')
@@ -32,6 +26,7 @@ const userLogin = computed(() => ({
       class="w-full max-w-xl mx-auto px-5"
       @submit.prevent="$emit('login', userLogin)"
     >
+    <h1 class="text-3xl mb-4 font-bold">Login</h1>
       <!-- Email   -->
       <div class="flex flex-wrap -mx-3">
         <div class="w-full px-3">

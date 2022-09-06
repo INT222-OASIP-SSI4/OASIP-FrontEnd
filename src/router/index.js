@@ -1,4 +1,4 @@
-import Home from '../views/Event/Home.vue'
+import EventHome from '../views/Event/EventHome.vue'
 import EventCreate from '../views/Event/EventCreate.vue'
 import EventDetail from '../views/Event/EventDetail.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -10,14 +10,14 @@ import UserManagement from '../views/User/UserManagement.vue'
 import UserDetail from '../views/User/UserDetail.vue'
 import UserCreate from '../views/User/UserCreate.vue'
 import UserEdit from '../views/User/UserEdit.vue'
-import Login from '../views/User/Login.vue'
+import UserLogin from '../views/User/UserLogin.vue'
 
 const history = createWebHashHistory()
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: EventHome,
   },
   {
     path: '/create',
@@ -73,7 +73,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: UserLogin,
   },
 ]
 
