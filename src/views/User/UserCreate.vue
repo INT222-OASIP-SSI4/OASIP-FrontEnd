@@ -14,7 +14,7 @@ const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/register`, {
     method: 'GET',
     headers: {
-      Authorization: token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {
@@ -60,7 +60,7 @@ const createUser = async (newUser) => {
                     method: 'POST',
                     headers: {
                       'content-type': 'application/json',
-                      Authorization: token.value
+                      "Authorization": `Bearer ${token.value}`
                     },
                     body: JSON.stringify({
                       userName: newUser.userName,

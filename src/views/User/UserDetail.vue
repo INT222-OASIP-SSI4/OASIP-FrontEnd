@@ -19,7 +19,7 @@ const getUser = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
     method: 'GET',
     headers: {
-      Authorization: token.value,
+      "Authorization": `Bearer ${token.value}`,
     },
   }
     );
@@ -40,7 +40,7 @@ const cancelUser = async () => {
       {
         method: "DELETE",
         headers:{
-          Authorization: token.value
+          "Authorization": `Bearer ${token.value}`
         }
       }
     );
