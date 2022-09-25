@@ -5,7 +5,8 @@ import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
 
 const events = ref([])
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
+
 //get all events
 const getEvents = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
@@ -189,7 +190,6 @@ onBeforeMount(async () => {
     </div>
     <div
       class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9"
-      v-if="token !== null"
     >
       <div
         class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg"
@@ -222,29 +222,6 @@ onBeforeMount(async () => {
             </button>
           </router-link>
         </div>
-      </div>
-    </div>
-    <div
-      class="bg-white rounded-xl p-7 shadow-lg w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9"
-      v-else
-    >
-      <h1 class="text-center font-bold text-lg">Please Login First</h1>
-      <div class="flex flex-col items-center justify-center mt-2">
-        <router-link :to="{ name: 'createUser' }">
-          <button
-            class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100 my-3"
-          >
-            Create User
-          </button>
-        </router-link>
-        <p>or</p>
-        <router-link :to="{ name: 'login' }">
-          <button
-            class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100 my-3"
-          >
-            Login
-          </button>
-        </router-link>
       </div>
     </div>
   </div>

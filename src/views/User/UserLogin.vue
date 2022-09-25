@@ -3,12 +3,17 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
 import UserLoginForm from '../../components/User/UserLoginForm.vue'
-import { saveToLocal } from '../../utils/index.js'
+import { saveAccessToken, saveRefreshToken } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
 // const users = ref([])
-const token = ref()
+const accessToken = ref()
+const refreshToken = ref()
+
+const goHome = () => {
+  router.push({ name: 'home' })
+}
 
 //get all users
 // const getUsers = async () => {
@@ -43,11 +48,21 @@ const userLogin = async (userLogin) => {
       }
     )
     if (res.status === 201 || res.status === 200) {
-      token.value = await res.json()
-      saveToLocal(token.value)
+      const data = await res.json()
+      accessToken.value = data.jwttoken
+      refreshToken.value = data.refreshToken
+      saveAccessToken(accessToken.value)
+      saveRefreshToken(refreshToken.value)
       alert('Password Matched')
+      goHome()
     } else if (res.status === 401) {
-      alert('Password NOT Matched')
+      if (
+        !localStorage.getItem('accessToken') &&
+        !localStorage.getItem('refreshToken')
+      ) {
+        alert('Password NOT Matched')
+      } else {
+      }
     } else if (res.status === 404) {
       alert('A user with the specified email DOES NOT exist')
     } else {

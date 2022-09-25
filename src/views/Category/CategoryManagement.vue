@@ -4,7 +4,7 @@ import CategoryList from '../../components/Category/CategoryList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 
 const categories = ref([])
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 //get all categories
 const getCategories = async () => {
@@ -38,7 +38,7 @@ onBeforeMount(async () => {
         >Category List !</span
       >
     </div>
-    <div v-if="token !== null">
+
       <div
         class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
@@ -47,30 +47,6 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-    <div
-      class="bg-white rounded-xl p-7 shadow-lg w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9 mt-10"
-      v-else
-    >
-      <h1 class="text-center font-bold text-lg">Please Login First</h1>
-      <div class="flex flex-col items-center justify-center mt-2">
-        <router-link :to="{ name: 'createUser' }">
-          <button
-            class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100 my-3"
-          >
-            Create User
-          </button>
-        </router-link>
-        <p>or</p>
-        <router-link :to="{ name: 'login' }">
-          <button
-            class="rounded-full g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100 my-3"
-          >
-            Login
-          </button>
-        </router-link>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style></style>

@@ -7,7 +7,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 const route = useRoute()
 const router = useRouter()
 const users = ref([])
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 //get all users
 const getUsers = async () => {
