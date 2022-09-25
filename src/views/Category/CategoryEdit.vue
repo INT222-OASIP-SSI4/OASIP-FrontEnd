@@ -7,6 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const category = ref({});
 const categories = ref([]);
+const token = ref(localStorage.getItem('token'))
 
 const categoryName = ref("");
 const categoryDescription = ref("");
@@ -23,11 +24,15 @@ const countLengthDesc = () =>
 //get all categories
 const getCategories = async () => {
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`
+    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  }
   );
   if (res.status === 200) {
     categories.value = await res.json();
-    console.log(categories.value);
   } else {
     console.log("Error, cannot get categories data");
   }
@@ -38,7 +43,12 @@ const getCategoryById = async () => {
   if (route.query.id) {
     const id = route.query.id;
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -59,6 +69,8 @@ const editCategory = async (updatedCategory) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        "Authorization": `Bearer ${token.value}`
+        
       },
       body: JSON.stringify({
         ...data,
@@ -134,8 +146,6 @@ function onlySpaces(str) {
 onBeforeMount(async () => {
   await getCategoryById();
   await getCategories();
-  await countLengthName();
-  await countLengthDesc();
 });
 </script>
 

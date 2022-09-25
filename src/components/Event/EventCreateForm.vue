@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-const emits = defineEmits(['createEvent']);
+const emits = defineEmits(['createEvent'])
 const props = defineProps({
   categories: {
     type: Array,
@@ -11,32 +11,32 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-});
+})
 
-const name = ref('');
-const email = ref('');
-const note = ref('');
-const categoryId = ref('');
-const startDate = ref('');
-const startTime = ref('');
+const name = ref('')
+const email = ref('')
+const note = ref('')
+const categoryId = ref('')
+const startDate = ref('')
+const startTime = ref('')
 
-const lengthOfWord = ref(0);
-const lengthOfWordEmail = ref(0);
-const lengthOfWordName = ref(0);
+const lengthOfWord = ref(0)
+const lengthOfWordEmail = ref(0)
+const lengthOfWordName = ref(0)
 
 //get eventStartTime by date and time
 const getStartTime = computed(() => {
-  const date = startDate.value + ' ' + startTime.value;
-  return new Date(date);
-});
+  const date = startDate.value + ' ' + startTime.value
+  return new Date(date)
+})
 
 //get current Date
-const currentDateTime = computed(() => new Date());
+const currentDateTime = computed(() => new Date())
 
 //count length of input
-const countLength = () => lengthOfWord.value = note.value.length;
-const countLengthEmail = () => lengthOfWordEmail.value = email.value.length;
-const countLengthName = () => lengthOfWordName.value = name.value.length;
+const countLength = () => (lengthOfWord.value = note.value.length)
+const countLengthEmail = () => (lengthOfWordEmail.value = email.value.length)
+const countLengthName = () => (lengthOfWordName.value = name.value.length)
 
 //get new event
 const event = computed(() => ({
@@ -45,107 +45,115 @@ const event = computed(() => ({
   bookingEmail: validateEmail.value,
   eventNotes: checkLengthNote.value,
   eventCategoryId: categoryId.value,
-}));
+}))
 
 //validate email https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
 const validateEmail = computed(() => {
   var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   if (email.value.length <= 100) {
     if (email.value.match(validRegex)) {
-      return email.value;
+      return email.value
     } else {
-      alert('Invalid email address!');
-      return email.value;
+      alert('Invalid email address!')
+      return email.value
     }
   } else {
-    alert('bookingEmail must have length 1-100');
-    return email.value;
+    alert('bookingEmail must have length 1-100')
+    return email.value
   }
-});
+})
 
 //validate eventStartTime (future and overlap)
 const validateEventStartTime = computed(() => {
-  if(getStartTime.value<currentDateTime.value){
-    alert('Invalid Date! Date must be future');
+  if (getStartTime.value < currentDateTime.value) {
+    alert('Invalid Date! Date must be future')
   }
-  if(checkOverlap.value){
-    alert('Invalid Date! Date is overlap');
+  if (checkOverlap.value) {
+    alert('Invalid Date! Date is overlap')
   }
-  return getStartTime.value;
+  return getStartTime.value
 })
 
 //check overlap in event
 const checkOverlap = computed(() => {
-  let status = false;
-  let b_start = getStartTime.value;
-  let b_duration = props.categories.filter((c) => c.id == categoryId.value)[0].eventDuration;
-  let b_end = getEndDate(getStartTime.value, b_duration);
-  props.event.filter((e) => e.eventCategory.id == categoryId.value && e.bookingName != name.value && getDate(e.eventStartTime) == getDate(getStartTime.value) ).forEach((e) => {
-    let a_start = new Date(e.eventStartTime);
-    let a_end = getEndDate(e.eventStartTime, e.eventDuration);
-    if(dateRangeOverlaps(a_start,a_end,b_start,b_end)){
-      status = true;
-    }
-  });
-  return status;
-});
+  let status = false
+  let b_start = getStartTime.value
+  let b_duration = props.categories.filter((c) => c.id == categoryId.value)[0]
+    .eventDuration
+  let b_end = getEndDate(getStartTime.value, b_duration)
+  props.event
+    .filter(
+      (e) =>
+        e.eventCategory.id == categoryId.value &&
+        e.bookingName != name.value &&
+        getDate(e.eventStartTime) == getDate(getStartTime.value)
+    )
+    .forEach((e) => {
+      let a_start = new Date(e.eventStartTime)
+      let a_end = getEndDate(e.eventStartTime, e.eventDuration)
+      if (dateRangeOverlaps(a_start, a_end, b_start, b_end)) {
+        status = true
+      }
+    })
+  return status
+})
 
 //function check overlap https://stackoverflow.com/questions/22784883/check-if-more-than-two-date-ranges-overlap
 function dateRangeOverlaps(a_start, a_end, b_start, b_end) {
-  if (a_start <= b_start && b_start < a_end) return true; // b starts in a
-  if (a_start < b_end && b_end <= a_end) return true; // b ends in a
-  if (b_start <= a_start && a_end <= b_end) return true; // a in b
-  if (a_start <= b_start && b_end <= a_end) return true; // b in a
-  if (b_start <= a_start && b_end > a_start) return true; // a starts in b
-  return false;
+  if (a_start <= b_start && b_start < a_end) return true // b starts in a
+  if (a_start < b_end && b_end <= a_end) return true // b ends in a
+  if (b_start <= a_start && a_end <= b_end) return true // a in b
+  if (a_start <= b_start && b_end <= a_end) return true // b in a
+  if (b_start <= a_start && b_end > a_start) return true // a starts in b
+  return false
 }
 
 //validate Note
 const checkLengthNote = computed(() => {
   if (note.value == undefined) {
-    note.value = '';
+    note.value = ''
   }
   if (note.value.length > 500) {
-    alert('eventNotes must have length between 0-500');
+    alert('eventNotes must have length between 0-500')
   } else {
-    return note.value;
+    return note.value
   }
-});
+})
 
 //validate Name
 const checkLengthName = computed(() => {
   if (name.value.length > 100 || name.value.length < 1) {
-    alert('bookingName must have length between 1-100');
+    alert('bookingName must have length between 1-100')
   } else {
-    return name.value;
+    return name.value
   }
-});
+})
 
 //function getDate
 function getDate(date) {
-  return new Date(date).toLocaleDateString();
+  return new Date(date).toLocaleDateString()
 }
 
 //function plus minutes with duration
 function getEndDate(date, duration) {
-  let dateFormat = new Date(date);
-  return new Date(dateFormat.getTime() + duration * 60 * 1000);
+  let dateFormat = new Date(date)
+  return new Date(dateFormat.getTime() + duration * 60 * 1000)
 }
-
 </script>
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-2/9 flex flex-col justify-center items-center max-w-xl mx-auto p-5 mt-10"
+    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 mt-10"
   >
     <form
       class="w-full max-w-xl mx-auto px-5"
       @submit.prevent="$emit('createEvent', event)"
     >
       <div class="flex flex-wrap -mx-3 mb-1">
+        <h1 class="text-3xl mb-4 font-bold">Create Event</h1>
         <!-- Name   -->
-        <div class="w-full px-3 mb-3">
+        <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-name"
@@ -174,13 +182,13 @@ function getEndDate(date, duration) {
         </div>
       </div>
       <!-- Email   -->
-      <div class="flex flex-wrap -mx-3 mb-3">
-        <div class="w-full px-3 mb-3">
+      <div class="flex flex-wrap -mx-3">
+        <div class="w-full px-3 ">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-email"
           >
-            Email
+            Booking Email
           </label>
           <input
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -236,7 +244,7 @@ function getEndDate(date, duration) {
               </div>
             </div>
           </div>
-          <div class="w-1/3 px-10">
+          <div class="w-1/3 px-10 ml-12">
             <div class="h-12">
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -279,7 +287,7 @@ function getEndDate(date, duration) {
               />
             </div>
           </div>
-          <div class="w-1/3 px-10">
+          <div class="w-1/3 px-10 ml-12">
             <div>
               <label
                 class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -300,7 +308,7 @@ function getEndDate(date, duration) {
         </div>
       </div>
       <!-- Note   -->
-      <div class="flex flex-wrap -mx-3 mb-2">
+      <div class="flex flex-wrap -mx-3">
         <div class="w-full px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -326,14 +334,11 @@ function getEndDate(date, duration) {
               {{ lengthOfWord }} Characters
             </p>
           </div>
-          <!-- <div v-else>
-          <span class="text-sm text-right pl-2" :style="redText"> {{ lengthOfWord }} Charactors </span> 
-          </div> -->
         </div>
       </div>
       <!-- CreateEventButton  -->
       <button
-        class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-2"
+        class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
         type="submit"
       >
         Create Event

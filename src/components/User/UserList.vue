@@ -7,20 +7,6 @@ const props = defineProps({
   },
 })
 
-const cancelUser = async () => {
-  if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-      {
-        method: 'DELETE',
-      }
-    )
-    if (res.status === 200) {
-      alert(`Delete this user successfully`)
-      goUserList()
-    } else console.log(`Error, can't delete this user`)
-  }
-}
 </script>
 
 <template>
@@ -46,23 +32,6 @@ const cancelUser = async () => {
               <td scope="row" class="px-3 py-3 w-1/3">{{ user.userName }}</td>
               <td class="px-3 py-3 w-1/3">{{ user.userEmail }}</td>
               <td class="px-3 py-3 w-1/3">{{ user.role }}</td>
-              <!-- <td>
-                <router-link :to="`/userDetail?id=${user.id}`">
-                <svg width="1em" height="1em" viewBox="0 0 16 16">
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  >
-                    <circle cx="8" cy="2.5" r=".75"></circle>
-                    <circle cx="8" cy="8" r=".75"></circle>
-                    <circle cx="8" cy="13.5" r=".75"></circle>
-                  </g>
-                </svg>
-                </router-link>
-              </td> -->
               <td>
                 <div class="flex justify-center">
                   <button

@@ -6,6 +6,7 @@ import { ref } from "vue";
 const route = useRoute();
 const router = useRouter();
 const user = ref({});
+const token = ref(localStorage.getItem('token'))
 
 let createdOn = ref("");
 let updatedOn = ref("");
@@ -15,7 +16,12 @@ const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id;
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -33,6 +39,9 @@ const cancelUser = async () => {
       `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
       {
         method: "DELETE",
+        headers:{
+          "Authorization": `Bearer ${token.value}`
+        }
       }
     );
     if (res.status === 200) {
@@ -41,25 +50,6 @@ const cancelUser = async () => {
     } else console.log(`Error, can't delete this user`);
   }
 };
-
-//change time
-const options = {
-  hour: "2-digit",
-  minute: "2-digit",
-};
-
-//format Date function
-function padTo2Digits(num) {
-  return num.toString().padStart(2, "0");
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join("/");
-}
 
 //back to home page
 const goUserList = () => {
@@ -74,13 +64,13 @@ onBeforeMount(async () => {
 
 <template>
   <div
-    class="w-6/12 rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12"
+    class="w-full rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12 p-28"
   >
     <figure class="md:flex bg-white rounded-xl p-8 md:p-0 shadow-lg">
       <img
-        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 mx-4 mt-4"
+        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 m-7"
         src="/images/business-man.png"
-        alt=""
+        alt="user"
       />
       <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
