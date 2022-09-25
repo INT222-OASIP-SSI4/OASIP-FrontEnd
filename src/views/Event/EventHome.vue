@@ -3,6 +3,7 @@ import EventList from '../../components/Event/EventList.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
+import { renewToken } from '../../utils';
 
 const events = ref([])
 const token = ref(localStorage.getItem('accessToken'))
@@ -18,6 +19,8 @@ const getEvents = async () => {
   if (res.status === 200) {
     let data = await res.json()
     events.value = data
+  } else if(res.status === 401) {
+    renewToken()
   } else {
     console.log('error, cannot get data')
   }
