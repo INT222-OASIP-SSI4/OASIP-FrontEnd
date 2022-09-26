@@ -7,7 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const category = ref({});
 const categories = ref([]);
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 const categoryName = ref("");
 const categoryDescription = ref("");

@@ -3,18 +3,18 @@ import UserCreateForm from '../../components/User/UserCreateForm.vue'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
+import { renewToken } from '../../utils'
 
 const route = useRoute()
 const router = useRouter()
 const users = ref([])
-const token = ref(localStorage.getItem('token'))
-
+const token = ref(localStorage.getItem('accessToken'))
 //get all users
 const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      "Authorization": `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {

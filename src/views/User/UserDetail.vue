@@ -6,7 +6,7 @@ import { ref } from "vue";
 const route = useRoute();
 const router = useRouter();
 const user = ref({});
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 let createdOn = ref("");
 let updatedOn = ref("");

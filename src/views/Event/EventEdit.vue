@@ -7,7 +7,7 @@ const route = useRoute();
 const router = useRouter();
 const event = ref({});
 const events = ref([]);
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 let currentDate = ref("");
 let localDate = ref("");

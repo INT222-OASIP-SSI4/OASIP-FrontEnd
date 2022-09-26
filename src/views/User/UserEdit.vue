@@ -8,7 +8,7 @@ const router = useRouter()
 const user = ref({})
 const users = ref([])
 const allName = ref([])
-const token = ref(localStorage.getItem('token'))
+const token = ref(localStorage.getItem('accessToken'))
 
 const name = ref('')
 const email = ref('')
