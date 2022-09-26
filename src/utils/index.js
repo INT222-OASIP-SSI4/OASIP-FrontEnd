@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
-const refreshToken = ref()
+const refreshToken = ref(localStorage.getItem('refreshToken'))
 
 export const saveAccessToken = (accToken) => {
   return localStorage.setItem('accessToken', `${accToken}`)
