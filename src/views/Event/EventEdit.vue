@@ -1,101 +1,106 @@
 <script setup>
-import { onBeforeMount } from "@vue/runtime-core";
-import { useRoute, useRouter } from "vue-router";
-import { ref, computed } from "vue";
+import { onBeforeMount } from '@vue/runtime-core'
+import { useRoute, useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
 
-const route = useRoute();
-const router = useRouter();
-const event = ref({});
-const events = ref([]);
+const route = useRoute()
+const router = useRouter()
+const event = ref({})
+const events = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
-let currentDate = ref("");
-let localDate = ref("");
-let localTime = ref("");
-const note = ref("");
+let currentDate = ref('')
+let localDate = ref('')
+let localTime = ref('')
+const note = ref('')
 
 //get eventStartTime by date and time
 const getStartTime = computed(() => {
-  const date = localDate.value + ' ' + localTime.value;
-  return new Date(date);
-});
+  const date = localDate.value + ' ' + localTime.value
+  return new Date(date)
+})
 
 //get current Date
-const currentDateTime = computed(() => new Date());
+const currentDateTime = computed(() => new Date())
 
 //count length of input
-const lengthOfWord = ref(0);
-const countLength = () => lengthOfWord.value = note.value.length;
+const lengthOfWord = ref(0)
+const countLength = () => (lengthOfWord.value = note.value.length)
 
 //get all events
 const getEvents = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
     method: 'GET',
     headers: {
-      "Authorization": `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
     },
-  });
+  })
   if (res.status === 200) {
-    let data = await res.json();
-    events.value = data;
+    let data = await res.json()
+    events.value = data
+  } else if (res.status === 401) {
+    renewToken()
   } else {
-    console.log("error, cannot get data");
+    console.log('error, cannot get data')
   }
-};
+}
 
 // get event
 const getEvent = async () => {
   if (route.query.id) {
-    const id = route.query.id;
+    const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${token.value}`,
-    },
-  }
-    );
+      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    )
     if (res.status === 200) {
-      const data = await res.json();
-      event.value = data;
-      currentDate.value = new Date(event.value.eventStartTime);
-      localDate.value = formatStartDate(currentDate.value);
-      localTime.value = formatStartTime(currentDate.value);
-      note.value = event.value.eventNotes;
+      const data = await res.json()
+      event.value = data
+      currentDate.value = new Date(event.value.eventStartTime)
+      localDate.value = formatStartDate(currentDate.value)
+      localTime.value = formatStartTime(currentDate.value)
+      note.value = event.value.eventNotes
     }
-  } else goEventDetail;
-};
+  } else if (res.status === 401) {
+    renewToken()
+  } else goEventDetail
+}
 
 //edit event
 const editEvent = async (updatedEvent) => {
-  let { id, ...data } = { ...updatedEvent };
+  let { id, ...data } = { ...updatedEvent }
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`, 
+    `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "content-type": "application/json",
-        "Authorization": `Bearer ${token.value}`
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token.value}`,
       },
       body: JSON.stringify({
         ...data,
       }),
     }
-  );
+  )
   if (res.status === 200) {
-    router.push({ name: "eventDetail", query: { id: event.value.id } });
-    console.log("edited successfully");
-  } else console.log("error, cannot edited data");
-};
+    router.push({ name: 'eventDetail', query: { id: event.value.id } })
+    console.log('edited successfully')
+  } else console.log('error, cannot edited data')
+}
 
 //go to detail page
 const goEventDetail = () => {
-  router.push({ name: "eventDetail" });
-};
+  router.push({ name: 'eventDetail' })
+}
 
 //set value for 2 digits
 function padTo2Digits(num) {
-  return num.toString().padStart(2, "0");
+  return num.toString().padStart(2, '0')
 }
 
 //set format date
@@ -104,87 +109,92 @@ function formatStartDate(date) {
     date.getFullYear(),
     padTo2Digits(date.getMonth() + 1),
     padTo2Digits(date.getDate()),
-  ].join("-");
+  ].join('-')
 }
 
 //set format time
 function formatStartTime(time) {
   return [padTo2Digits(time.getHours()), padTo2Digits(time.getMinutes())].join(
-    ":"
-  );
+    ':'
+  )
 }
 
 //validate note
 const checkLengthNote = computed(() => {
   if (note.value == undefined) {
-    note.value = '';
+    note.value = ''
   }
   if (note.value.length > 500) {
-    alert('eventNotes must have length between 0-500');
-    return note.value;
+    alert('eventNotes must have length between 0-500')
+    return note.value
   } else {
-    return note.value;
+    return note.value
   }
-});
+})
 
 //get edit Event
 const updateEvent = computed(() => {
   event.value.eventStartTime = validateEventStartTime.value
-  event.value.eventNotes = checkLengthNote.value;
-  return { ...event.value
-  }});
+  event.value.eventNotes = checkLengthNote.value
+  return { ...event.value }
+})
 
 //validate Time future and overlap
 const validateEventStartTime = computed(() => {
-  if(getStartTime.value<currentDateTime.value){
-    alert('Invalid Date! Date must be future');
+  if (getStartTime.value < currentDateTime.value) {
+    alert('Invalid Date! Date must be future')
   }
-  if(checkOverlap.value){
-    alert('Invalid Date! Date is overlap');
+  if (checkOverlap.value) {
+    alert('Invalid Date! Date is overlap')
   }
-  return getStartTime.value;
+  return getStartTime.value
 })
 
 const checkOverlap = computed(() => {
-  let status = false;
-  let b_start = getStartTime.value;
-  let b_duration = event.value.eventDuration;
-  let b_end = getEndDate(getStartTime.value, b_duration);
+  let status = false
+  let b_start = getStartTime.value
+  let b_duration = event.value.eventDuration
+  let b_end = getEndDate(getStartTime.value, b_duration)
 
-  events.value.filter((e) => e.eventCategory.id == event.value.eventCategory.id && e.bookingName != event.value.bookingName ).forEach((e) => {
-    let a_start = new Date(e.eventStartTime);
-    let a_end = getEndDate(e.eventStartTime, e.eventDuration);
-    if(dateRangeOverlaps(a_start,a_end,b_start,b_end)){
-      status = true;
-    }
-  });
-  return status;
-});
-
+  events.value
+    .filter(
+      (e) =>
+        e.eventCategory.id == event.value.eventCategory.id &&
+        e.bookingName != event.value.bookingName
+    )
+    .forEach((e) => {
+      let a_start = new Date(e.eventStartTime)
+      let a_end = getEndDate(e.eventStartTime, e.eventDuration)
+      if (dateRangeOverlaps(a_start, a_end, b_start, b_end)) {
+        status = true
+      }
+    })
+  return status
+})
 
 //function check overlap
 function dateRangeOverlaps(a_start, a_end, b_start, b_end) {
-  if (a_start <= b_start && b_start < a_end) return true; // b starts in a
-  if (a_start < b_end && b_end <= a_end) return true; // b ends in a
-  if (b_start <= a_start && a_end <= b_end) return true; // a in b
-  if (a_start <= b_start && b_end <= a_end) return true; // b in a
-  if (b_start <= a_start && b_end > a_start) return true; // a starts in b
-  return false;
+  if (a_start <= b_start && b_start < a_end) return true // b starts in a
+  if (a_start < b_end && b_end <= a_end) return true // b ends in a
+  if (b_start <= a_start && a_end <= b_end) return true // a in b
+  if (a_start <= b_start && b_end <= a_end) return true // b in a
+  if (b_start <= a_start && b_end > a_start) return true // a starts in b
+  return false
 }
 
 //function plus minutes with duration
 function getEndDate(date, duration) {
-  let dateFormat = new Date(date);
-  return new Date(dateFormat.getTime() + duration * 60 * 1000);
+  let dateFormat = new Date(date)
+  return new Date(dateFormat.getTime() + duration * 60 * 1000)
 }
 
 onBeforeMount(async () => {
-  await getEvent();
-  await getEvents();
-});
+  await getEvent()
+  await getEvents()
+})
 </script>
 <template>
-   <div
+  <div
     class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10"
   >
     <p class="pt-1 text-gray-700 font-semibold text-xl">
@@ -268,11 +278,11 @@ onBeforeMount(async () => {
         </div>
         <div class="text-center">
           <router-link :to="`/detail?id=${event.id}`">
-          <button
-            class="inline-block bg-red-500 hover:bg-red-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-          >
-            Cancel Edit
-          </button>
+            <button
+              class="inline-block bg-red-500 hover:bg-red-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            >
+              Cancel Edit
+            </button>
           </router-link>
           <button
             class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"

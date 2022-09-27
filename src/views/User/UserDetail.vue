@@ -1,36 +1,39 @@
 <script setup>
-import { onBeforeMount } from "@vue/runtime-core";
-import { useRoute, useRouter } from "vue-router";
-import { ref } from "vue";
+import { onBeforeMount } from '@vue/runtime-core'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-const route = useRoute();
-const router = useRouter();
-const user = ref({});
+const route = useRoute()
+const router = useRouter()
+const user = ref({})
 const token = ref(localStorage.getItem('accessToken'))
 
-let createdOn = ref("");
-let updatedOn = ref("");
+let createdOn = ref('')
+let updatedOn = ref('')
 
 // get user by id
 const getUser = async () => {
   if (route.query.id) {
-    const id = route.query.id;
+    const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${token.value}`,
-    },
-  }
-    );
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    )
     if (res.status === 200) {
-      const data = await res.json();
-      user.value = data;
-      createdOn.value = new Date(user.value.createdOn).toLocaleString();
-      updatedOn.value = new Date(user.value.updatedOn).toLocaleString();
+      const data = await res.json()
+      user.value = data
+      createdOn.value = new Date(user.value.createdOn).toLocaleString()
+      updatedOn.value = new Date(user.value.updatedOn).toLocaleString()
     }
-  } else goUserList();
-};
+  } else if (res.status === 401) {
+    renewToken()
+  } else goUserList()
+}
 
 //delete user
 const cancelUser = async () => {
@@ -38,28 +41,27 @@ const cancelUser = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
       {
-        method: "DELETE",
-        headers:{
-          "Authorization": `Bearer ${token.value}`
-        }
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
       }
-    );
+    )
     if (res.status === 200) {
-      alert(`Delete this user successfully`);
-      goUserList();
-    } else console.log(`Error, can't delete this user`);
+      alert(`Delete this user successfully`)
+      goUserList()
+    } else console.log(`Error, can't delete this user`)
   }
-};
+}
 
 //back to home page
 const goUserList = () => {
-  router.push({ name: "users" });
-};
+  router.push({ name: 'users' })
+}
 
 onBeforeMount(async () => {
-  await getUser();
-});
-
+  await getUser()
+})
 </script>
 
 <template>
@@ -82,14 +84,15 @@ onBeforeMount(async () => {
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
             User's name: {{ user.userName }}
           </p>
-          <p class="text-gray-700 text-base">User's Email: {{ user.userEmail }}</p>
+          <p class="text-gray-700 text-base">
+            User's Email: {{ user.userEmail }}
+          </p>
 
           <p class="text-gray-700 text-base">User's role: {{ user.role }}</p>
 
           <p class="text-gray-700 text-base">Created on: {{ createdOn }}</p>
 
           <p class="text-gray-700 text-base">Updated on: {{ updatedOn }}</p>
-
         </blockquote>
         <figcaption>
           <button

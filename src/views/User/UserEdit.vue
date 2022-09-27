@@ -28,13 +28,15 @@ const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
     method: 'GET',
     headers: {
-      "Authorization": `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
     },
   })
   if (res.status === 200) {
     let data = await res.json()
     users.value = data
     allName.value = users.value.userName
+  } else if (res.status === 401) {
+    renewToken()
   } else {
     console.log('error, cannot get data')
   }
@@ -45,12 +47,13 @@ const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${token.value}`,
-    },
-  }
+      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
     )
     if (res.status === 200) {
       const data = await res.json()
@@ -60,6 +63,8 @@ const getUser = async () => {
       email.value = user.value.userEmail
       role.value = user.value.role
     }
+  } else if (res.status === 401) {
+    renewToken()
   } else goUserList()
 }
 
@@ -67,10 +72,10 @@ const getUser = async () => {
 const editUser = async () => {
   var validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    console.log(updateUser.value);
-    console.log(name.value);
-    console.log(email.value);
-    console.log(role.value);
+  console.log(updateUser.value)
+  console.log(name.value)
+  console.log(email.value)
+  console.log(role.value)
   if (
     updateUser.value.userName == user.value.userName &&
     updateUser.value.userEmail == user.value.userEmail &&
@@ -106,7 +111,7 @@ const editUser = async () => {
                   method: 'PUT',
                   headers: {
                     'content-type': 'application/json',
-                    "Authorization": `Bearer ${token.value}`
+                    Authorization: `Bearer ${token.value}`,
                   },
                   body: JSON.stringify({
                     ...data,
@@ -140,14 +145,12 @@ const updateUser = computed(() => ({
   id: userId.value,
   userName: name.value.trim(),
   userEmail: email.value.trim(),
-  role: role.value
+  role: role.value,
 }))
 
 onBeforeMount(async () => {
   await getUser()
   await getUsers()
-  await countLengthEmail()
-  await countLengthName()
 })
 </script>
 <template>
@@ -241,7 +244,7 @@ onBeforeMount(async () => {
                         :value="selectrole"
                         :key="index"
                       >
-                        {{ selectrole}}
+                        {{ selectrole }}
                       </option>
                     </select>
                   </div>

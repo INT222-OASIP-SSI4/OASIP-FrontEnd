@@ -53,29 +53,29 @@ const userLogin = async (userLogin) => {
       refreshToken.value = data.refreshToken
       saveAccessToken(accessToken.value)
       saveRefreshToken(refreshToken.value)
-      alert('Password Matched')
+      alert('Login Successful')
       goHome()
     } else if (res.status === 401) {
       alert('Password NOT Matched')
-    //   if (
-    //     !localStorage.getItem('accessToken') &&
-    //     !localStorage.getItem('refreshToken')
-    //   ) {
-    //     alert('Password NOT Matched')
-    //   } else {
-    //     const resRef = await fetch(
-    //   `${import.meta.env.VITE_SERVER_URL}/api/users/login`,
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'content-type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       userEmail: userLogin.userEmail,
-    //       password: userLogin.password,
-    //     }),
-    //   }
-    // )
+      //   if (
+      //     !localStorage.getItem('accessToken') &&
+      //     !localStorage.getItem('refreshToken')
+      //   ) {
+      //     alert('Password NOT Matched')
+      //   } else {
+      //     const resRef = await fetch(
+      //   `${import.meta.env.VITE_SERVER_URL}/api/users/login`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'content-type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       userEmail: userLogin.userEmail,
+      //       password: userLogin.password,
+      //     }),
+      //   }
+      // )
       // }
     } else if (res.status === 404) {
       alert('A user with the specified email DOES NOT exist')

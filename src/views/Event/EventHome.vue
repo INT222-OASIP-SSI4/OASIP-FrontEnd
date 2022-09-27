@@ -3,7 +3,7 @@ import EventList from '../../components/Event/EventList.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
-import { renewToken } from '../../utils';
+import { renewToken } from '../../utils'
 
 const events = ref([])
 const token = ref(localStorage.getItem('accessToken'))
@@ -19,7 +19,7 @@ const getEvents = async () => {
   if (res.status === 200) {
     let data = await res.json()
     events.value = data
-  } else if(res.status === 401) {
+  } else if (res.status === 401) {
     renewToken()
   } else {
     console.log('error, cannot get data')
@@ -97,19 +97,6 @@ const filterEvent = computed(() => {
       result.sort(sortAscDate('eventStartTime', 'desc'))
       result = result
     }
-    // result = result.filter((e) => {
-    //   if (dateStatus.value == "upcoming") {
-    //     status.value = "No On-Going or Upcoming Events"
-    //     // result.sort(sortAscDate('eventStartTime'));
-    //     return (e.eventStartTime >= currentDate.value) || (currentDate.value <= getEndDate(e.eventStartTime, e.eventDuration) && currentDate.value >= e.eventStartTime );
-    //   } else if (dateStatus.value == "past") {
-    //     status.value = "No Past Events"
-    //     return e.eventStartTime < currentDate.value && currentDate.value > getEndDate(e.eventStartTime, e.eventDuration);
-    //   } else if (dateStatus.value == "all") {
-    //     result.sort(sortAscDate('eventStartTime', 'desc'));
-    //     return e.eventStartTime;
-    //   }
-    // });
   }
   if (selectDate != 'Invalid Date') {
     result.sort(sortAscDate('eventStartTime'))

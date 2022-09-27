@@ -9,6 +9,7 @@ const route = useRoute()
 const router = useRouter()
 const users = ref([])
 const token = ref(localStorage.getItem('accessToken'))
+
 //get all users
 const getUsers = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {

@@ -21,6 +21,8 @@ const getEvents = async () => {
   if (res.status === 200) {
     let data = await res.json()
     events.value = data
+  } else if (res.status === 401) {
+    renewToken()
   } else {
     console.log('error, cannot get data')
   }
@@ -56,6 +58,8 @@ const getCategories = async () => {
   )
   if (res.status === 200) {
     categories.value = await res.json()
+  } else if (res.status === 401) {
+    renewToken()
   } else {
     console.log('Error, cannot get categories data')
   }

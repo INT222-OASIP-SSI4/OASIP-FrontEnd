@@ -21,7 +21,7 @@ const getEvent = async () => {
       {
         method: 'GET',
         headers: {
-          "Authorization": `Bearer ${token.value}`,
+          Authorization: `Bearer ${token.value}`,
         },
       }
     )
@@ -32,6 +32,8 @@ const getEvent = async () => {
       localDate.value = formatDate(currentDate.value)
       localTime.value = currentDate.value.toLocaleTimeString('en-US', options)
     }
+  } else if (res.status === 401) {
+    renewToken()
   } else goHome
 }
 
@@ -43,7 +45,7 @@ const cancelEvent = async () => {
       {
         method: 'DELETE',
         headers: {
-          "Authorization": `Bearer ${token.value}`,
+          Authorization: `Bearer ${token.value}`,
         },
       }
     )

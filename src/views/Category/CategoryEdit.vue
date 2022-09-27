@@ -1,152 +1,159 @@
 <script setup>
-import { ref, computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { onBeforeMount } from "@vue/runtime-core";
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { onBeforeMount } from '@vue/runtime-core'
 
-const route = useRoute();
-const router = useRouter();
-const category = ref({});
-const categories = ref([]);
+const route = useRoute()
+const router = useRouter()
+const category = ref({})
+const categories = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
-const categoryName = ref("");
-const categoryDescription = ref("");
-const eventDuration = ref("");
+const categoryName = ref('')
+const categoryDescription = ref('')
+const eventDuration = ref('')
 
 //length of input
-const lengthOfCategoryName = ref(0);
-const lengthOfCategoryDesc = ref(0);
+const lengthOfCategoryName = ref(0)
+const lengthOfCategoryDesc = ref(0)
 const countLengthName = () =>
-  (lengthOfCategoryName.value = categoryName.value.trim().length);
+  (lengthOfCategoryName.value = categoryName.value.trim().length)
 const countLengthDesc = () =>
-  (lengthOfCategoryDesc.value = categoryDescription.value.length);
+  (lengthOfCategoryDesc.value = categoryDescription.value.length)
 
 //get all categories
 const getCategories = async () => {
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${token.value}`,
-    },
-  }
-  );
+    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    }
+  )
   if (res.status === 200) {
-    categories.value = await res.json();
+    categories.value = await res.json()
+  } else if (res.status === 401) {
+    renewToken()
   } else {
-    console.log("Error, cannot get categories data");
+    console.log('Error, cannot get categories data')
   }
-};
+}
 
 //get eventCategory by id
 const getCategoryById = async () => {
   if (route.query.id) {
-    const id = route.query.id;
+    const id = route.query.id
     const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${token.value}`,
-    },
-  }
-    );
+      `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    )
     if (res.status === 200) {
-      const data = await res.json();
-      category.value = data;
-      categoryName.value = category.value.eventCategoryName;
-      categoryDescription.value = category.value.eventCategoryDescription;
-      eventDuration.value = category.value.eventDuration;
+      const data = await res.json()
+      category.value = data
+      categoryName.value = category.value.eventCategoryName
+      categoryDescription.value = category.value.eventCategoryDescription
+      eventDuration.value = category.value.eventDuration
+    } else if (res.status === 401) {
+      renewToken()
     }
   }
-};
+}
 
 //edit eventCategory
 const editCategory = async (updatedCategory) => {
-  let { id, ...data } = { ...updatedCategory };
+  let { id, ...data } = { ...updatedCategory }
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${category.value.id}`,
+    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${
+      category.value.id
+    }`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "content-type": "application/json",
-        "Authorization": `Bearer ${token.value}`
-        
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token.value}`,
       },
       body: JSON.stringify({
         ...data,
       }),
     }
-  );
+  )
   if (res.status === 200) {
-    router.push({ name: "categories", query: { id: category.value.id } });
-    console.log("edited successfully");
-  } else console.log("error, cannot edited data");
-};
+    router.push({ name: 'categories', query: { id: category.value.id } })
+    console.log('edited successfully')
+  } else console.log('error, cannot edited data')
+}
 
 //validate Description
 const validateDescription = computed(() => {
   if (categoryDescription.value == undefined) {
-    categoryDescription.value = "";
+    categoryDescription.value = ''
   }
   if (categoryDescription.value.length > 500) {
-    alert("categoryDescription must have length between 0-500");
-    return categoryDescription.value;
+    alert('categoryDescription must have length between 0-500')
+    return categoryDescription.value
   } else {
-    return categoryDescription.value;
+    return categoryDescription.value
   }
-});
+})
 
 //validate eventCategoryName
 const validateCategoryName = computed(() => {
-  if(onlySpaces(categoryName.value)){
-    alert("categoryName is required")
+  if (onlySpaces(categoryName.value)) {
+    alert('categoryName is required')
   }
   if (categoryName.value.trim().length < 100) {
     categories.value
       .filter((c) => c.id != category.value.id)
       .forEach((c) => {
         if (c.eventCategoryName == categoryName.value.trim()) {
-          alert("categoryName is not unique");
+          alert('categoryName is not unique')
         }
-      });
+      })
   } else {
-    alert("categortyName is must have 1-100");
+    alert('categortyName is must have 1-100')
   }
-  return categoryName.value.trim();
-});
+  return categoryName.value.trim()
+})
 
 //validate eventDuration in category
 const validateDuration = computed(() => {
   if (eventDuration.value > 480 || eventDuration.value == 0) {
-    alert("Description is must have 1-480");
-    return eventDuration.value;
+    alert('Description is must have 1-480')
+    return eventDuration.value
   } else {
-    return eventDuration.value;
+    return eventDuration.value
   }
-});
+})
 
 //get update categories
 const updateCategory = computed(() => {
-  category.value.eventCategoryName = validateCategoryName.value;
-  category.value.eventCategoryDescription = validateDescription.value;
-  category.value.eventDuration = validateDuration.value;
-  return { ...category.value };
-});
+  category.value.eventCategoryName = validateCategoryName.value
+  category.value.eventCategoryDescription = validateDescription.value
+  category.value.eventDuration = validateDuration.value
+  return { ...category.value }
+})
 
 //back to category page
 const goCategory = () => {
-  router.push({ name: "categories" });
-};
+  router.push({ name: 'categories' })
+}
 
 //check whitespace
 function onlySpaces(str) {
-  return /^\s*$/.test(str);
+  return /^\s*$/.test(str)
 }
 
 onBeforeMount(async () => {
-  await getCategoryById();
-  await getCategories();
-});
+  await getCategoryById()
+  await getCategories()
+})
 </script>
 
 <template>
@@ -219,7 +226,11 @@ onBeforeMount(async () => {
 
         <input
           class="inline-flex justify-center w-20 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-          :class="eventDuration > 480 || eventDuration == 0 ? 'text-red-700' : 'text-gray-700'"
+          :class="
+            eventDuration > 480 || eventDuration == 0
+              ? 'text-red-700'
+              : 'text-gray-700'
+          "
           id="duration"
           v-model="eventDuration"
           placeholder="Category duration"

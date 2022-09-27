@@ -20,6 +20,8 @@ const getCategories = async () => {
   if (res.status === 200) {
     categories.value = await res.json()
     console.log(categories.value)
+  } else if (res.status === 401) {
+    renewToken()
   } else {
     console.log('Error, cannot get categories data')
   }
@@ -39,14 +41,14 @@ onBeforeMount(async () => {
       >
     </div>
 
-      <div
-        class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-      >
-        <div class="flex flex-cols my-6">
-          <CategoryList :categories="categories" />
-        </div>
+    <div
+      class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+    >
+      <div class="flex flex-cols my-6">
+        <CategoryList :categories="categories" />
       </div>
     </div>
+  </div>
 </template>
 
 <style></style>
