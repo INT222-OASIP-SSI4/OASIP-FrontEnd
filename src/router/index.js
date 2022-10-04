@@ -88,10 +88,7 @@ const routes = [
   {
     path: '/createUser',
     name: 'createUser',
-    component: UserCreate,
-    meta: {
-      requiresAuth: true,
-    },
+    component: UserCreate
   },
   {
     path: '/editUser',
