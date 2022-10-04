@@ -3,7 +3,11 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
 import UserLoginForm from '../../components/User/UserLoginForm.vue'
-import { saveAccessToken, saveRefreshToken } from '../../utils/index.js'
+import {
+  saveAccessToken,
+  saveRefreshToken,
+  saveUserEmail,
+} from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -53,6 +57,7 @@ const userLogin = async (userLogin) => {
       refreshToken.value = data.refreshToken
       saveAccessToken(accessToken.value)
       saveRefreshToken(refreshToken.value)
+      saveUserEmail(userLogin.userEmail)
       alert('Login Successful')
       goHome()
     } else if (res.status === 401) {

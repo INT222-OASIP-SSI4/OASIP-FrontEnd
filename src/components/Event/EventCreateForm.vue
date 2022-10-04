@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { parseJwt } from '../../utils';
 
 const emits = defineEmits(['createEvent'])
 const props = defineProps({
@@ -14,7 +15,7 @@ const props = defineProps({
 })
 
 const name = ref('')
-const email = ref('')
+const email = ref(parseJwt())
 const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
@@ -191,16 +192,16 @@ function getEndDate(date, duration) {
             Booking Email
           </label>
           <input
-            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 mb-5"
             id="grid-email"
             type="text"
             placeholder="Email"
             v-model="email"
             v-on:keyup="countLengthEmail"
-            required
+            disabled
           />
-          <br />
-          <div>
+          <!-- <br /> -->
+          <!-- <div>
             <p
               class="text-sm text-right pl-2"
               :class="
@@ -209,7 +210,7 @@ function getEndDate(date, duration) {
             >
               {{ lengthOfWordEmail }} Characters
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- Category,duration   -->
@@ -225,7 +226,7 @@ function getEndDate(date, duration) {
               </label>
               <div class="relative">
                 <select
-                  class="inline-flex justify-center w-48 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  class="inline-flex justify-center w-48 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 pr-8"
                   v-model="categoryId"
                   id="grid-category"
                   required
