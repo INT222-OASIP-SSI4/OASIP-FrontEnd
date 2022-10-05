@@ -43,7 +43,7 @@ onBeforeMount(async () => {
       class="flex flex-col items-center justify-center mt-10 bg-white p-12 mx-10 rounded-lg"
       v-else
     >
-      <h1 class="font-bold">" No User "</h1>
+      <h1 class="font-bold">" You don't have permission to see a user. "</h1>
       <router-link :to="{ name: 'createUser' }">
         <br />
         <button
