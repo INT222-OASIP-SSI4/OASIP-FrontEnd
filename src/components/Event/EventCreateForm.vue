@@ -198,7 +198,7 @@ function getEndDate(date, duration) {
             placeholder="Email"
             v-model="email"
             v-on:keyup="countLengthEmail"
-            disabled
+            required
           />
           <!-- <br /> -->
           <!-- <div>
