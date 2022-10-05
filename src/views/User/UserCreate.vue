@@ -73,7 +73,8 @@ const createUser = async (newUser) => {
                 if (res.status === 201 || res.status === 200) {
                   let data = await res.json()
                   alert('Created user successfully')
-                  router.push({ name: 'userDetail', query: { id: data.id } })
+                  // router.push({ name: 'userDetail', query: { id: data.id } })
+                  router.push(({name: 'home'}))
                 } else if (res.status === 403) {
                   alert("You don't have permission to create a user.")
                 }
