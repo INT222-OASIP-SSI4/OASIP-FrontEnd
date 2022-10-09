@@ -68,7 +68,6 @@ const getCategories = async () => {
 onBeforeMount(async () => {
   await getEvents()
   await getCategories()
-  window.location.reload()
 })
 </script>
 
