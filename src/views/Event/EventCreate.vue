@@ -8,11 +8,15 @@ import { parseJwt } from '../../utils';
 const router = useRouter()
 const events = ref([])
 const categories = ref([])
+const token = ref(localStorage.getItem('accessToken'))
 
 //get all events
 const getEvents = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events/validate`, {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    }
   })
   if (res.status === 200) {
     let data = await res.json()
@@ -28,6 +32,7 @@ const createEvent = async (newEvent) => {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
     },
     body: JSON.stringify(newEvent),
   })
@@ -35,7 +40,7 @@ const createEvent = async (newEvent) => {
     let data = await res.json()
     alert('Created event successfully')
     router.push({ name: 'eventDetail', query: { id: data.id } })
-  }else if(res.status === 403 && parseJwt().Roles == 'ROLE_lecturer'){
+  }else if(res.status === 403){
     alert(`Lecturer can't create event`)
   }
 }
