@@ -2,6 +2,7 @@
 import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { parseJwt, renewToken } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -34,6 +35,8 @@ const getEvent = async () => {
     }
   } else if (res.status === 401) {
     renewToken()
+  } else if (res.status === 403) {
+    alert(`Can't see the event detail that not owned`)
   } else goHome
 }
 
@@ -52,6 +55,8 @@ const cancelEvent = async () => {
     if (res.status === 200) {
       alert(`Cancel this event successfully`)
       goHome()
+    } else if (res.status === 403 && parseJwt().Roles == 'ROLE_lecturer') {
+      alert(`Lecturer can't delete event`)
     } else console.log(`Error, can't delete this event`)
   }
 }
@@ -132,6 +137,10 @@ onBeforeMount(async () => {
           <router-link :to="`/edit?id=${event.id}`">
             <button
               class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+              v-show="
+                parseJwt().Roles == 'ROLE_admin' ||
+                parseJwt().Roles == 'ROLE_student'
+              "
             >
               Edit Event
             </button>
@@ -139,6 +148,10 @@ onBeforeMount(async () => {
           <button
             class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             @click="cancelEvent"
+            v-show="
+              parseJwt().Roles == 'ROLE_admin' ||
+              parseJwt().Roles == 'ROLE_student'
+            "
           >
             Cancel Event
           </button>

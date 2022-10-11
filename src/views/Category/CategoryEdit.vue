@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
+import { renewToken } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()

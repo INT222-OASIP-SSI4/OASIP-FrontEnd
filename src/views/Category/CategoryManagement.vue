@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import CategoryList from '../../components/Category/CategoryList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
+import { renewToken } from '../../utils/index.js'
 
 const categories = ref([])
 const token = ref(localStorage.getItem('accessToken'))

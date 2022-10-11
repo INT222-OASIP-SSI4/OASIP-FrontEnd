@@ -1,6 +1,7 @@
 <script setup>
-import { onBeforeMount, onBeforeUpdate, onUpdated, ref } from 'vue';
+import { onBeforeMount, onBeforeUpdate, onUpdated, ref } from 'vue'
 import { useLoginStore } from '../stores/checkLogin'
+import { parseJwt } from '../utils'
 
 const accessToken = ref(localStorage.getItem('accessToken'))
 const storeLogin = useLoginStore()
@@ -8,17 +9,16 @@ const storeLogin = useLoginStore()
 const status = ref(false)
 
 const isLogin = () => {
-  if(!accessToken.value){
+  if (!accessToken.value) {
     status.value = false
-  }else{
+  } else {
     status.value = true
   }
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   isLogin()
 })
-
 </script>
 
 <template>
@@ -94,7 +94,9 @@ onBeforeMount(()=>{
               </a>
             </router-link>
           </li>
-          <li>
+          <li
+            
+          >
             <router-link :to="{ name: 'users' }">
               <a
                 class="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
@@ -103,7 +105,9 @@ onBeforeMount(()=>{
               </a>
             </router-link>
           </li>
-          <li>
+          <li
+            
+          >
             <router-link :to="{ name: 'createUser' }">
               <a
                 class="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
@@ -122,26 +126,6 @@ onBeforeMount(()=>{
               </a>
             </router-link>
           </li>
-
-          <!-- <li v-if="!accessToken">
-            <router-link :to="{ name: 'login' }">
-              <a
-                class="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                <span><b>LOGIN</b></span>
-              </a>
-            </router-link>
-          </li>
-
-          <li v-else>
-            <button
-              @click="deleteToken"
-              class="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-            >
-              <span><b>LOGOUT</b></span>
-            </button>
-          </li> -->
-
           <li v-if="!status">
             <router-link :to="{ name: 'login' }">
               <button
@@ -158,7 +142,9 @@ onBeforeMount(()=>{
               @click="storeLogin.logout"
               class="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
             >
-              <span><b>{{storeLogin.loginOrLogout}}</b></span>
+              <span
+                ><b>{{ storeLogin.loginOrLogout }}</b></span
+              >
             </button>
           </li>
         </ul>

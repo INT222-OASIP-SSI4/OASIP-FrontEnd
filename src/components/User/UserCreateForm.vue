@@ -39,7 +39,7 @@ const user = computed(() => ({
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 mt-10"
+    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 my-10"
   >
     <form
       class="w-full max-w-xl mx-auto px-5"

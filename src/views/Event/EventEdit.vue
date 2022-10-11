@@ -2,6 +2,7 @@
 import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
+import { parseJwt, renewToken } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -90,7 +91,10 @@ const editEvent = async (updatedEvent) => {
   if (res.status === 200) {
     router.push({ name: 'eventDetail', query: { id: event.value.id } })
     console.log('edited successfully')
-  } else console.log('error, cannot edited data')
+  } else if(res.status === 403 && parseJwt().Roles == 'ROLE_lecturer'){
+    alert(`Lecturer can't edit event`)
+  }
+  else console.log('error, cannot edited data')
 }
 
 //go to detail page

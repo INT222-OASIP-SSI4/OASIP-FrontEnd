@@ -1,13 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { onBeforeMount } from '@vue/runtime-core'
 import UserLoginForm from '../../components/User/UserLoginForm.vue'
-import {
-  saveAccessToken,
-  saveRefreshToken,
-  saveUserEmail,
-} from '../../utils/index.js'
+import { saveAccessToken, saveRefreshToken } from '../../utils/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,17 +13,6 @@ const refreshToken = ref()
 const goHome = () => {
   router.push({ name: 'home' })
 }
-
-//get all users
-// const getUsers = async () => {
-//   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`)
-//   if (res.status === 200) {
-//     let data = await res.json()
-//     users.value = data
-//   } else {
-//     console.log('error, cannot get data')
-//   }
-// }
 
 //login new user
 const userLogin = async (userLogin) => {
@@ -57,31 +41,10 @@ const userLogin = async (userLogin) => {
       refreshToken.value = data.refreshToken
       saveAccessToken(accessToken.value)
       saveRefreshToken(refreshToken.value)
-      saveUserEmail(userLogin.userEmail)
       alert('Login Successful')
       goHome()
     } else if (res.status === 401) {
       alert('Password NOT Matched')
-      //   if (
-      //     !localStorage.getItem('accessToken') &&
-      //     !localStorage.getItem('refreshToken')
-      //   ) {
-      //     alert('Password NOT Matched')
-      //   } else {
-      //     const resRef = await fetch(
-      //   `${import.meta.env.VITE_SERVER_URL}/api/users/login`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'content-type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-      //       userEmail: userLogin.userEmail,
-      //       password: userLogin.password,
-      //     }),
-      //   }
-      // )
-      // }
     } else if (res.status === 404) {
       alert('A user with the specified email DOES NOT exist')
     } else {
@@ -91,10 +54,6 @@ const userLogin = async (userLogin) => {
     alert('Invalid email address!')
   }
 }
-
-// onBeforeMount(async () => {
-//   await getUsers()
-// })
 </script>
 
 <template>

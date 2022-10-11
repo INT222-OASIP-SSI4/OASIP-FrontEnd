@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import UserList from '../../components/User/UserList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
+import { renewToken } from '../../utils/index.js'
 
 const users = ref([])
 const token = ref(localStorage.getItem('accessToken'))
