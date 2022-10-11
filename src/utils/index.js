@@ -13,10 +13,6 @@ export const saveRefreshToken = (refToken) => {
   return localStorage.setItem('refreshToken', `${refToken}`)
 }
 
-export const saveUserEmail = (email) => {
-  return localStorage.setItem('userEmail', `${email}`)
-}
-
 export const renewToken = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/refresh`, {
     method: 'GET',
@@ -42,21 +38,20 @@ export const parseJwt = () => {
       })
       .join('')
   )
-  return JSON.parse(jsonPayload).sub
+  return JSON.parse(jsonPayload)
 }
 
-// const parseJwt = (token) => {
-//   var base64Url = token.split('.')[1]
-//   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-//   var jsonPayload = decodeURIComponent(
-//     window
-//       .atob(base64)
-//       .split('')
-//       .map(function (c) {
-//         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-//       })
-//       .join('')
-//   )
-//   return JSON.parse(jsonPayload)
-// }
-// console.log(parseJwt(token.value))
+export const getRoleByToken = (accessToken) => {
+  var base64Url = accessToken.split('.')[1]
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      })
+      .join('')
+  )
+  return JSON.parse(jsonPayload).Roles
+}

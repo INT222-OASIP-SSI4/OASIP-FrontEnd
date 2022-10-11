@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { parseJwt } from '../../utils';
+import { parseJwt } from '../../utils'
 
 const emits = defineEmits(['createEvent'])
 const props = defineProps({
@@ -15,7 +15,8 @@ const props = defineProps({
 })
 
 const name = ref('')
-const email = ref(parseJwt())
+// const email = ref(parseJwt().sub)
+const email = ref('')
 const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
@@ -145,7 +146,7 @@ function getEndDate(date, duration) {
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 mt-10"
+    class="bg-white rounded-xl shadow-lg w-3/5 flex flex-col justify-center items-center max-w-xl mx-auto p-14 my-10"
   >
     <form
       class="w-full max-w-xl mx-auto px-5"
@@ -183,8 +184,8 @@ function getEndDate(date, duration) {
         </div>
       </div>
       <!-- Email   -->
-      <div class="flex flex-wrap -mx-3">
-        <div class="w-full px-3 ">
+      <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="grid-email"
@@ -192,7 +193,7 @@ function getEndDate(date, duration) {
             Booking Email
           </label>
           <input
-            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 mb-5"
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
             id="grid-email"
             type="text"
             placeholder="Email"
@@ -200,8 +201,8 @@ function getEndDate(date, duration) {
             v-on:keyup="countLengthEmail"
             required
           />
-          <!-- <br /> -->
-          <!-- <div>
+          <br />
+          <div>
             <p
               class="text-sm text-right pl-2"
               :class="
@@ -210,7 +211,7 @@ function getEndDate(date, duration) {
             >
               {{ lengthOfWordEmail }} Characters
             </p>
-          </div> -->
+          </div>
         </div>
       </div>
       <!-- Category,duration   -->

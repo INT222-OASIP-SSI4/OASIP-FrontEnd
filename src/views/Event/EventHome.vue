@@ -3,7 +3,7 @@ import EventList from '../../components/Event/EventList.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
-import { renewToken } from '../../utils'
+import { renewToken, parseJwt } from '../../utils'
 
 const events = ref([])
 const token = ref(localStorage.getItem('accessToken'))
@@ -154,6 +154,9 @@ const setSearchKeyword = (keywords) => {
 const setSearchDate = (dates) => {
   date.value = dates
 }
+
+// console.log(parseJwt().Roles);
+
 
 onBeforeMount(async () => {
   await getEvents()
