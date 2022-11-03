@@ -21,6 +21,7 @@ const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
 const startTime = ref('')
+const file = ref([])
 
 const lengthOfWord = ref(0)
 const lengthOfWordEmail = ref(0)
@@ -142,6 +143,14 @@ const event = computed(() => ({
 //   let dateFormat = new Date(date)
 //   return new Date(dateFormat.getTime() + duration * 60 * 1000)
 // }
+
+const onFileChanged = ($event) => {
+  const target = $event.target
+  if (target && target.files) {
+    file.value = Array.from(target.files)
+  }
+}
+
 </script>
 
 <template>
@@ -150,7 +159,7 @@ const event = computed(() => ({
   >
     <form
       class="w-full max-w-xl mx-auto px-5"
-      @submit.prevent="$emit('createEvent', event)"
+      @submit.prevent="$emit('createEvent', event, file)"
     >
       <div class="flex flex-wrap -mx-3 mb-1">
         <h1 class="text-3xl mb-4 font-bold">Create Event</h1>
@@ -338,6 +347,20 @@ const event = computed(() => ({
           </div>
         </div>
       </div>
+
+      <div class="flex flex-wrap -mx-3 mb-5">
+        <div class="w-full px-3 mb-6 md:mb-0">
+          <label for="file">Upload File</label><br/>
+          <input
+            type="file"
+            id="file"
+            @change="onFileChanged"
+            ref="file"
+            multiple
+          />
+        </div>
+      </div>
+
       <!-- CreateEventButton  -->
       <button
         class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"

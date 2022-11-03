@@ -33,7 +33,8 @@ const getEvents = async () => {
 }
 
 //create new event
-const createEvent = async (newEvent) => {
+const createEvent = async (newEvent, file) => {
+  const formData = new FormData()
   if (validateEmail(newEvent.bookingEmail)) {
     if (checkLengthNote(newEvent.eventNotes)) {
       if (checkLengthName(newEvent.bookingName)) {
@@ -44,6 +45,8 @@ const createEvent = async (newEvent) => {
             newEvent.bookingName
           )
         ) {
+          formData.append('newEvent', newEvent)
+          formData.append('file', file)
           const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/events`,
             {
@@ -52,7 +55,8 @@ const createEvent = async (newEvent) => {
                 'content-type': 'application/json',
                 // Authorization: `Bearer ${token.value}`,
               },
-              body: JSON.stringify(newEvent),
+              // body: JSON.stringify(newEvent),
+              body: formData
             }
           )
           if (res.status === 201) {
