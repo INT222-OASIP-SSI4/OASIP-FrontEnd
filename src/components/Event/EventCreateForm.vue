@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { parseJwt } from '../../utils'
 
 const emits = defineEmits(['createEvent'])
 const props = defineProps({

@@ -34,7 +34,6 @@ const getEvents = async () => {
 
 //create new event
 const createEvent = async (newEvent, file) => {
-  const formData = new FormData()
   if (validateEmail(newEvent.bookingEmail)) {
     if (checkLengthNote(newEvent.eventNotes)) {
       if (checkLengthName(newEvent.bookingName)) {
@@ -45,18 +44,14 @@ const createEvent = async (newEvent, file) => {
             newEvent.bookingName
           )
         ) {
-          formData.append('newEvent', newEvent)
-          formData.append('file', file)
           const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/events`,
             {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
-                // Authorization: `Bearer ${token.value}`,
               },
-              // body: JSON.stringify(newEvent),
-              body: formData
+              body: JSON.stringify(newEvent),
             }
           )
           if (res.status === 201) {
@@ -66,6 +61,19 @@ const createEvent = async (newEvent, file) => {
           } else if (res.status === 403) {
             alert(`Lecturer can't create event`)
           }
+
+          const formData = new FormData()
+          formData.append('file', file)
+          const resFile = await fetch(
+            `${import.meta.env.VITE_SERVER_URL}/api/files`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+              body: formData,
+            }
+          )
         }
       }
     }
