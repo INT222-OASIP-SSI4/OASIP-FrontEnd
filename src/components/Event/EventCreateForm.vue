@@ -20,7 +20,7 @@ const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
 const startTime = ref('')
-const file = ref([])
+const file = ref()
 
 const lengthOfWord = ref(0)
 const lengthOfWordEmail = ref(0)
@@ -355,7 +355,6 @@ const onFileChanged = ($event) => {
             id="file"
             @change="onFileChanged"
             ref="file"
-            multiple
           />
         </div>
       </div>

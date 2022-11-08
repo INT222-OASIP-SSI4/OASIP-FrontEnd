@@ -85,6 +85,10 @@ function formatDate(date) {
   ].join('/')
 }
 
+const getFile = async () => {
+  
+}
+
 onBeforeMount(async () => {
   await getEvent()
 })

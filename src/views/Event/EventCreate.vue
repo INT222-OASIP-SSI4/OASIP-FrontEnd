@@ -54,7 +54,7 @@ const createEvent = async (newEvent, file) => {
               body: JSON.stringify(newEvent),
             }
           )
-          if (res.status === 201) {
+          if (res.status === 201 || resFile.status === 200) {
             let data = await res.json()
             alert('Created event successfully')
             router.push({ name: 'eventDetail', query: { id: data.id } })
@@ -63,21 +63,21 @@ const createEvent = async (newEvent, file) => {
           }
 
           const formData = new FormData()
-          formData.append('file', file)
+          formData.append('file', file[0])
           const resFile = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/files`,
             {
               method: 'POST',
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-              body: formData,
+              body: formData
             }
           )
-        }
+          // if (resFile.status === 201 || resFile.status === 200) {
+          //   alert('Upload file successfully')
+          // }  
       }
     }
   }
+}
 }
 
 //get all categories
