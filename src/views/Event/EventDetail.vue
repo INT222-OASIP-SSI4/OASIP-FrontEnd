@@ -85,6 +85,27 @@ function formatDate(date) {
   ].join('/')
 }
 
+const downloadFile = async () => {
+  // const res = await fetch(
+  //     `${import.meta.env.VITE_SERVER_URL}/api/files/${event.value.fileName}`,
+  //     {
+  //       method: 'GET',
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token.value}`,
+  //       // },
+  //     }
+  //   )
+    // let file = await res.blob()
+    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files`
+    let a = document.getElementById('a')
+    document.body.appendChild(a)
+    a.style = 'display: none'
+    a.href = tempUrl
+    a.setAttribute('download', event.value.fileName)
+    a.click()
+    window.URL.revokeObjectURL(tempUrl)
+}
+
 onBeforeMount(async () => {
   await getEvent()
 })
@@ -124,6 +145,10 @@ onBeforeMount(async () => {
           </p>
           <p class="text-gray-700 text-base">
             Notes: {{ event.eventNotes || 'No Note' }}
+          </p>
+          <p class="text-gray-700 text-base">
+            File: <a class="text-blue-500 cursor-pointer" @click="downloadFile"> 
+              {{event.fileName || 'No File' }} </a>
           </p>
         </blockquote>
         <figcaption>

@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { parseJwt } from '../../utils'
 
 const emits = defineEmits(['createEvent'])
 const props = defineProps({
@@ -21,6 +20,7 @@ const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
 const startTime = ref('')
+const file = ref()
 
 const lengthOfWord = ref(0)
 const lengthOfWordEmail = ref(0)
@@ -142,6 +142,47 @@ const event = computed(() => ({
 //   let dateFormat = new Date(date)
 //   return new Date(dateFormat.getTime() + duration * 60 * 1000)
 // }
+
+let dataTransfer = new DataTransfer()
+
+const clearInput = () => {
+  let input = document.getElementById('file')
+  // input.type = 'text'
+  // input.type = 'file'
+  file.value = ''
+  // dataTransfer.items.clear()
+}
+
+const onFileChanged = ($event) => {
+  console.log($event.target.files[0])
+  // const target = $event.target
+  dataTransfer.items.clear()
+  if ($event.target.files[0].size > 10485760) {
+    let fileInput = document.getElementById('file')
+    fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
+    fileInput.reportValidity()
+
+    if (file.value === undefined || file.value === null) {
+      clearInput()
+    } else {
+      dataTransfer.items.clear()
+      dataTransfer.items.add(file.value)
+      fileInput.files = dataTransfer.files
+    }
+  } else if (file.value === undefined || file.value === null) {
+    // clearInput()
+    file.value = null
+  } else if (file.value === HTMLInputElement) {
+    // clearInput()
+    file.value = null
+  } else {
+    file.value = $event.target.files[0]
+    fileInput.setCustomValidity('')
+  }
+  // if (target && target.files && target.files[0].size <= 10485760) {
+  //   file.value = Array.from(target.files)
+  // }
+}
 </script>
 
 <template>
@@ -150,7 +191,7 @@ const event = computed(() => ({
   >
     <form
       class="w-full max-w-xl mx-auto px-5"
-      @submit.prevent="$emit('createEvent', event)"
+      @submit.prevent="$emit('createEvent', event, file)"
     >
       <div class="flex flex-wrap -mx-3 mb-1">
         <h1 class="text-3xl mb-4 font-bold">Create Event</h1>
@@ -338,6 +379,14 @@ const event = computed(() => ({
           </div>
         </div>
       </div>
+
+      <div class="flex flex-wrap -mx-3 mb-5">
+        <div class="w-full px-3 mb-6 md:mb-0">
+          <label for="file">Upload File</label><br />
+          <input type="file" id="file" @change="onFileChanged" ref="file" />
+        </div>
+      </div>
+
       <!-- CreateEventButton  -->
       <button
         class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
