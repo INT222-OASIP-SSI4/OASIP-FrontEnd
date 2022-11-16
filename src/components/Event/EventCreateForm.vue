@@ -147,9 +147,10 @@ let dataTransfer = new DataTransfer()
 
 const clearInput = () => {
   let input = document.getElementById('file')
-  // input.type = 'text'
-  // input.type = 'file'
+  input.type = 'text'
+  input.type = 'file'
   file.value = ''
+  input.setCustomValidity('')
   // dataTransfer.items.clear()
 }
 
@@ -172,6 +173,7 @@ const onFileChanged = ($event) => {
   } else if (file.value === undefined || file.value === null) {
     // clearInput()
     file.value = null
+    fileInput.setCustomValidity('')
   } else if (file.value === HTMLInputElement) {
     // clearInput()
     file.value = null
@@ -384,6 +386,7 @@ const onFileChanged = ($event) => {
         <div class="w-full px-3 mb-6 md:mb-0">
           <label for="file">Upload File</label><br />
           <input type="file" id="file" @change="onFileChanged" ref="file" />
+          <button @click="clearInput" type="button">cancel</button>
         </div>
       </div>
 
