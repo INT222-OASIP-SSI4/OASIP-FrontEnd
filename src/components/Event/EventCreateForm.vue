@@ -160,6 +160,7 @@ const onFileChanged = ($event) => {
   dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
+    clearInput()
     fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
     fileInput.reportValidity()
 
