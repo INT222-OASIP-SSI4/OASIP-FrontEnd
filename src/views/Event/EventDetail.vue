@@ -96,8 +96,8 @@ const downloadFile = async () => {
   //     }
   //   )
     // let file = await res.blob()
-    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files`
-    let a = document.getElementById('a')
+    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files/${event.value.fileName}`
+    let a = document.createElement('a')
     document.body.appendChild(a)
     a.style = 'display: none'
     a.href = tempUrl
