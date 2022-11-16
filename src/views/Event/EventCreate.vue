@@ -34,6 +34,7 @@ const getEvents = async () => {
 
 //create new event
 const createEvent = async (newEvent, file) => {
+  console.log(file)
   if (validateEmail(newEvent.bookingEmail)) {
     if (checkLengthNote(newEvent.eventNotes)) {
       if (checkLengthName(newEvent.bookingName)) {
@@ -44,17 +45,62 @@ const createEvent = async (newEvent, file) => {
             newEvent.bookingName
           )
         ) {
+          let event = JSON.stringify({
+            eventStartTime: newEvent.eventStartTime,
+            bookingName: newEvent.bookingName,
+            bookingEmail: newEvent.bookingEmail,
+            eventNotes: newEvent.eventNotes,
+            eventCategoryId: newEvent.eventCategoryId,
+          })
+          const blob = new Blob([event], { type: 'application/json' })
+          const formData = new FormData()
+          // formData.append('eventStartTime', newEvent.eventStartTime)
+          // formData.append('bookingName', newEvent.bookingName)
+          // formData.append('bookingEmail', newEvent.bookingEmail)
+          // if (!newEvent.eventNotes) {
+          //   formData.append('eventNotes', newEvent.eventNotes)
+          // }
+          // formData.append('eventCategoryId', newEvent.eventCategoryId)
+
+          // formData.append('event', blob)
+
+          if (
+            file !== null ||
+            file !== undefined ||
+            file !== '<input type="file" id="file">'
+          ) {
+            formData.append('event', blob)
+            if (file == isNaN) {
+              formData.delete(file)
+            } else {
+              formData.append('file', file)
+            }
+          } else {
+            formData.append('event', blob)
+          }
+
+          // if (
+          //   file !== null ||
+          //   file !== undefined ||
+          //   file !== '<input type="file" id="file">'
+          // ) {
+          //   // formData.append('file', file.files[0])
+          //   formData.append('file', file)
+          // }
+
+          // formData.delete('file')
+
           const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/events`,
             {
               method: 'POST',
-              headers: {
-                'content-type': 'application/json',
-              },
-              body: JSON.stringify(newEvent),
+              // headers: {
+              //   'content-type': 'application/json',
+              // },
+              body: formData,
             }
           )
-          if (res.status === 201 || resFile.status === 200) {
+          if (res.status === 201) {
             let data = await res.json()
             alert('Created event successfully')
             router.push({ name: 'eventDetail', query: { id: data.id } })
@@ -62,22 +108,22 @@ const createEvent = async (newEvent, file) => {
             alert(`Lecturer can't create event`)
           }
 
-          const formData = new FormData()
-          formData.append('file', file[0])
-          const resFile = await fetch(
-            `${import.meta.env.VITE_SERVER_URL}/api/files`,
-            {
-              method: 'POST',
-              body: formData
-            }
-          )
+          // const formData = new FormData()
+          // formData.append('file', file[0])
+          // const resFile = await fetch(
+          //   `${import.meta.env.VITE_SERVER_URL}/api/files`,
+          //   {
+          //     method: 'POST',
+          //     body: formData
+          //   }
+          // )
           // if (resFile.status === 201 || resFile.status === 200) {
           //   alert('Upload file successfully')
-          // }  
+          // }
+        }
       }
     }
   }
-}
 }
 
 //get all categories
