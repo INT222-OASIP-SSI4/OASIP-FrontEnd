@@ -160,7 +160,6 @@ const onFileChanged = ($event) => {
   dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
-    clearInput()
     fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
     fileInput.reportValidity()
 
@@ -171,13 +170,13 @@ const onFileChanged = ($event) => {
       dataTransfer.items.add(file.value)
       fileInput.files = dataTransfer.files
     }
-  } else if (file.value === undefined || file.value === null) {
-    // clearInput()
-    file.value = null
-    fileInput.setCustomValidity('')
-  } else if (file.value === HTMLInputElement) {
-    // clearInput()
-    file.value = null
+  // } else if (file.value === undefined || file.value === null) {
+  //   // clearInput()
+  //   file.value = null
+  //   fileInput.setCustomValidity('')
+  // } else if (file.value === HTMLInputElement) {
+  //   // clearInput()
+  //   file.value = null
   } else {
     file.value = $event.target.files[0]
     fileInput.setCustomValidity('')
