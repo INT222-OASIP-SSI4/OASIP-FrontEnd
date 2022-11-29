@@ -96,7 +96,7 @@ const downloadFile = async () => {
   //     }
   //   )
     // let file = await res.blob()
-    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files/${event.value.fileName}`
+    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files/${route.query.id}/${event.value.fileName}`
     let a = document.createElement('a')
     document.body.appendChild(a)
     a.style = 'display: none'
@@ -146,7 +146,10 @@ onBeforeMount(async () => {
           <p class="text-gray-700 text-base">
             Notes: {{ event.eventNotes || 'No Note' }}
           </p>
-          <p class="text-gray-700 text-base">
+          <p class="text-gray-700 text-base" v-if="event.fileName == null || event.fileName == 'null'">
+            File: No file
+          </p>
+          <p class="text-gray-700 text-base" v-else>
             File: <a class="text-blue-500 cursor-pointer" @click="downloadFile"> 
               {{event.fileName || 'No File' }} </a>
           </p>
