@@ -169,7 +169,6 @@ const onFileChanged = ($event) => {
       dataTransfer.items.add(file.value)
       fileInput.files = dataTransfer.files
     }
-
   } else {
     file.value = $event.target.files[0]
     fileInput.setCustomValidity('')
@@ -376,7 +375,13 @@ const onFileChanged = ($event) => {
         <div class="w-full px-3 mb-6 md:mb-0">
           <label for="file">Upload File</label><br />
           <input type="file" id="file" @change="onFileChanged" ref="file" />
-          <button @click="clearInput" type="button">cancel</button>
+          <button
+            @click="clearInput"
+            type="button"
+            class="btn bg-red-400 p-2 rounded-lg text-white hover:bg-red-500 sm:mt-2"
+          >
+            cancel
+          </button>
         </div>
       </div>
 
