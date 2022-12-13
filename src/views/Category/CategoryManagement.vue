@@ -35,21 +35,19 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="mt-20 text-center items-center justify-center">
-      <span
-        class="text-center font-bold bg-white text-blue-600 rounded-lg px-7 py-1 text-4xl shadow-lg"
-        >Category List !</span
-      >
-    </div>
-
     <div
-      class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-    >
-      <div class="flex flex-cols my-6">
-        <CategoryList :categories="categories" />
+      class="w-full text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-blue-600">
+      <div class="bg-white rounded-xl p-7 shadow-lg w-full px-3 md:mb-0">
+        Category List
       </div>
     </div>
+    <div>
+      <CategoryList :categories="categories" />
+    </div>
+
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

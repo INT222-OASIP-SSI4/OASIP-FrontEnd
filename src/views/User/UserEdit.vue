@@ -257,13 +257,13 @@ onBeforeMount(async () => {
         <div class="text-center">
           <router-link :to="`/userDetail?id=${user.id}`">
             <button
-              class="inline-block bg-red-500 hover:bg-red-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+              class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             >
               Cancel Edit
             </button>
           </router-link>
           <button
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             type="submit"
           >
             Update User

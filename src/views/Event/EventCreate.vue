@@ -241,14 +241,16 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="bg-cover bg-fixed">
-      <EventCreateForm
-        :categories="categories"
-        :event="events"
-        @createEvent="createEvent"
-      />
+    <div>
+      <div
+        class="w-full text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-color-500">
+        <div class="bg-white rounded-xl py-7 shadow-lg w-full px-3 md:mb-0">Create Event</div>
+      </div>
+      <EventCreateForm :categories="categories" :event="events" @createEvent="createEvent" />
     </div>
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

@@ -8,8 +8,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="shadow-2xl mb-5 rounded-lg mx-10 px-6 py-12 space-y-2 bg-white min-w-full mt-5 sm:mx-auto sm:max-w-lg">
-    <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
+  <div class="w-full shadow-xl rounded-lg mx-auto bg-white mt-5 sm:max-w-xl p-5 ">
+    <p class="text-gray-700 font-semibold text-xl mt-8">
       Name: {{ category.eventCategoryName }}
     </p>
     <p class="text-gray-700 text-base">
@@ -18,17 +18,15 @@ const props = defineProps({
     <p class="text-gray-700 text-base">
       Duration: {{ category.eventDuration }}
     </p>
-    <div>
-      <router-link :to="`/editcategory?id=${category.id}`">
-        <button
-          class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-2 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8">
-          Edit Category
-        </button>
-      </router-link>
-    </div>
-    
+    <router-link :to="`/editcategory?id=${category.id}`">
+      <button
+        class="bg-color-600 hover:bg-yellow-700 rounded-lg p-2 text-sm font-semibold text-white cursor-pointer mx-auto mt-5">
+        Edit Category
+      </button>
+    </router-link>
   </div>
 </template>
 
 <style>
+
 </style>

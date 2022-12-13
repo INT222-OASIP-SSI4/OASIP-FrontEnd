@@ -96,6 +96,19 @@ onBeforeMount(async () => {
 
 <template>
   <div class="bg-cover bg-fixed">
+    <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
+      <div class="bg-white rounded-xl p-7 shadow-lg">
+        <div class="w-full px-3 md:mb-0">
+          <div class="text-center flex flex-col space-y-4">
+            <h1 class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-blue-600">
+              Create User
+              <div>
+              </div>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
     <UserCreateForm :user="users" @createUser="createUser" />
   </div>
 </template>

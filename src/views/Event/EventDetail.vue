@@ -126,7 +126,7 @@ onBeforeMount(async () => {
           <h1
             class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600"
           >
-            Booking Detail !
+            Booking Detail
           </h1>
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
             Name: {{ event.bookingName }}
@@ -154,14 +154,14 @@ onBeforeMount(async () => {
         <figcaption>
           <button
             @click="goHome"
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
           >
             Back To Home
           </button>
 
           <router-link :to="`/edit?id=${event.id}`">
             <button
-              class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+              class="inline-block bg-color-600 hover:bg-yellow-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
               v-show="
                 parseJwt().Roles == 'ROLE_admin' ||
                 parseJwt().Roles == 'ROLE_student'
@@ -171,7 +171,7 @@ onBeforeMount(async () => {
             </button>
           </router-link>
           <button
-            class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-700 hover:bg-red-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             @click="cancelEvent"
             v-show="
               parseJwt().Roles == 'ROLE_admin' ||

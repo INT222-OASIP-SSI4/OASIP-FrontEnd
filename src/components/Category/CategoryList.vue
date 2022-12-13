@@ -9,15 +9,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div
-    class="flex flex-cols mt-5 sm:mx-auto sm:max-w-lg gap-8 mx-10 "
-  >
-    <CategoryCard
-      v-for="(category, index) in categories"
-      :key="index"
-      :category="category"
-    />
+  <div class="grid grid-cols-3 justify-center">
+    <CategoryCard v-for="(category, index) in categories" :key="index" :category="category" />
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>
