@@ -33,7 +33,7 @@ onBeforeMount(async () => {
   <div>
     <div
       class="w-full text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-color-500">
-      <div class="bg-white rounded-xl py-7 shadow-lg w-full px-3 md:mb-0">User List</div>
+      <div class="bg-blue-600 text-white rounded-xl py-7 shadow-lg w-full px-3 md:mb-0">User List</div>
     </div>
     <div v-if="users.length != 0">
       <UserList :users="users" />

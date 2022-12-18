@@ -143,7 +143,7 @@ const user = computed(() => ({
       </div>
       <!-- CreateEventButton  -->
       <button
-        class="inline-block bg-green-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-3"
+        class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-3"
         type="submit">
         Create User
       </button>

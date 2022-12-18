@@ -298,17 +298,20 @@ const onFileChanged = ($event) => {
         </div>
       </div>
 
-      <div class="flex flex-wrap -mx-3 mb-5">
+      <div class="flex flex-wrap -mx-3">
         <div class="w-full px-3 mb-6 md:mb-0">
-          <label for="file">Upload File</label><br />
-          <input type="file" id="file" @change="onFileChanged" ref="file" />
-          <button @click="clearInput" type="button">cancel</button>
+          <label for="file" class="block uppercase tracking-wide text-gray-700 text-xs font-bold">Upload File</label>
+          <input type="file" id="file" @change="onFileChanged" ref="file"
+            class="rounded-lg border-2 border-slate-100" />
+          <button
+            class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 mx-3 py-3 text-sm font-semibold text-white mr-2 cursor-pointer"
+            @click="clearInput" type="button">cancel</button>
         </div>
       </div>
 
       <!-- CreateEventButton  -->
       <button
-        class="inline-block bg-green-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 cursor-pointer"
+        class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-3"
         type="submit">
         Create Event
       </button>

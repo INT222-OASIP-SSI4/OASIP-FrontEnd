@@ -164,47 +164,46 @@ onBeforeMount(async () => {
 })
 </script>
 <template>
-  
-    <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
-      <div class="bg-white rounded-xl p-7 shadow-lg">
-        <div class="px-3 md:mb-0">
-          <div class="text-center flex flex-col space-y-4">
-            <h1 class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-blue-600">
-              Booking Clinic
-              <p class="text-2xl">For Reservation</p>
-            </h1>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9">
-      <div
-        class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg">
-        <h2 class="font-bold text-xl text-black mb-2 mt-2">FilterEvents</h2>
-        <EventSearch @setSearchKeyword="setSearchKeyword" @setSearchDate="setSearchDate"
-          @searchByDatePastAndUpcoming="setDateStatus" />
-        <div class="divide-y-2 divide-solid divide-slate-300">
-          <Category :categories="categories" @setCategoryIndex="setCategoryIndex"
-            :activeIndex="selectedCategoryIndex" />
-          <h2 class="font-bold text-xl text-black text-center px-4 py-2">
-            Events Schedule
-          </h2>
-        </div>
-        <EventList :events="filterEvent" v-if="filterEvent.length != 0" />
-        <div class="flex flex-col items-center justify-center mt-2" v-else>
-          <h1 class="font-bold">" {{ status }} "</h1>
-          <router-link :to="{ name: 'createEvent' }">
-            <br />
-            <button
-              class="rounded-lg g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100">
-              Create Event
-            </button>
-          </router-link>
+  <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
+    <div class="bg-blue-600 rounded-xl p-7 shadow-lg">
+      <div class="px-3 md:mb-0">
+        <div class="text-center flex flex-col space-y-4">
+          <h1 class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-white">
+            Booking Clinic
+            <p class="text-2xl">For Reservation</p>
+          </h1>
         </div>
       </div>
     </div>
- 
+  </div>
+
+  <div class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9">
+    <div
+      class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg">
+      <h2 class="font-bold text-xl text-black mb-2 mt-2">FilterEvents</h2>
+      <EventSearch @setSearchKeyword="setSearchKeyword" @setSearchDate="setSearchDate"
+        @searchByDatePastAndUpcoming="setDateStatus" />
+      <div class="divide-y-2 divide-solid divide-slate-300">
+        <Category :categories="categories" @setCategoryIndex="setCategoryIndex" :activeIndex="selectedCategoryIndex" />
+        <h2 class="font-bold text-xl text-black text-center px-4 py-2">
+          Events Schedule
+        </h2>
+      </div>
+      <EventList :events="filterEvent" v-if="filterEvent.length != 0" />
+      <div class="flex flex-col items-center justify-center mt-2" v-else>
+        <h1 class="font-bold">" {{ status }} "</h1>
+        <router-link :to="{ name: 'createEvent' }">
+          <br />
+          <button
+            class="rounded-lg g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100">
+            Create Event
+          </button>
+        </router-link>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style>

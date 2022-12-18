@@ -66,21 +66,14 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div
-    class="w-full rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12 p-28"
-  >
+  <div class="w-full rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12 p-28">
     <figure class="md:flex bg-white rounded-xl p-8 md:p-0 shadow-lg">
-      <img
-        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 m-7"
-        src="/images/business-man.png"
-        alt="user"
-      />
+      <img class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 m-7" src="/images/business-man.png"
+        alt="user" />
       <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
-          <h1
-            class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600"
-          >
-            User Detail 
+          <h1 class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600">
+            User Detail
           </h1>
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
             User's name: {{ user.userName }}
@@ -96,24 +89,20 @@ onBeforeMount(async () => {
           <p class="text-gray-700 text-base">Updated on: {{ updatedOn }}</p>
         </blockquote>
         <figcaption>
-          <button
-            @click="goUserList"
-            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-          >
+          <button @click="goUserList"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8">
             Home
           </button>
 
           <router-link :to="`/editUser?id=${user.id}`">
             <button
-              class="inline-block bg-color-600 hover:bg-yellow-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            >
+              class="inline-block bg-color-600 hover:bg-yellow-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8">
               Edit User
             </button>
           </router-link>
           <button
             class="inline-block bg-color-700 hover:bg-red-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            @click="cancelUser"
-          >
+            @click="cancelUser">
             Delete User
           </button>
         </figcaption>
@@ -122,4 +111,6 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

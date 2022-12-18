@@ -37,12 +37,22 @@ onBeforeMount(() => {
 
 <template>
 
-  <nav class="sticky w-full top-0 left-0">
-    <div class="container flex flex-wrap items-center justify-between mx-auto max-w-screen-xl px-6 md:px-6 py-2.5">
-      <router-link :to="{ name: 'home' }" class="flex items-center">
-        <img src="/images/logo.png" class="h-9 mr-3 sm:h-9" />
+  <nav class="sticky w-full top-0 left-0 bg-color-900 shadow-lg to-transparent">
+    <div class="container flex flex-wrap items-center justify-between mx-auto max-w-screen-xl px-6 md:px-6 py-2.5 ">
+      <router-link :to="{ name: 'home' }" class="flex items-center h-12 mr-3">
+        <img src="/images/logo.png" class="h-12 mr-3 sm:h-9" />
       </router-link>
-
+      <button data-collapse-toggle="mobile-menu-2" type="button"
+        class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        aria-controls="mobile-menu-2" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
       <div class="flex items-center md:order-2">
         <img src="/images/business-man.png" class="w-8 h-8 rounded-full" />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white p-2">Role: {{ users.role
@@ -54,13 +64,13 @@ onBeforeMount(() => {
           <li>
             <router-link :to="{ name: 'home' }">
               <a
-                class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-color-500 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
+                class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
                 <span class="text-end"><b>HOME</b></span>
               </a>
             </router-link>
           </li>
           <button id="UserDropdown" data-dropdown-toggle="User"
-            class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">USER<svg
+            class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">USER<svg
               class="ml-1 w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"
@@ -72,13 +82,13 @@ onBeforeMount(() => {
             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
               <li>
                 <router-link :to="{ name: 'users' }">
-                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-orange-600 ">
+                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600 ">
                     <span><b>USER LIST</b></span>
                   </a></router-link>
               </li>
               <li>
                 <router-link :to="{ name: 'createUser' }">
-                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-orange-600 ">
+                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600 ">
                     <span><b>CREATE USER</b></span>
                   </a>
                 </router-link>
@@ -86,7 +96,7 @@ onBeforeMount(() => {
             </ul>
           </div>
           <button id="EventDropdown" data-dropdown-toggle="Event"
-            class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 md:w-auto  font-bold">EVENT<svg
+            class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto  font-bold">EVENT<svg
               class="ml-1 w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"
@@ -97,21 +107,21 @@ onBeforeMount(() => {
             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
               <li>
                 <router-link :to="{ name: 'home' }">
-                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-orange-600 ">
+                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600 ">
                     <span class="text-end"><b>EVENT LIST</b></span>
                   </a>
                 </router-link>
               </li>
               <li>
                 <router-link :to="{ name: 'createEvent' }">
-                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-orange-600 ">
+                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600 ">
                     <span><b>CREATE EVENT</b></span>
                   </a>
                 </router-link>
               </li>
               <li>
                 <router-link :to="{ name: 'categories' }">
-                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-orange-600 ">
+                  <a class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600 ">
                     <span><b>CATEGORIES</b></span>
                   </a>
                 </router-link>
@@ -123,7 +133,7 @@ onBeforeMount(() => {
           <li>
             <router-link :to="{ name: 'aboutus' }">
               <a
-                class="flex justify-between items-center  py-2 pr-4 pl-3 w-full text-gray-700  hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
+                class="flex justify-between items-center  py-2 pr-4 pl-3 w-full text-gray-700  hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
                 <span><b>ABOUT US</b></span>
               </a>
             </router-link>
@@ -131,14 +141,14 @@ onBeforeMount(() => {
           <li v-if="!status">
             <router-link :to="{ name: 'login' }">
               <button
-                class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700  hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
+                class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700  hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
                 <span><b>{{ storeLogin.loginOrLogout }}</b></span>
               </button>
             </router-link>
           </li>
           <li v-else>
             <button @click="storeLogin.logout"
-              class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-orange-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
+              class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold">
               <span><b>{{ storeLogin.loginOrLogout }}</b></span>
             </button>
           </li>

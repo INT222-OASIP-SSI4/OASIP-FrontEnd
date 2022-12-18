@@ -3,13 +3,13 @@
 <template>
   <div>
     <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
-      <div class="bg-white rounded-xl p-4 shadow-lg mb-10 pt-7">
+      <div class="bg-blue-600 rounded-xl p-4 shadow-lg mb-10 pt-7">
         <div class="w-full px-3 md:mb-0">
-          <div class="text-center">
-            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl text-blue-600">
+          <div class="text-center ">
+            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl text-white">
               About Us
             </h1>
-            <p class="p-3 font-bold">
+            <p class="p-3 font-bold text-white">
               We are SSI-4 delighted to present this project "Clinic4U"<br />
               which is part of the school of information technology KMUTT's
               curriculum.<br />
