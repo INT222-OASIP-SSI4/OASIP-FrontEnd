@@ -160,10 +160,8 @@ const onFileChanged = ($event) => {
   dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
-    clearInput()
     fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
     fileInput.reportValidity()
-
     if (file.value === undefined || file.value === null) {
       clearInput()
     } else {
@@ -171,20 +169,10 @@ const onFileChanged = ($event) => {
       dataTransfer.items.add(file.value)
       fileInput.files = dataTransfer.files
     }
-  } else if (file.value === undefined || file.value === null) {
-    // clearInput()
-    file.value = null
-    fileInput.setCustomValidity('')
-  } else if (file.value === HTMLInputElement) {
-    // clearInput()
-    file.value = null
   } else {
     file.value = $event.target.files[0]
     fileInput.setCustomValidity('')
   }
-  // if (target && target.files && target.files[0].size <= 10485760) {
-  //   file.value = Array.from(target.files)
-  // }
 }
 </script>
 
@@ -314,9 +302,7 @@ const onFileChanged = ($event) => {
         <div class="w-full px-3 mb-6 md:mb-0">
           <label for="file">Upload File</label><br />
           <input type="file" id="file" @change="onFileChanged" ref="file" />
-          <button
-            class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
-            @click="clearInput" type="button">cancel</button>
+          <button @click="clearInput" type="button">cancel</button>
         </div>
       </div>
 

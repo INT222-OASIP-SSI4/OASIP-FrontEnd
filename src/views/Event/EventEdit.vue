@@ -14,6 +14,9 @@ let currentDate = ref('')
 let localDate = ref('')
 let localTime = ref('')
 const note = ref('')
+const file = ref()
+const fileName = ref()
+const deleteStatus = ref()
 
 //get eventStartTime by date and time
 const getStartTime = computed(() => {
@@ -66,6 +69,7 @@ const getEvent = async () => {
       localDate.value = formatStartDate(currentDate.value)
       localTime.value = formatStartTime(currentDate.value)
       note.value = event.value.eventNotes
+      fileName.value = event.value.fileName
     }
   } else if (res.status === 401) {
     renewToken()
@@ -74,27 +78,46 @@ const getEvent = async () => {
 
 //edit event
 const editEvent = async (updatedEvent) => {
-  let { id, ...data } = { ...updatedEvent }
+  // let { id, ...data } = { ...updatedEvent }
+  let id = route.query.id
+  let event = JSON.stringify({
+    eventStartTime: validateEventStartTime.value,
+    eventNotes: checkLengthNote.value,
+    fileDelete: deleteStatus.value,
+  })
+  const blob = new Blob([event], { type: 'application/json' })
+  const formData = new FormData()
+  if (
+    file.value !== null ||
+    file.value !== undefined ||
+    file.value !== '<input type="file" id="file">'
+  ) {
+    formData.append('event', blob)
+    if (file.value == isNaN) {
+      formData.delete(file.value)
+    } else {
+      formData.append('file', file.value)
+    }
+  } else {
+    formData.append('event', blob)
+  }
   const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
+    `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`,
     {
       method: 'PUT',
       headers: {
-        'content-type': 'application/json',
+        // 'content-type': 'application/json',
         Authorization: `Bearer ${token.value}`,
       },
-      body: JSON.stringify({
-        ...data,
-      }),
+      body: formData,
     }
   )
   if (res.status === 200) {
-    router.push({ name: 'eventDetail', query: { id: event.value.id } })
+    router.push({ name: 'eventDetail', query: { id } })
     console.log('edited successfully')
-  } else if(res.status === 403 && parseJwt().Roles == 'ROLE_lecturer'){
+  } else if (res.status === 403 && parseJwt().Roles == 'ROLE_lecturer') {
     alert(`Lecturer can't edit event`)
-  }
-  else console.log('error, cannot edited data')
+  } else console.log('error, cannot edited data')
 }
 
 //go to detail page
@@ -192,6 +215,44 @@ function getEndDate(date, duration) {
   return new Date(dateFormat.getTime() + duration * 60 * 1000)
 }
 
+let dataTransfer = new DataTransfer()
+
+const clearInput = () => {
+  let input = document.getElementById('file')
+  input.type = 'text'
+  input.type = 'file'
+  file.value = ''
+  input.setCustomValidity('')
+  // dataTransfer.items.clear()
+}
+
+const onFileChanged = ($event) => {
+  console.log($event.target.files[0])
+  // const target = $event.target
+  dataTransfer.items.clear()
+  if ($event.target.files[0].size > 10485760) {
+    let fileInput = document.getElementById('file')
+    fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
+    fileInput.reportValidity()
+    if (file.value === undefined || file.value === null) {
+      clearInput()
+    } else {
+      dataTransfer.items.clear()
+      dataTransfer.items.add(file.value)
+      fileInput.files = dataTransfer.files
+    }
+  } else {
+    file.value = $event.target.files[0]
+    fileInput.setCustomValidity('')
+  }
+  deleteStatus.value = false
+}
+
+function deleteFile() {
+  deleteStatus.value = true
+  alert('The file has been deleted.')
+}
+
 onBeforeMount(async () => {
   await getEvent()
   await getEvents()
@@ -199,7 +260,7 @@ onBeforeMount(async () => {
 </script>
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10"
+    class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10 mb-10"
   >
     <p class="pt-1 text-gray-700 font-semibold text-xl">
       Name: {{ event.bookingName }}
@@ -278,6 +339,39 @@ onBeforeMount(async () => {
             >
               {{ lengthOfWord }} Characters
             </p>
+          </div>
+          <div v-if="fileName != null">
+            <p class="text-gray-700 text-base">File : {{ fileName }}</p>
+          </div>
+          <div v-else>
+            <p class="text-gray-700 text-base">No File</p>
+          </div>
+          <br />
+          <div class="flex flex-wrap -mx-3 mb-5">
+            <div class="w-full px-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2"
+                for="file"
+                >Select New File</label
+              ><br />
+              <input type="file" id="file" @change="onFileChanged" ref="file" />
+              <button
+                @click="clearInput"
+                type="button"
+                class="btn bg-red-400 p-2 rounded-lg text-white hover:bg-red-500 sm:mt-2"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-none text-left items-end justify-end">
+            <button
+              class="block text-sm font-bold mb-2 mt-2 btn bg-red-500 p-3 text-white rounded-lg mr-8 hover:bg-red-700"
+              @click="deleteFile"
+              type="button"
+            >
+              Delete File
+            </button>
           </div>
         </div>
         <div class="text-center">
