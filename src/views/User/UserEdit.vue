@@ -3,6 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const route = useRoute()
 const router = useRouter()
@@ -26,14 +27,10 @@ const countLengthName = () => (lengthOfWordName.value = name.value.length)
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  })
+  const res = await ApiService.getUsers()
+  
   if (res.status === 200) {
-    let data = await res.json()
+    let data = await res.data
     users.value = data
     allName.value = users.value.userName
   } else if (res.status === 401) {
@@ -47,17 +44,10 @@ const getUsers = async () => {
 const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getUserById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       user.value = data
       userId.value = user.value.id
       name.value = user.value.userName
@@ -257,13 +247,13 @@ onBeforeMount(async () => {
         <div class="text-center">
           <router-link :to="`/userDetail?id=${user.id}`">
             <button
-              class="inline-block bg-red-500 hover:bg-red-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+              class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             >
               Cancel Edit
             </button>
           </router-link>
           <button
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             type="submit"
           >
             Update User

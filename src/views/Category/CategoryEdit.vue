@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService'
 
 const route = useRoute()
 const router = useRouter()
@@ -24,17 +25,9 @@ const countLengthDesc = () =>
 
 //get all categories
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  )
+  const res = await ApiService.getCategories()
   if (res.status === 200) {
-    categories.value = await res.json()
+    categories.value = await res.data
   } else if (res.status === 401) {
     renewToken()
   } else {
@@ -46,17 +39,10 @@ const getCategories = async () => {
 const getCategoryById = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getCategoryById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       category.value = data
       categoryName.value = category.value.eventCategoryName
       categoryDescription.value = category.value.eventCategoryDescription
@@ -70,20 +56,9 @@ const getCategoryById = async () => {
 //edit eventCategory
 const editCategory = async (updatedCategory) => {
   let { id, ...data } = { ...updatedCategory }
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories/${
-      category.value.id
-    }`,
-    {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${token.value}`,
-      },
-      body: JSON.stringify({
-        ...data,
-      }),
-    }
+  const res = await ApiService.editCategory(
+    category.value.id,
+    JSON.stringify({ ...data })
   )
   if (res.status === 200) {
     router.push({ name: 'categories', query: { id: category.value.id } })
@@ -240,16 +215,17 @@ onBeforeMount(async () => {
       </div>
       <div>
         <button
-          class="inline-block bg-red-500 hover:bg-red-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-          @click="goCategory"
-        >
-          Cancel Update
-        </button>
-        <button
-          class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+          class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
           type="submit"
         >
           Update Category
+        </button>
+
+        <button
+          class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+          @click="goCategory"
+        >
+          Cancel Update
         </button>
       </div>
     </form>

@@ -25,10 +25,10 @@ const options = {
 
 <template>
   <div
-    class="overflow-x-auto relative sm:rounded-lg text-left text-black w-full p-5"
+    class="overflow-x-auto relative sm:rounded-lg text-left text-black w-full px-4 py-2"
   >
     <table
-      class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 p-3 w-full"
+      class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-full"
     >
       <thead>
         <th>Name</th>

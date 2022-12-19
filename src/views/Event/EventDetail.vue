@@ -3,6 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { parseJwt, renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const route = useRoute()
 const router = useRouter()
@@ -17,17 +18,10 @@ let localTime = ref('')
 const getEvent = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getEventById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       event.value = data
       currentDate.value = new Date(event.value.eventStartTime)
       localDate.value = formatDate(currentDate.value)
@@ -43,15 +37,19 @@ const getEvent = async () => {
 //delete event
 const cancelEvent = async () => {
   if (confirm(`Do you want to cancel ${event.value.bookingName}'s event`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.deleteEvent(event.value.id)
+    
+    // fetch(
+    //   `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
+    //   {
+    //     method: 'DELETE',
+    //     headers: {
+    //       Authorization: `Bearer ${token.value}`,
+    //     },
+    //   }
+    // )
+
+
     if (res.status === 200) {
       alert(`Cancel this event successfully`)
       goHome()
@@ -126,7 +124,7 @@ onBeforeMount(async () => {
           <h1
             class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600"
           >
-            Booking Detail !
+            Booking Detail
           </h1>
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
             Name: {{ event.bookingName }}
@@ -157,14 +155,14 @@ onBeforeMount(async () => {
         <figcaption>
           <button
             @click="goHome"
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
           >
             Back To Home
           </button>
 
           <router-link :to="`/edit?id=${event.id}`">
             <button
-              class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+              class="inline-block bg-color-600 hover:bg-yellow-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
               v-show="
                 parseJwt().Roles == 'ROLE_admin' ||
                 parseJwt().Roles == 'ROLE_student'
@@ -174,7 +172,7 @@ onBeforeMount(async () => {
             </button>
           </router-link>
           <button
-            class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            class="inline-block bg-color-700 hover:bg-red-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
             @click="cancelEvent"
             v-show="
               parseJwt().Roles == 'ROLE_admin' ||
