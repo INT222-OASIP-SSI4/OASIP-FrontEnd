@@ -160,12 +160,12 @@ function validateEmail(email) {
 function validateEventStartTime(eventStartTime, categoryId, name) {
   if (eventStartTime < currentDateTime.value) {
     alert('Invalid Date! Date must be future')
-  }
-  if (checkOverlap(eventStartTime, categoryId, name)) {
+    return false
+  }else if (checkOverlap(eventStartTime, categoryId, name)) {
     alert('Invalid Date! Date is overlap')
     return false
-  }
-  return true
+  } else {return true}
+
 }
 
 //check overlap in event
