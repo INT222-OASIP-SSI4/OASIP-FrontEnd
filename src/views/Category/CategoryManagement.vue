@@ -3,24 +3,17 @@ import { ref, computed } from 'vue'
 import CategoryList from '../../components/Category/CategoryList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const categories = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
 //get all categories
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  )
+  const res = await ApiService.getCategories()
+
   if (res.status === 200) {
-    categories.value = await res.json()
-    console.log(categories.value)
+    categories.value = await res.data
   } else if (res.status === 401) {
     renewToken()
   } else {
@@ -35,21 +28,21 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="mt-20 text-center items-center justify-center">
-      <span
-        class="text-center font-bold bg-white text-blue-600 rounded-lg px-7 py-1 text-4xl shadow-lg"
-        >Category List !</span
-      >
-    </div>
-
     <div
-      class="w-11/12 py-6 mx-auto rounded-lg flex overflow-x-scroll scrollbar-track-rounded-full scrollbar-track-white scrollbar-thumb-blue-700 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
-    >
-      <div class="flex flex-cols my-6">
-        <CategoryList :categories="categories" />
+      class="w-full text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-blue-600">
+      <div class="bg-blue-600 text-white rounded-xl p-7 shadow-lg w-full px-3 md:mb-0">
+        Category List
       </div>
     </div>
+    <div class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9">
+      <div
+        class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg"><CategoryList :categories="categories" />
+    </div>
+    </div>
+
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

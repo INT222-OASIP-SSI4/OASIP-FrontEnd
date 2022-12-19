@@ -3,6 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const route = useRoute()
 const router = useRouter()
@@ -16,17 +17,10 @@ let updatedOn = ref('')
 const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getUserById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       user.value = data
       createdOn.value = new Date(user.value.createdOn).toLocaleString()
       updatedOn.value = new Date(user.value.updatedOn).toLocaleString()
@@ -39,15 +33,7 @@ const getUser = async () => {
 //delete user
 const cancelUser = async () => {
   if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.deleteUser(user.value.id)
     if (res.status === 200) {
       alert(`Delete this user successfully`)
       goUserList()
@@ -66,21 +52,14 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div
-    class="w-full rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12 p-28"
-  >
+  <div class="w-full rounded-lg p-100 max-w-4xl mx-auto px-4 sm:px-6 lg:px-4 py-12 p-28">
     <figure class="md:flex bg-white rounded-xl p-8 md:p-0 shadow-lg">
-      <img
-        class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 m-7"
-        src="/images/business-man.png"
-        alt="user"
-      />
+      <img class="w-96 h-96 max-h-full rounded-lg justify-left bg-gray-400 m-7" src="/images/business-man.png"
+        alt="user" />
       <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
-          <h1
-            class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600"
-          >
-            User Detail !
+          <h1 class="text-center font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-blue-600">
+            User Detail
           </h1>
           <p class="pt-1 text-gray-700 font-semibold text-xl mt-8">
             User's name: {{ user.userName }}
@@ -96,24 +75,20 @@ onBeforeMount(async () => {
           <p class="text-gray-700 text-base">Updated on: {{ updatedOn }}</p>
         </blockquote>
         <figcaption>
-          <button
-            @click="goUserList"
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-full px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-          >
-            Back To All User Page
+          <button @click="goUserList"
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8">
+            Home
           </button>
 
           <router-link :to="`/editUser?id=${user.id}`">
             <button
-              class="inline-block bg-yellow-500 hover:bg-yellow-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            >
+              class="inline-block bg-color-600 hover:bg-yellow-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8">
               Edit User
             </button>
           </router-link>
           <button
-            class="inline-block bg-red-500 hover:bg-red-700 rounded-full p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            @click="cancelUser"
-          >
+            class="inline-block bg-color-700 hover:bg-red-700 rounded-lg p-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
+            @click="cancelUser">
             Delete User
           </button>
         </figcaption>
@@ -122,4 +97,6 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>
