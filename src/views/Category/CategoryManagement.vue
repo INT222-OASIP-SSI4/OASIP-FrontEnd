@@ -3,24 +3,17 @@ import { ref, computed } from 'vue'
 import CategoryList from '../../components/Category/CategoryList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const categories = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
 //get all categories
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  )
+  const res = await ApiService.getCategories()
+
   if (res.status === 200) {
-    categories.value = await res.json()
-    console.log(categories.value)
+    categories.value = await res.data
   } else if (res.status === 401) {
     renewToken()
   } else {
