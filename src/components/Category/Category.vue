@@ -1,5 +1,5 @@
 <script setup>
-const emits = defineEmits(['setCategoryIndex']);
+const emits = defineEmits(['setCategoryIndex'])
 const props = defineProps({
   categories: {
     type: Array,
@@ -9,7 +9,7 @@ const props = defineProps({
     type: Number,
     default: -1,
   },
-});
+})
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const props = defineProps({
     <div v-for="(category, index) in categories" :key="index">
       <button
         type="button"
-        class="hover:bg-blue-600  hover:text-white focus:outline-none focus:ring-1 focus:ring-blue-100 font-medium rounded-lg text-sm px-6 py-2 text-center mr-2 mb-2 capitalize"
+        class="hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-1 focus:ring-blue-100 font-medium rounded-lg text-sm px-6 py-2 text-center mr-2 mb-2 capitalize"
         @click="$emit('setCategoryIndex', index)"
         :class="{ 'bg-blue-600 text-white': activeIndex === index }"
       >

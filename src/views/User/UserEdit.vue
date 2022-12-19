@@ -3,7 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import { renewToken } from '../../utils/index.js'
-import ApiService from '../../composables/ApiService';
+import ApiService from '../../composables/ApiService'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,7 +28,7 @@ const countLengthName = () => (lengthOfWordName.value = name.value.length)
 //get all users
 const getUsers = async () => {
   const res = await ApiService.getUsers()
-  
+
   if (res.status === 200) {
     let data = await res.data
     users.value = data

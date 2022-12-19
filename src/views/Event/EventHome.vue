@@ -3,7 +3,7 @@ import EventList from '../../components/Event/EventList.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
-import { renewToken, parseJwt } from '../../utils'
+import { renewToken } from '../../utils'
 import ApiService from '../../composables/ApiService'
 
 const events = ref([])
@@ -12,7 +12,7 @@ const token = ref(localStorage.getItem('accessToken'))
 //get all events
 const getEvents = async () => {
   const res = await ApiService.getEvents()
-  
+
   if (res.status === 200) {
     let data = await res.data
     events.value = data
@@ -145,20 +145,21 @@ const setSearchDate = (dates) => {
   date.value = dates
 }
 
-// console.log(parseJwt().Roles);
-
-
 onBeforeMount(async () => {
   await getEvents()
   await getCategories()
 })
 </script>
 <template>
-  <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
+  <div
+    class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10"
+  >
     <div class="bg-blue-600 rounded-xl p-7 shadow-lg">
       <div class="px-3 md:mb-0">
         <div class="text-center flex flex-col space-y-4">
-          <h1 class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-white">
+          <h1
+            class="font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-white"
+          >
             Booking Clinic
             <p class="text-2xl">For Reservation</p>
           </h1>
@@ -167,14 +168,24 @@ onBeforeMount(async () => {
     </div>
   </div>
 
-  <div class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9">
+  <div
+    class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9"
+  >
     <div
-      class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg">
+      class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg"
+    >
       <h2 class="font-bold text-xl text-black mb-2 mt-2">FilterEvents</h2>
-      <EventSearch @setSearchKeyword="setSearchKeyword" @setSearchDate="setSearchDate"
-        @searchByDatePastAndUpcoming="setDateStatus" />
+      <EventSearch
+        @setSearchKeyword="setSearchKeyword"
+        @setSearchDate="setSearchDate"
+        @searchByDatePastAndUpcoming="setDateStatus"
+      />
       <div class="divide-y-2 divide-solid divide-slate-300">
-        <Category :categories="categories" @setCategoryIndex="setCategoryIndex" :activeIndex="selectedCategoryIndex" />
+        <Category
+          :categories="categories"
+          @setCategoryIndex="setCategoryIndex"
+          :activeIndex="selectedCategoryIndex"
+        />
         <h2 class="font-bold text-xl text-black text-center px-4 py-2">
           Events Schedule
         </h2>
@@ -185,16 +196,14 @@ onBeforeMount(async () => {
         <router-link :to="{ name: 'createEvent' }">
           <br />
           <button
-            class="rounded-lg g-transparent hover:bg-blue-600 text-blue-600 font-semibold hover:text-white py-2 px-5 border border-blue-600 hover:border-transparent div class=opacity-50 hover:opacity-100">
+            class="rounded-lg g-transparent hover:bg-blue-600 text-blue-600 font-semibold hover:text-white py-2 px-5 border border-blue-600 hover:border-transparent div class=opacity-50 hover:opacity-100"
+          >
             Create Event
           </button>
         </router-link>
       </div>
     </div>
   </div>
-
 </template>
 
-<style>
-
-</style>
+<style></style>
