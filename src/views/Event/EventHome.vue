@@ -4,20 +4,17 @@ import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
 import { renewToken, parseJwt } from '../../utils'
+import ApiService from '../../composables/ApiService'
 
 const events = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
 //get all events
 const getEvents = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/events`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  })
+  const res = await ApiService.getEvents()
+  
   if (res.status === 200) {
-    let data = await res.json()
+    let data = await res.data
     events.value = data
   } else if (res.status === 401) {
     renewToken()
@@ -30,17 +27,10 @@ const categories = ref([])
 
 //get all categories
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  )
+  const res = await ApiService.getCategories()
+
   if (res.status === 200) {
-    categories.value = await res.json()
+    categories.value = await res.data
   } else {
     console.log('Error, cannot get categories data')
   }
