@@ -40,11 +40,18 @@ class ApiService {
   async getEventById(id) {
     return await api.get(`/api/events/${id}`, configAuth)
   }
-  // async createEvent(body) {
-  //   return await api.post(`/api/events`, body, configCreateEvent)
-  // }
-  async deleteEvent(id){
+  async deleteEvent(id) {
     return await api.delete(`/api/events/${id}`, configAuth)
+  }
+  //Users Service
+  async getUsers() {
+    return await api.get(`/api/users`, configAuth)
+  }
+  async getUserById(id) {
+    return await api.get(`/api/users/${id}`, configAuth)
+  }
+  async deleteUser(id) {
+    return await api.delete(`/api/users/${id}`, configAuth)
   }
 }
 export default new ApiService()

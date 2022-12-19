@@ -3,6 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const route = useRoute()
 const router = useRouter()
@@ -16,17 +17,10 @@ let updatedOn = ref('')
 const getUser = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getUserById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       user.value = data
       createdOn.value = new Date(user.value.createdOn).toLocaleString()
       updatedOn.value = new Date(user.value.updatedOn).toLocaleString()
@@ -39,15 +33,7 @@ const getUser = async () => {
 //delete user
 const cancelUser = async () => {
   if (confirm(`Do you want to cancel ${user.value.userName}'s user`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/users/${user.value.id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.deleteUser(user.value.id)
     if (res.status === 200) {
       alert(`Delete this user successfully`)
       goUserList()
