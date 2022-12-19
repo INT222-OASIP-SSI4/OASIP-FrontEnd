@@ -3,18 +3,15 @@ import { ref, computed } from 'vue'
 import UserList from '../../components/User/UserList.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 import { renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const users = ref([])
 const token = ref(localStorage.getItem('accessToken'))
 
 //get all categories
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  })
+  const res = await ApiService.getUsers()
+
   if (res.status === 200) {
     users.value = await res.json()
   } else if (res.status === 401) {

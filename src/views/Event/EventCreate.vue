@@ -54,9 +54,7 @@ const createEvent = async (newEvent, file) => {
           //   formData.append('eventNotes', newEvent.eventNotes)
           // }
           // formData.append('eventCategoryId', newEvent.eventCategoryId)
-
           // formData.append('event', blob)
-
           if (
             file !== null ||
             file !== undefined ||
@@ -71,7 +69,6 @@ const createEvent = async (newEvent, file) => {
           } else {
             formData.append('event', blob)
           }
-
           // if (
           //   file !== null ||
           //   file !== undefined ||
@@ -80,12 +77,8 @@ const createEvent = async (newEvent, file) => {
           //   // formData.append('file', file.files[0])
           //   formData.append('file', file)
           // }
-
           // formData.delete('file')
-
-          // const res = await ApiService.createEvent(formData)
-          
-          fetch(
+          const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/events`,
             {
               method: 'POST',
@@ -95,15 +88,13 @@ const createEvent = async (newEvent, file) => {
               body: formData,
             }
           )
-
           if (res.status === 201) {
-            let data = await res.data
+            let data = await res.json()
             alert('Created event successfully')
             router.push({ name: 'eventDetail', query: { id: data.id } })
           } else if (res.status === 403) {
             alert(`Lecturer can't create event`)
           }
-
           // const formData = new FormData()
           // formData.append('file', file[0])
           // const resFile = await fetch(
@@ -124,14 +115,9 @@ const createEvent = async (newEvent, file) => {
 
 //get all categories
 const getCategories = async () => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SERVER_URL}/api/eventcategories`,
-    {
-      method: 'GET',
-    }
-  )
+  const res = await ApiService.getCategories()
   if (res.status === 200) {
-    categories.value = await res.json()
+    categories.value = await res.data
   } else {
     console.log('Error, cannot get categories data')
   }

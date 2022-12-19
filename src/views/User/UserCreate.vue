@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from '@vue/runtime-core'
 import { renewToken } from '../../utils'
+import ApiService from '../../composables/ApiService'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,14 +13,10 @@ const token = ref(localStorage.getItem('accessToken'))
 
 //get all users
 const getUsers = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  })
+  const res = await ApiService.getUsers()
+  
   if (res.status === 200) {
-    let data = await res.json()
+    let data = await res.data
     users.value = data
   } else {
     console.log('error, cannot get data')

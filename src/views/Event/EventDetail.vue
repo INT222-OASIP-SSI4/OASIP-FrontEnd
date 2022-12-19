@@ -3,6 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { parseJwt, renewToken } from '../../utils/index.js'
+import ApiService from '../../composables/ApiService';
 
 const route = useRoute()
 const router = useRouter()
@@ -17,17 +18,10 @@ let localTime = ref('')
 const getEvent = async () => {
   if (route.query.id) {
     const id = route.query.id
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.getEventById(id)
+
     if (res.status === 200) {
-      const data = await res.json()
+      const data = await res.data
       event.value = data
       currentDate.value = new Date(event.value.eventStartTime)
       localDate.value = formatDate(currentDate.value)
@@ -43,15 +37,19 @@ const getEvent = async () => {
 //delete event
 const cancelEvent = async () => {
   if (confirm(`Do you want to cancel ${event.value.bookingName}'s event`)) {
-    const res = await fetch(
-      `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
-      }
-    )
+    const res = await ApiService.deleteEvent(event.value.id)
+    
+    // fetch(
+    //   `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
+    //   {
+    //     method: 'DELETE',
+    //     headers: {
+    //       Authorization: `Bearer ${token.value}`,
+    //     },
+    //   }
+    // )
+
+
     if (res.status === 200) {
       alert(`Cancel this event successfully`)
       goHome()
