@@ -34,8 +34,10 @@ onBeforeMount(async () => {
         Category List
       </div>
     </div>
-    <div>
-      <CategoryList :categories="categories" />
+    <div class="w-full p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 mb-9">
+      <div
+        class="w-auto rounded-tl-lg rounded-tr-lg justify-center items-center bg-white py-6 shadow-lg flex flex-col space-y-2 rounded-br-lg rounded-bl-lg"><CategoryList :categories="categories" />
+    </div>
     </div>
 
   </div>

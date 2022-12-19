@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>
+  <div class="bg-cover">
     <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
       <div class="bg-blue-600 rounded-xl p-4 shadow-lg mb-10 pt-7">
         <div class="w-full px-3 md:mb-0">

@@ -164,7 +164,6 @@ onBeforeMount(async () => {
 })
 </script>
 <template>
-
   <div class="w-full rounded-lg p-100 justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-10">
     <div class="bg-blue-600 rounded-xl p-7 shadow-lg">
       <div class="px-3 md:mb-0">
@@ -196,7 +195,7 @@ onBeforeMount(async () => {
         <router-link :to="{ name: 'createEvent' }">
           <br />
           <button
-            class="rounded-lg g-transparent hover:bg-green-400 text-green-500 font-semibold hover:text-white py-2 px-5 border border-green-500 hover:border-transparent div class=opacity-50 hover:opacity-100">
+            class="rounded-lg g-transparent hover:bg-blue-600 text-blue-600 font-semibold hover:text-white py-2 px-5 border border-blue-600 hover:border-transparent div class=opacity-50 hover:opacity-100">
             Create Event
           </button>
         </router-link>

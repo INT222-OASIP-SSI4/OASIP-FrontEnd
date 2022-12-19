@@ -260,8 +260,7 @@ onBeforeMount(async () => {
 </script>
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10 mb-10"
-  >
+    class="bg-white rounded-xl shadow-lg w-2/5 p-100 flex flex-col justify-center items-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-10 mb-10">
     <p class="pt-1 text-gray-700 font-semibold text-xl">
       Name: {{ event.bookingName }}
     </p>
@@ -271,18 +270,12 @@ onBeforeMount(async () => {
     </p>
     <p class="text-gray-700 text-base">Duration: {{ event.eventDuration }}</p>
 
-    <form
-      class="w-full max-w-xl space-y-2 mt-2"
-      @submit.prevent="editEvent(updateEvent)"
-    >
+    <form class="w-full max-w-xl space-y-2 mt-2" @submit.prevent="editEvent(updateEvent)">
       <div>
         <div class="px-2">
           <div class="flex -mx-2">
             <div class="w-3/3 px-2 mr-7">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-date"
-              >
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-date">
                 <br />
                 date
               </label>
@@ -292,16 +285,10 @@ onBeforeMount(async () => {
               > -->
               <input
                 class="inline-flex justify-center w-40 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-                id="grid-date"
-                type="date"
-                v-model="localDate"
-              />
+                id="grid-date" type="date" v-model="localDate" />
             </div>
             <div class="w-1/3 px-2">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-4"
-                for="grid-time"
-              >
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-4" for="grid-time">
                 Time
               </label>
               <!-- <span
@@ -310,33 +297,17 @@ onBeforeMount(async () => {
               > -->
               <input
                 class="inline-flex justify-center w-40 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-                id="grid-time"
-                type="time"
-                v-model="localTime"
-              />
+                id="grid-time" type="time" v-model="localTime" />
             </div>
           </div>
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2"
-            for="grid-notes"
-          >
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2" for="grid-notes">
             Notes
           </label>
-          <textarea
-            rows="4"
-            cols="50"
-            name="comment"
+          <textarea rows="4" cols="50" name="comment"
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-            placeholder="Notes"
-            id="grid-notes"
-            v-model="note"
-            v-on:keyup="countLength"
-          ></textarea>
+            placeholder="Notes" id="grid-notes" v-model="note" v-on:keyup="countLength"></textarea>
           <div>
-            <p
-              class="text-sm text-right pl-2"
-              :class="lengthOfWord <= 500 ? 'text-green-600' : 'text-red-600'"
-            >
+            <p class="text-sm text-right pl-2" :class="lengthOfWord <= 500 ? 'text-green-600' : 'text-red-600'">
               {{ lengthOfWord }} Characters
             </p>
           </div>
@@ -349,42 +320,34 @@ onBeforeMount(async () => {
           <br />
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3">
-              <label
-                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2"
-                for="file"
-                >Select New File</label
-              ><br />
-              <input type="file" id="file" @change="onFileChanged" ref="file" />
-              <button
-                @click="clearInput"
-                type="button"
-                class="btn bg-red-400 p-2 rounded-lg text-white hover:bg-red-500 sm:mt-2"
-              >
+              <label for="file" class="block uppercase tracking-wide text-gray-700 text-xs font-bold">Select New
+                File</label>
+              <input type="file" id="file" class="rounded-lg border-2 border-slate-100" @change="onFileChanged"
+                ref="file" />
+              <button @click="clearInput" type="button"
+                class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 mx-2 cursor-pointer">
                 Cancel
               </button>
+            <br>
+            <label for="file" class="block uppercase tracking-wide text-gray-700 text-xs font-bold">Delete
+              File</label>
+              <button
+                class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
+                @click="deleteFile" type="button">
+                Delete File
+              </button>
             </div>
-          </div>
-          <div class="flex flex-none text-left items-end justify-end">
-            <button
-              class="block text-sm font-bold mb-2 mt-2 btn bg-red-500 p-3 text-white rounded-lg mr-8 hover:bg-red-700"
-              @click="deleteFile"
-              type="button"
-            >
-              Delete File
-            </button>
           </div>
         </div>
         <div class="text-center">
           <button
-            class="inline-block bg-green-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            type="submit"
-          >
+            class="inline-block bg-color-500 hover:bg-green-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
+            type="submit">
             Update Event
           </button>
           <router-link :to="`/detail?id=${event.id}`">
             <button
-              class="inline-block bg-red-500 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer mt-8"
-            >
+              class="inline-block bg-color-700 hover:bg-red-700 rounded-lg px-3 py-3 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer">
               Cancel Edit
             </button>
           </router-link>
@@ -394,4 +357,6 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style></style>
+<style>
+
+</style>
