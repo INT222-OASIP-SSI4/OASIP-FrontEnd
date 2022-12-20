@@ -35,6 +35,9 @@ class ApiService {
   }
   // Events Service
   async getEvents() {
+    return await api.get(`/api/events`, configAuth)
+  }
+  async getAllEventsWithoutAuth() {
     return await api.get(`/api/events/validate`)
   }
   async getEventById(id) {

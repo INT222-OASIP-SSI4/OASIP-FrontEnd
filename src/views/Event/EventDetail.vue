@@ -34,7 +34,7 @@ const getEvent = async () => {
   } else goHome
 }
 
-//delete event
+//delete event function
 const cancelEvent = async () => {
   if (confirm(`Do you want to cancel ${event.value.bookingName}'s event`)) {
     const res = await ApiService.deleteEvent(event.value.id)
@@ -48,7 +48,6 @@ const cancelEvent = async () => {
     //     },
     //   }
     // )
-
 
     if (res.status === 200) {
       alert(`Cancel this event successfully`)
@@ -83,6 +82,7 @@ function formatDate(date) {
   ].join('/')
 }
 
+//download file function
 const downloadFile = async () => {
   // const res = await fetch(
   //     `${import.meta.env.VITE_SERVER_URL}/api/files/${event.value.fileName}`,
