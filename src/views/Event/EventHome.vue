@@ -4,7 +4,7 @@ import EventListWithNoAuth from '../../components/Event/EventListWithNoAuth.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
-import { renewToken, parseJwt } from '../../utils'
+import { renewToken } from '../../utils'
 import ApiService from '../../composables/ApiService'
 
 const events = ref([])
@@ -219,8 +219,6 @@ const setSearchKeyword = (keywords) => {
 const setSearchDate = (dates) => {
   date.value = dates
 }
-
-// console.log(parseJwt().Roles);
 
 onBeforeMount(async () => {
   if(token.value){

@@ -3,7 +3,7 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { parseJwt, renewToken } from '../../utils/index.js'
-import ApiService from '../../composables/ApiService';
+import ApiService from '../../composables/ApiService'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,7 +38,7 @@ const getEvent = async () => {
 const cancelEvent = async () => {
   if (confirm(`Do you want to cancel ${event.value.bookingName}'s event`)) {
     const res = await ApiService.deleteEvent(event.value.id)
-    
+
     // fetch(
     //   `${import.meta.env.VITE_SERVER_URL}/api/events/${event.value.id}`,
     //   {
@@ -93,15 +93,17 @@ const downloadFile = async () => {
   //       // },
   //     }
   //   )
-    // let file = await res.blob()
-    let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files/${route.query.id}/${event.value.fileName}`
-    let a = document.createElement('a')
-    document.body.appendChild(a)
-    a.style = 'display: none'
-    a.href = tempUrl
-    a.setAttribute('download', event.value.fileName)
-    a.click()
-    window.URL.revokeObjectURL(tempUrl)
+  // let file = await res.blob()
+  let tempUrl = `${import.meta.env.VITE_SERVER_URL}/api/files/${
+    route.query.id
+  }/${event.value.fileName}`
+  let a = document.createElement('a')
+  document.body.appendChild(a)
+  a.style = 'display: none'
+  a.href = tempUrl
+  a.setAttribute('download', event.value.fileName)
+  a.click()
+  window.URL.revokeObjectURL(tempUrl)
 }
 
 onBeforeMount(async () => {
@@ -144,12 +146,17 @@ onBeforeMount(async () => {
           <p class="text-gray-700 text-base">
             Notes: {{ event.eventNotes || 'No Note' }}
           </p>
-          <p class="text-gray-700 text-base" v-if="event.fileName == null || event.fileName == 'null'">
+          <p
+            class="text-gray-700 text-base"
+            v-if="event.fileName == null || event.fileName == 'null'"
+          >
             File: No file
           </p>
           <p class="text-gray-700 text-base" v-else>
-            File: <a class="text-blue-500 cursor-pointer" @click="downloadFile"> 
-              {{event.fileName || 'No File' }} </a>
+            File:
+            <a class="text-blue-500 cursor-pointer" @click="downloadFile">
+              {{ event.fileName || 'No File' }}
+            </a>
           </p>
         </blockquote>
         <figcaption>

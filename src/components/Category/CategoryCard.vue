@@ -4,13 +4,9 @@ const props = defineProps({
     type: Object,
     default: {},
   },
-});
+})
 </script>
 
-<template>
-  
-</template>
+<template></template>
 
-<style>
-
-</style>
+<style></style>

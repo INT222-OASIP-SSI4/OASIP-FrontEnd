@@ -14,7 +14,7 @@ const token = ref(localStorage.getItem('accessToken'))
 //get all users
 const getUsers = async () => {
   const res = await ApiService.getUsers()
-  
+
   if (res.status === 200) {
     let data = await res.data
     users.value = data
@@ -71,7 +71,7 @@ const createUser = async (newUser) => {
                   let data = await res.json()
                   alert('Created user successfully')
                   // router.push({ name: 'userDetail', query: { id: data.id } })
-                  router.push(({name: 'home'}))
+                  router.push({ name: 'home' })
                 } else if (res.status === 403) {
                   alert("You don't have permission to create a user.")
                 }
@@ -94,10 +94,14 @@ onBeforeMount(async () => {
 <template>
   <div class="bg-cover bg-fixed">
     <div
-        class="text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-color-500">
-        <div class="bg-blue-600 text-white rounded-xl py-7 shadow-lg w-full max-w-xl mx-auto px-3 md:mb-0">Create User
-        </div>
+      class="text-center rounded-lg p-100 justify-center items-center max-w-6xl mx-auto sm:px-6 lg:px-4 py-10 font-bold text-4xl md:text-4xl lg:text-5xl font-heading text-color-500"
+    >
+      <div
+        class="bg-blue-600 text-white rounded-xl py-7 shadow-lg w-full max-w-xl mx-auto px-3 md:mb-0"
+      >
+        Create User
       </div>
+    </div>
     <UserCreateForm :user="users" @createUser="createUser" />
   </div>
 </template>

@@ -66,7 +66,6 @@ onBeforeMount(() => {
       </button>
 
       <div class="flex items-center md:order-2">
-
         <!-- <div>
           <img src="/images/business-man.png" class="w-8 h-8 rounded-full" />
           <span
