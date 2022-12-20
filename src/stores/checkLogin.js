@@ -31,7 +31,7 @@ export const useLoginStore = defineStore({
   actions: {
     logout() {
       if (confirm(`Do you want to log out?`)) {
-        if (localStorage.getItem('MsStatus')) {
+        if (localStorage.getItem('MsStatus') == true) {
           msLogoff()
           localStorage.removeItem('accessToken')
           localStorage.removeItem('refreshToken')

@@ -25,7 +25,7 @@ const configCreateEvent = {
 class ApiService {
   // Categories Service
   async getCategories() {
-    return await api.get(`/api/eventcategories`, configAuth)
+    return await api.get(`/api/eventcategories`)
   }
   async getCategoryById(id) {
     return await api.get(`/api/eventcategories/${id}`, configAuth)
