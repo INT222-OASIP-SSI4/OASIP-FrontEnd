@@ -15,7 +15,7 @@ const props = defineProps({
 
 const name = ref('')
 // const email = ref(parseJwt().sub)
-const email = ref('')
+const email = ref(parseJwt(localStorage.getItem('accessToken')).sub)
 const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')
@@ -32,8 +32,15 @@ const getStartTime = computed(() => {
   return new Date(date)
 })
 
-//get current Date
-// const currentDateTime = computed(() => new Date())
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
 
 //count length of input
 const countLength = () => (lengthOfWord.value = note.value.length)
@@ -48,100 +55,6 @@ const event = computed(() => ({
   eventNotes: note.value,
   eventCategoryId: categoryId.value,
 }))
-
-//validate email https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
-// const validateEmail = computed(() => {
-//   var validRegex =
-//     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-//   if (email.value.length <= 100) {
-//     if (email.value.match(validRegex)) {
-//       return email.value
-//     } else {
-//       alert('Invalid email address!')
-//       return email.value
-//     }
-//   } else {
-//     alert('bookingEmail must have length 1-100')
-//     return email.value
-//   }
-// })
-
-//validate eventStartTime (future and overlap)
-// const validateEventStartTime = computed(() => {
-//   if (getStartTime.value < currentDateTime.value) {
-//     alert('Invalid Date! Date must be future')
-//   }
-//   if (checkOverlap.value) {
-//     alert('Invalid Date! Date is overlap')
-//   }
-//   return getStartTime.value
-// })
-
-//check overlap in event
-// const checkOverlap = computed(() => {
-//   let status = false
-//   let b_start = getStartTime.value
-//   let b_duration = props.categories.filter((c) => c.id == categoryId.value)[0]
-//     .eventDuration
-//   let b_end = getEndDate(getStartTime.value, b_duration)
-//   props.event
-//     .filter(
-//       (e) =>
-//         e.eventCategory.id == categoryId.value &&
-//         e.bookingName != name.value &&
-//         getDate(e.eventStartTime) == getDate(getStartTime.value)
-//     )
-//     .forEach((e) => {
-//       let a_start = new Date(e.eventStartTime)
-//       let a_end = getEndDate(e.eventStartTime, e.eventDuration)
-//       if (dateRangeOverlaps(a_start, a_end, b_start, b_end)) {
-//         status = true
-//       }
-//     })
-//   return status
-// })
-
-//function check overlap https://stackoverflow.com/questions/22784883/check-if-more-than-two-date-ranges-overlap
-// function dateRangeOverlaps(a_start, a_end, b_start, b_end) {
-//   if (a_start <= b_start && b_start < a_end) return true // b starts in a
-//   if (a_start < b_end && b_end <= a_end) return true // b ends in a
-//   if (b_start <= a_start && a_end <= b_end) return true // a in b
-//   if (a_start <= b_start && b_end <= a_end) return true // b in a
-//   if (b_start <= a_start && b_end > a_start) return true // a starts in b
-//   return false
-// }
-
-// validate Note
-// const checkLengthNote = computed(() => {
-//   if (note.value == undefined) {
-//     note.value = ''
-//   }
-//   if (note.value.length > 500) {
-//     alert('eventNotes must have length between 0-500')
-//   } else {
-//     return note.value
-//   }
-// })
-
-// validate Name
-// const checkLengthName = computed(() => {
-//   if (name.value.length > 100 || name.value.length < 1) {
-//     alert('bookingName must have length between 1-100')
-//   } else {
-//     return name.value
-//   }
-// })
-
-//function getDate
-// function getDate(date) {
-//   return new Date(date).toLocaleDateString()
-// }
-
-// function plus minutes with duration
-// function getEndDate(date, duration) {
-//   let dateFormat = new Date(date)
-//   return new Date(dateFormat.getTime() + duration * 60 * 1000)
-// }
 
 let dataTransfer = new DataTransfer()
 
