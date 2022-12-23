@@ -30,20 +30,20 @@ const userLogin = computed(() => ({
             User Email
           </label>
           <input
-            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 "
             id="grid-email" type="text" placeholder="Email" v-model="email" v-on:keyup="countLengthEmail" required />
           <br />
           <div>
-            <p class="text-sm text-right pl-2" :class="
+            <!-- <p class="text-sm text-right pl-2" :class="
               lengthOfWordEmail <= 50 ? 'text-green-600' : 'text-red-600'
             ">
               {{ lengthOfWordEmail }} Characters
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
       <!-- Password   -->
-      <div class="flex flex-wrap -mx-3">
+      <div class="flex flex-wrap -mx-3 mt-2">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Password
@@ -54,13 +54,13 @@ const userLogin = computed(() => ({
             v-on:keyup="countLengthPassword" required />
           <br />
           <div>
-            <p class="text-sm text-right pl-2" :class="
+            <!-- <p class="text-sm text-right pl-2" :class="
               lengthOfWordPassword >= 8 && lengthOfWordPassword <= 14
                 ? 'text-green-600'
                 : 'text-red-600'
             ">
               {{ lengthOfWordPassword }} Characters
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
