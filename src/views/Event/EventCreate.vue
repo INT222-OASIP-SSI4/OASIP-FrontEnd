@@ -9,7 +9,7 @@ import { parseJwt } from '../../utils'
 const router = useRouter()
 const events = ref([])
 const categories = ref([])
-// const token = ref(localStorage.getItem('accessToken'))
+const token = ref(localStorage.getItem('accessToken'))
 
 //get current Date
 const currentDateTime = computed(() => new Date())
@@ -47,14 +47,6 @@ const createEvent = async (newEvent, file) => {
           })
           const blob = new Blob([event], { type: 'application/json' })
           const formData = new FormData()
-          // formData.append('eventStartTime', newEvent.eventStartTime)
-          // formData.append('bookingName', newEvent.bookingName)
-          // formData.append('bookingEmail', newEvent.bookingEmail)
-          // if (!newEvent.eventNotes) {
-          //   formData.append('eventNotes', newEvent.eventNotes)
-          // }
-          // formData.append('eventCategoryId', newEvent.eventCategoryId)
-          // formData.append('event', blob)
           if (
             file !== null ||
             file !== undefined ||
@@ -69,22 +61,14 @@ const createEvent = async (newEvent, file) => {
           } else {
             formData.append('event', blob)
           }
-          // if (
-          //   file !== null ||
-          //   file !== undefined ||
-          //   file !== '<input type="file" id="file">'
-          // ) {
-          //   // formData.append('file', file.files[0])
-          //   formData.append('file', file)
-          // }
-          // formData.delete('file')
           const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/api/events`,
             {
               method: 'POST',
-              // headers: {
-              //   'content-type': 'application/json',
-              // },
+              headers: {
+                // 'content-type': 'application/json',
+                Authorization: `Bearer ${token.value}`,
+              },
               body: formData,
             }
           )
@@ -95,18 +79,6 @@ const createEvent = async (newEvent, file) => {
           } else if (res.status === 403) {
             alert(`Lecturer can't create event`)
           }
-          // const formData = new FormData()
-          // formData.append('file', file[0])
-          // const resFile = await fetch(
-          //   `${import.meta.env.VITE_SERVER_URL}/api/files`,
-          //   {
-          //     method: 'POST',
-          //     body: formData
-          //   }
-          // )
-          // if (resFile.status === 201 || resFile.status === 200) {
-          //   alert('Upload file successfully')
-          // }
         }
       }
     }
