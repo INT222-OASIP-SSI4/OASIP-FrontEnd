@@ -16,7 +16,7 @@ const currentDateTime = computed(() => new Date())
 
 //get all events
 const getEvents = async () => {
-  const res = await ApiService.getEvents()
+  const res = await ApiService.getAllEventsWithoutAuth()
 
   if (res.status === 200) {
     let data = await res.data
@@ -89,7 +89,8 @@ const createEvent = async (newEvent, file) => {
 const getCategories = async () => {
   const res = await ApiService.getCategories()
   if (res.status === 200) {
-    categories.value = await res.data
+    let data = await res.data
+    categories.value = data
   } else {
     console.log('Error, cannot get categories data')
   }
