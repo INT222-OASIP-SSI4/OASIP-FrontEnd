@@ -14,7 +14,6 @@ const accessToken = ref(localStorage.getItem('accessToken'))
 const storeLogin = useLoginStore()
 
 const status = ref(false)
-const userName = ref("")
 
 const isLogin = () => {
   if (!accessToken.value) {
@@ -32,11 +31,20 @@ const getNameFromToken = () => {
   }
 }
 
+const getRole = () => {
+  if(localStorage.getItem('MsStatus')) {
+    return parseJwt().roles
+  }else if(status.value == true && !localStorage.getItem('MsStatus')){
+    return parseJwt().Roles
+  }
+}
+
 console.log(localStorage.getItem('MsStatus'));
 
 onBeforeMount(() => {
   isLogin()
   getNameFromToken()
+  getRole()
 })
 
 // const userRole = parseJwt(accessToken).Roles
@@ -214,7 +222,7 @@ onBeforeMount(() => {
                   </a>
                 </router-link>
               </li>
-              <li>
+              <li v-show="getRole() == 'ROLE_admin' || getRole() == 'ROLE_student' || getRole() == 'admin' || getRole() == 'student' || !getRole()">
                 <router-link :to="{ name: 'createEvent' }">
                   <a
                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-500 md:hover:text-blue-600"
