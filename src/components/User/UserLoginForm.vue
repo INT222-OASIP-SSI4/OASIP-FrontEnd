@@ -37,34 +37,10 @@ const userLogin = computed(() => ({
             User Email
           </label>
           <input
-<<<<<<< HEAD
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 "
             id="grid-email" type="text" placeholder="Email" v-model="email" v-on:keyup="countLengthEmail" required />
           <br />
           <div>
-            <!-- <p class="text-sm text-right pl-2" :class="
-              lengthOfWordEmail <= 50 ? 'text-green-600' : 'text-red-600'
-            ">
-=======
-            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-            id="grid-email"
-            type="text"
-            placeholder="Email"
-            v-model="email"
-            v-on:keyup="countLengthEmail"
-            required
-          />
-          <br />
-          <div>
-            <p
-              class="text-sm text-right pl-2"
-              :class="
-                lengthOfWordEmail <= 50 ? 'text-green-600' : 'text-red-600'
-              "
-            >
->>>>>>> 790993bdb8688d90ec44d4068ed0949009820f3c
-              {{ lengthOfWordEmail }} Characters
-            </p> -->
           </div>
         </div>
       </div>
@@ -88,24 +64,6 @@ const userLogin = computed(() => ({
           />
           <br />
           <div>
-<<<<<<< HEAD
-            <!-- <p class="text-sm text-right pl-2" :class="
-              lengthOfWordPassword >= 8 && lengthOfWordPassword <= 14
-                ? 'text-green-600'
-                : 'text-red-600'
-            ">
-=======
-            <p
-              class="text-sm text-right pl-2"
-              :class="
-                lengthOfWordPassword >= 8 && lengthOfWordPassword <= 14
-                  ? 'text-green-600'
-                  : 'text-red-600'
-              "
-            >
->>>>>>> 790993bdb8688d90ec44d4068ed0949009820f3c
-              {{ lengthOfWordPassword }} Characters
-            </p> -->
           </div>
         </div>
       </div>
