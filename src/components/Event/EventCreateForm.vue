@@ -68,14 +68,14 @@ const onFileChanged = ($event) => {
   // console.log($event.target.files[0])
   // console.log(file.value.files[0]);
   // const target = $event.target
-  dataTransfer.items.clear()
+  // dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
     alert(`The file size cannot be larger than 10 MB.`)
-    clearInput()
+    // clearInput()
     // fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
     // fileInput.reportValidity()
-    if (file.value === undefined || file.value === null) {
+    if (fileInput === undefined || fileInput === null) {
       fileInput.clearInput()
       // clearInput()
     } else {

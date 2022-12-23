@@ -217,15 +217,19 @@ const clearInput = () => {
 }
 
 const onFileChanged = ($event) => {
-  console.log($event.target.files[0])
+  // console.log($event.target.files[0])
+  // console.log(file.value.files[0]);
   // const target = $event.target
-  dataTransfer.items.clear()
+  // dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
-    fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
-    fileInput.reportValidity()
-    if (file.value === undefined || file.value === null) {
-      clearInput()
+    alert(`The file size cannot be larger than 10 MB.`)
+    // clearInput()
+    // fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
+    // fileInput.reportValidity()
+    if (fileInput === undefined || fileInput === null) {
+      fileInput.clearInput()
+      // clearInput()
     } else {
       dataTransfer.items.clear()
       dataTransfer.items.add(file.value)
@@ -233,9 +237,8 @@ const onFileChanged = ($event) => {
     }
   } else {
     file.value = $event.target.files[0]
-    fileInput.setCustomValidity('')
+    // fileInput.setCustomValidity('')
   }
-  deleteStatus.value = false
 }
 
 function deleteFile() {
