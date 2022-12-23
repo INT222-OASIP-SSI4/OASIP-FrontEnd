@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { parseJwt } from '../../utils/index.js'
 
 const emits = defineEmits(['createEvent'])
 const props = defineProps({
@@ -32,16 +33,6 @@ const getStartTime = computed(() => {
   return new Date(date)
 })
 
-function parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-}
-
 //count length of input
 const countLength = () => (lengthOfWord.value = note.value.length)
 const countLengthEmail = () => (lengthOfWordEmail.value = email.value.length)
@@ -68,15 +59,19 @@ const clearInput = () => {
 }
 
 const onFileChanged = ($event) => {
-  console.log($event.target.files[0])
+  // console.log($event.target.files[0])
+  // console.log(file.value.files[0]);
   // const target = $event.target
   dataTransfer.items.clear()
   if ($event.target.files[0].size > 10485760) {
     let fileInput = document.getElementById('file')
-    fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
-    fileInput.reportValidity()
+    alert(`The file size cannot be larger than 10 MB.`)
+    clearInput()
+    // fileInput.setCustomValidity('The file size cannot be larger than 10 MB.')
+    // fileInput.reportValidity()
     if (file.value === undefined || file.value === null) {
-      clearInput()
+      fileInput.clearInput()
+      // clearInput()
     } else {
       dataTransfer.items.clear()
       dataTransfer.items.add(file.value)
@@ -84,14 +79,14 @@ const onFileChanged = ($event) => {
     }
   } else {
     file.value = $event.target.files[0]
-    fileInput.setCustomValidity('')
+    // fileInput.setCustomValidity('')
   }
 }
 </script>
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-lg w-full flex flex-col justify-center items-center max-w-xl mx-auto p-10 bg-cover"
+    class="bg-white rounded-xl shadow-lg w-full flex flex-col justify-center items-center max-w-xl mx-auto p-10 bg-cover mb-10"
   >
     <form
       class="w-full max-w-xl mx-auto"

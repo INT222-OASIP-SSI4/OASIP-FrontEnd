@@ -13,7 +13,7 @@ const getUsers = async () => {
   const res = await ApiService.getUsers()
 
   if (res.status === 200) {
-    users.value = await res.json()
+    users.value = await res.data
   } else if (res.status === 401) {
     renewToken()
   } else {
