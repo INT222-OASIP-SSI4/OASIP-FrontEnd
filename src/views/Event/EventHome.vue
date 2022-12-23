@@ -1,6 +1,5 @@
 <script setup>
 import EventList from '../../components/Event/EventList.vue'
-import EventListWithNoAuth from '../../components/Event/EventListWithNoAuth.vue'
 import { onBeforeMount, ref, computed, onUpdated } from 'vue'
 import EventSearch from '../../components/Event/EventSearch.vue'
 import Category from '../../components/Category/Category.vue'
@@ -270,11 +269,7 @@ onBeforeMount(async () => {
       </div>
       <EventList
         :events="filterEvent"
-        v-if="filterEvent.length != 0 && token"
-      />
-      <EventListWithNoAuth
-        :events="filterEventWithOutAuth"
-        v-else-if="filterEventWithOutAuth.length != 0 && !token"
+        v-if="filterEvent.length != 0"
       />
       <div class="flex flex-col items-center justify-center mt-2" v-else>
         <h1 class="font-bold">" {{ status }} "</h1>

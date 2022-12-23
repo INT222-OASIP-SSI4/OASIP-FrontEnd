@@ -23,7 +23,7 @@ const routes = [
     name: 'home',
     component: EventHome,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       // authorize: [],
     },
   },
@@ -32,7 +32,7 @@ const routes = [
     name: 'createEvent',
     component: EventCreate,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
     },
   },
   {

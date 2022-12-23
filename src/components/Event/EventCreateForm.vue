@@ -16,7 +16,13 @@ const props = defineProps({
 
 const name = ref('')
 // const email = ref(parseJwt().sub)
-const email = ref(parseJwt(localStorage.getItem('accessToken')).sub)
+const email = computed(() => {
+  if(localStorage.getItem('MsStatus')){
+    return parseJwt(localStorage.getItem('accessToken')).preferred_username
+  } else {
+    return parseJwt(localStorage.getItem('accessToken')).sub
+  }
+}) 
 const note = ref('')
 const categoryId = ref('')
 const startDate = ref('')

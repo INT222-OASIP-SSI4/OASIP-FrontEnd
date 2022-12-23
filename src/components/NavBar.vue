@@ -1,7 +1,7 @@
 <script setup>
-import { onBeforeMount, onBeforeUpdate, onUpdated, ref } from 'vue'
+import { onBeforeMount, onBeforeUpdate, onUpdated, ref, computed } from 'vue'
 import { useLoginStore } from '../stores/checkLogin'
-// import { parseJwt } from '../utils'
+import { parseJwt } from '../utils'
 
 const props = defineProps({
   users: {
@@ -14,6 +14,7 @@ const accessToken = ref(localStorage.getItem('accessToken'))
 const storeLogin = useLoginStore()
 
 const status = ref(false)
+const userName = ref("")
 
 const isLogin = () => {
   if (!accessToken.value) {
@@ -23,8 +24,19 @@ const isLogin = () => {
   }
 }
 
+const getNameFromToken = () => {
+  if(localStorage.getItem('MsStatus')) {
+    return parseJwt().name
+  }else if(status.value == true && !localStorage.getItem('MsStatus')){
+    return parseJwt().UserName
+  }
+}
+
+console.log(localStorage.getItem('MsStatus'));
+
 onBeforeMount(() => {
   isLogin()
+  getNameFromToken()
 })
 
 // const userRole = parseJwt(accessToken).Roles
@@ -66,14 +78,14 @@ onBeforeMount(() => {
       </button>
 
       <div class="flex items-center md:order-2">
-        <!-- <div>
+        <div v-if="accessToken">
           <img src="/images/business-man.png" class="w-8 h-8 rounded-full" />
           <span
             class="flex justify-between items-center py-2 pr-4 pl-3 w-full text-gray-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent font-bold"
           >
-            Role: {{ strRole() }}</span
+            Name: {{ getNameFromToken() }}</span
           >
-        </div> -->
+        </div>
 
         <ul
           class="flex flex-col mt-4 md:flex-row md:space-x-10 md:mt-0 md:text-sm md:font-medium"
